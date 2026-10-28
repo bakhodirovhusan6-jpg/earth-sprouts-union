@@ -1,305 +1,674 @@
 
+```html
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" class="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earth Sprouts Union (ESU) — Global Platform</title>
-    <style>
-        :root {
-            --bg-deep: #050b14;
-            --bg-card: #0f1d36;
-            --accent-green: #00f5d4;
-            --accent-purple: #7209b7;
-            --text-main: #ffffff;
-            --text-muted: #8d99ae;
+    <title>Earth Sprouts Union (ESU) — Global Ecosystem Platform</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas Confetti CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            deep: '#030712',
+                            card: '#0B1329',
+                            teal: '#00F5D4',
+                            purple: '#7209B7',
+                            lime: '#84CC16',
+                            glow: 'rgba(0, 245, 212, 0.15)'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    }
+                }
+            }
         }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', sans-serif; }
-        body { background-color: var(--bg-deep); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; overflow-x: hidden; }
-        
-        header { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 20px 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
-        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; }
-        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, var(--accent-green), var(--accent-purple)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 0 20px rgba(0,245,212,0.3); }
-        .logo-text h1 { font-size: 20px; color: #fff; font-weight: 800; }
-        .logo-text span { font-size: 11px; color: var(--accent-green); letter-spacing: 1.5px; font-weight: 600; }
-        
-        .header-right { display: flex; gap: 10px; align-items: center; }
-        .menu-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 16px; padding: 8px 14px; border-radius: 10px; cursor: pointer; }
+    </script>
 
-        .container { width: 100%; max-width: 800px; }
-        .page-section { display: none; animation: fadeIn 0.4s ease-in-out; }
-        .page-section.active { display: block; }
+    <style>
+        body {
+            background-color: #030712;
+            color: #F3F4F6;
+            background-image: 
+                radial-gradient(at 10% 10%, rgba(0, 245, 212, 0.08) 0px, transparent 50%),
+                radial-gradient(at 90% 90%, rgba(114, 9, 183, 0.12) 0px, transparent 50%),
+                radial-gradient(at 50% 50%, rgba(3, 7, 18, 0.95) 0px, transparent 100%);
+            background-attachment: fixed;
+        }
 
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .glass-card {
+            background: rgba(11, 19, 41, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
 
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,245,212,0.1); color: var(--accent-green); padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(0,245,212,0.2); }
-        .hero h2 { font-size: 32px; line-height: 1.25; margin-bottom: 15px; font-weight: 800; }
-        .hero h2 span { background: linear-gradient(90deg, #00f5d4, #7209b7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 30px; }
+        .glass-card-glow {
+            background: rgba(11, 19, 41, 0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 245, 212, 0.25);
+            box-shadow: 0 0 25px rgba(0, 245, 212, 0.15);
+        }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
-        .stat-card { background: var(--bg-card); padding: 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        .stat-card h3 { font-size: 26px; color: var(--accent-green); margin-bottom: 5px; font-weight: 700; }
-        .stat-card p { font-size: 12px; color: var(--text-muted); margin: 0; }
+        .gradient-text {
+            background: linear-gradient(135deg, #00F5D4 0%, #3B82F6 50%, #7209B7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
 
-        .btn-group { display: flex; flex-direction: column; gap: 12px; }
-        .btn { width: 100%; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; transition: 0.25s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-primary { background: linear-gradient(135deg, #00f5d4, #00b4d8); color: #050b14; box-shadow: 0 4px 20px rgba(0,245,212,0.25); }
-        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
-        .btn-danger { background: #ef476f; color: #fff; margin-top: 20px; }
-
-        .card-box { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; }
-        .card-box label { font-size: 13px; color: var(--accent-green); font-weight: 600; display: block; margin-bottom: 6px; }
-        .card-box input, .card-box textarea { width: 100%; padding: 14px; margin-bottom: 18px; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
-
-        /* Certificate Styles */
-        .certificate-box { background: #fff; color: #111; padding: 30px; border-radius: 16px; border: 8px solid #00f5d4; text-align: center; margin-top: 15px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
-        .certificate-box h2 { font-size: 24px; color: #0f1d36; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; }
-        .certificate-box h3 { font-size: 22px; color: #7209b7; margin: 15px 0; border-bottom: 2px solid #00f5d4; display: inline-block; padding-bottom: 5px; }
-        .certificate-box p { color: #555; font-size: 14px; margin-bottom: 10px; }
-
-        /* Modal */
-        #adminModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,11,20,0.85); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
-        .modal-content { background: var(--bg-card); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.15); position: relative; }
-        .modal-content h3 { margin-bottom: 15px; color: var(--accent-green); font-size: 20px; }
-        .modal-content input { width: 100%; padding: 14px; margin-bottom: 20px; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 15px; outline: none; }
-        .close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #030712; }
+        ::-webkit-scrollbar-thumb { background: #1E293B; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #00F5D4; }
     </style>
 </head>
-<body>
+<body class="font-sans antialiased min-h-screen flex flex-col justify-between selection:bg-brand-teal selection:text-black">
 
-    <header>
-        <div class="logo-area" onclick="switchPage('homeSection')">
-            <div class="logo-icon">🌱</div>
-            <div class="logo-text">
-                <h1>ESU</h1>
-                <span>GLOBAL UNION</span>
+    <!-- HEADER / NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-card border-b border-slate-800/80 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- LOGO -->
+            <div onclick="switchTab('homeSection')" class="flex items-center gap-3.5 cursor-pointer group">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-teal via-blue-500 to-brand-purple p-0.5 shadow-lg shadow-brand-teal/20 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-brand-teal text-xl font-black">
+                        <i class="fa-solid fa-leaf text-brand-teal group-hover:rotate-12 transition-transform"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-display font-black text-2xl tracking-tight text-white leading-none">ESU</span>
+                        <span class="bg-brand-teal/15 text-brand-teal text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-brand-teal/30">GLOBAL</span>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-400 tracking-wider uppercase block mt-0.5">Earth Sprouts Union</span>
+                </div>
             </div>
-        </div>
-        <div class="header-right">
-            <button class="menu-btn" onclick="openAdminModal()">☰ Admin</button>
+
+            <!-- DESKTOP NAVIGATION -->
+            <nav class="hidden md:flex items-center gap-6 font-semibold text-sm text-slate-300">
+                <button onclick="switchTab('homeSection')" class="hover:text-brand-teal transition-colors flex items-center gap-2"><i class="fa-solid fa-house text-xs text-brand-teal"></i> Bosh Sahifa</button>
+                <button onclick="switchTab('radarSection')" class="hover:text-brand-teal transition-colors flex items-center gap-2"><i class="fa-solid fa-radar text-xs text-blue-400"></i> Global Radar</button>
+                <button onclick="switchTab('challengesSection')" class="hover:text-brand-teal transition-colors flex items-center gap-2"><i class="fa-solid fa-trophy text-xs text-amber-400"></i> Challenges</button>
+                <button onclick="switchTab('ambassadorSection')" class="hover:text-brand-teal transition-colors flex items-center gap-2"><i class="fa-solid fa-user-astronaut text-xs text-purple-400"></i> Ambassador</button>
+            </nav>
+
+            <!-- CONTROLS & ADMIN -->
+            <div class="flex items-center gap-3">
+                <!-- LANGUAGE SELECTOR -->
+                <select id="langSelect" onchange="changeLanguage(this.value)" class="bg-slate-900/90 border border-slate-700/80 text-white text-xs font-bold px-3 py-2 rounded-xl focus:outline-none focus:border-brand-teal cursor-pointer">
+                    <option value="uz">🇺🇿 UZ</option>
+                    <option value="en">🇬🇧 EN</option>
+                    <option value="ru">🇷🇺 RU</option>
+                </select>
+
+                <!-- SECRET ADMIN BUTTON -->
+                <button onclick="openAdminAuthModal()" class="px-3.5 py-2 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 text-amber-400 font-bold text-xs flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-shield-halved"></i> <span>☰ Admin</span>
+                </button>
+
+                <!-- DASHBOARD DIRECT BUTTON -->
+                <button onclick="switchTab('dashboardSection')" class="hidden sm:flex px-4 py-2 rounded-xl bg-brand-teal/20 text-brand-teal hover:bg-brand-teal hover:text-slate-950 font-bold text-xs border border-brand-teal/40 transition-all items-center gap-2">
+                    <i class="fa-solid fa-user"></i> <span id="navCabinetBtn">Mening Kabinetim</span>
+                </button>
+            </div>
         </div>
     </header>
 
-    <div class="container">
-        
-        <!-- 1. ASOSIY SAHIFA -->
-        <div id="homeSection" class="page-section active">
-            <div class="hero-badge">🌍 Global Youth Movement</div>
-            <h2>Kelajakni <span>Yashil va Bilim</span> Bilan Birlashtiramiz!</h2>
-            <p>Earth Sprouts Union (ESU) — dunyo bo'ylab yoshlarni ekologik tashabbuslar va sifatli ta'lim atrofida birlashtiruvchi rasmiy platforma.</p>
+    <!-- MAIN CONTENT CONTAINER -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-grow">
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3 id="statMembers">0</h3>
-                    <p>Faol Ishtirokchilar</p>
+        <!-- 1. BOSH SAHIFA (HOME HERO) -->
+        <section id="homeSection" class="space-y-16">
+            <div class="text-center max-w-4xl mx-auto space-y-6 pt-8">
+                <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full glass-card border border-brand-teal/30 text-brand-teal text-xs font-bold shadow-lg">
+                    <span class="flex h-2.5 w-2.5 rounded-full bg-brand-lime animate-ping"></span>
+                    <i class="fa-solid fa-earth-americas text-blue-400"></i>
+                    <span id="heroBadge">Xalqaro Ekologik va Ta'limiy Yoshlar Harakati</span>
                 </div>
-                <div class="stat-card">
-                    <h3 id="statAmbassadors">0</h3>
-                    <p>Rasmiy Elchilar</p>
+
+                <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight leading-[1.15]">
+                    Kelajakni <span class="gradient-text">Yashil va Bilim</span> Bilan Birlashtiramiz!
+                </h1>
+
+                <p id="heroDesc" class="text-base sm:text-xl text-slate-300 font-normal leading-relaxed max-w-3xl mx-auto">
+                    <strong>Earth Sprouts Union (ESU)</strong> — Butun dunyo bo'ylab yoshlarni ekologik mas'uliyat, barqaror ta'lim hamda global loyihalar atrofida jipslashtiruvchi zamonaviy platforma.
+                </p>
+
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                    <button onclick="switchTab('registerSection')" class="w-full sm:w-auto px-8 py-4 rounded-2xl bg-gradient-to-r from-brand-teal via-blue-500 to-brand-purple text-slate-950 font-black text-base shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-rocket"></i> <span id="btnDirectJoin">Platformaga Qo'shilish</span>
+                    </button>
+                    <button onclick="switchTab('radarSection')" class="w-full sm:w-auto px-8 py-4 rounded-2xl glass-card border border-slate-700 text-white font-bold text-base hover:bg-slate-800 transition-all flex items-center justify-center gap-3">
+                        <i class="fa-solid fa-compass text-brand-teal"></i> <span id="btnExploreRadar">Global Radarni Ko'rish</span>
+                    </button>
                 </div>
-                <div class="stat-card">
-                    <h3 id="statTrees">0</h3>
-                    <p>Ekilgan Daraxtlar</p>
+            </div>
+
+            <!-- REAL-TIME LIVE COUNTERS -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6 pt-6">
+                <div class="glass-card p-6 rounded-3xl text-left border-l-4 border-l-brand-teal">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-teal/20 text-brand-teal flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-users"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counterKids">14,250</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider" id="lblMembers">Faol Ishtirokchilar</div>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl text-left border-l-4 border-l-blue-500">
+                    <div class="w-10 h-10 rounded-2xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-globe"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counterCountries">38</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider" id="lblCountries">Mamlakatlar</div>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl text-left border-l-4 border-l-brand-lime">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-lime/20 text-brand-lime flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-tree"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counterTrees">89,400</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider" id="lblTrees">Ekilgan Daraxtlar</div>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl text-left border-l-4 border-l-amber-500">
+                    <div class="w-10 h-10 rounded-2xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-bolt"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counterXp">540,000</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider" id="lblXp">Jami Jamg'arilgan XP</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 2. DIRECT REGISTRATION (ONBOARDING) -->
+        <section id="registerSection" class="hidden max-w-xl mx-auto py-6">
+            <div class="glass-card-glow rounded-3xl p-8 border border-brand-teal/40 space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-teal/20 text-brand-teal flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-id-card"></i></div>
+                    <h2 class="font-display text-2xl font-black text-white" id="regTitle">Platformaga A'zo Bo'lish</h2>
+                    <p class="text-xs text-slate-400" id="regSubtitle">Ismingiz va ma'lumotlaringizni kiriting hamda darhol shaxsiy kabinetingizga kiring!</p>
+                </div>
+
+                <form onsubmit="handleDirectOnboarding(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5" id="lblFullName">To'liq Ism-Sharifingiz</label>
+                        <input type="text" id="regNameInput" required placeholder="Masalan: Jasur Bekzodov" class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-brand-teal transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5" id="lblCountryCity">Mamlakat va Shahar</label>
+                        <input type="text" id="regCountryInput" required placeholder="Masalan: O'zbekiston, Toshkent" class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-brand-teal transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5" id="lblMotivation">Nima uchun ESU loyihasiga qo'shilmoqchisiz? (Ixtiyoriy)</label>
+                        <textarea id="regReasonInput" rows="3" placeholder="Atrof-muhitni yaxshilash va xalqaro bilimlar olish uchun..." class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-brand-teal transition-all"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-teal to-blue-500 text-slate-950 font-black text-sm shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-right-to-bracket"></i> <span id="btnSubmitReg">Kabinetga Kirish</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 3. PARTICIPANT DASHBOARD (KABINET) -->
+        <section id="dashboardSection" class="hidden space-y-8 py-4">
+            <!-- PROFILE WELCOME BANNER -->
+            <div class="glass-card-glow rounded-3xl p-8 border border-brand-teal/40 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div class="flex items-center gap-5">
+                    <div class="w-20 h-20 rounded-2xl bg-gradient-to-br from-brand-teal to-brand-purple p-1 shadow-xl">
+                        <div class="w-full h-full bg-slate-950 rounded-[12px] flex items-center justify-center text-brand-teal text-3xl font-black">
+                            <i class="fa-solid fa-user-astronaut"></i>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <h2 class="font-display text-2xl font-black text-white" id="dashName">Sardor Alimov</h2>
+                            <span class="bg-brand-teal/20 text-brand-teal text-[10px] font-extrabold px-2.5 py-0.5 rounded-full border border-brand-teal/30">VERIFIED MEMBER</span>
+                        </div>
+                        <p class="text-xs text-slate-400 mt-1" id="dashCountry"><i class="fa-solid fa-location-dot text-brand-teal mr-1"></i> O'zbekiston, Toshkent</p>
+                        <p class="text-xs text-brand-lime font-mono mt-1" id="dashMotivation">"Dunyoni yashil ekotizimga aylantirish ziyoratida!"</p>
+                    </div>
+                </div>
+
+                <!-- USER STATS BADGES -->
+                <div class="flex items-center gap-4 w-full md:w-auto justify-around border-t md:border-t-0 md:border-l border-slate-800 pt-4 md:pt-0 md:pl-8">
+                    <div class="text-center">
+                        <div class="text-xs font-bold text-slate-400 uppercase">XP Ballar</div>
+                        <div class="text-2xl font-black text-brand-teal" id="dashXp">150 XP</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs font-bold text-slate-400 uppercase">Global Rank</div>
+                        <div class="text-2xl font-black text-amber-400" id="dashRank">#12</div>
+                    </div>
+                    <div class="text-center">
+                        <div class="text-xs font-bold text-slate-400 uppercase">Bajarilgan</div>
+                        <div class="text-2xl font-black text-brand-lime" id="dashCompleted">2 ta</div>
+                    </div>
                 </div>
             </div>
 
-            <div class="btn-group">
-                <button class="btn btn-primary" onclick="switchPage('registerSection')">🌐 To'g'ridan-to'g'ri Qo'shilish</button>
-                <button class="btn btn-secondary" onclick="switchPage('ambassadorSection')">🎖️ Elchi (Ambassador) Ariza Berish</button>
+            <!-- ECO-CHALLENGES LIST -->
+            <div class="grid lg:grid-cols-12 gap-8">
+                <div class="lg:col-span-8 space-y-4">
+                    <h3 class="font-display font-extrabold text-xl text-white flex items-center gap-2">
+                        <i class="fa-solid fa-list-check text-brand-teal"></i> <span>Mavjud Eko-Challenge'lar</span>
+                    </h3>
+
+                    <div class="space-y-3">
+                        <div class="glass-card p-5 rounded-2xl border border-slate-800 flex items-center justify-between gap-4">
+                            <div>
+                                <h4 class="font-bold text-white text-base">🌱 1 Hafta Plastik Idishlardan Voz Kechish</h4>
+                                <p class="text-xs text-slate-400 mt-1">Bir hafta davomida plastik paketlar va idishlardan foydalanmang.</p>
+                            </div>
+                            <button onclick="completeChallenge(50, '1 Hafta Plastik Idishlardan Voz Kechish')" class="px-4 py-2 rounded-xl bg-brand-teal text-slate-950 text-xs font-black hover:opacity-90 transition-all flex-shrink-0">
+                                +50 XP Olish
+                            </button>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl border border-slate-800 flex items-center justify-between gap-4">
+                            <div>
+                                <h4 class="font-bold text-white text-base">🌳 2 Ta Ko'chat O'tqazish va Parvarish Qilish</h4>
+                                <p class="text-xs text-slate-400 mt-1">O'zingiz yashayotgan hududda 2 ta daraxt ekib fotosuratni yuklang.</p>
+                            </div>
+                            <button onclick="completeChallenge(100, '2 Ta Ko\'chat O\'tqazish')" class="px-4 py-2 rounded-xl bg-brand-teal text-slate-950 text-xs font-black hover:opacity-90 transition-all flex-shrink-0">
+                                +100 XP Olish
+                            </button>
+                        </div>
+
+                        <div class="glass-card p-5 rounded-2xl border border-slate-800 flex items-center justify-between gap-4">
+                            <div>
+                                <h4 class="font-bold text-white text-base">📘 Maktabda Ekologik Dars O'tkazish</h4>
+                                <p class="text-xs text-slate-400 mt-1">Sinfdoshlaringizga qayta ishlash bo'yicha tushuncha bering.</p>
+                            </div>
+                            <button onclick="completeChallenge(80, 'Maktabda Ekologik Dars')" class="px-4 py-2 rounded-xl bg-brand-teal text-slate-950 text-xs font-black hover:opacity-90 transition-all flex-shrink-0">
+                                +80 XP Olish
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GLOBAL LEADERBOARD -->
+                <div class="lg:col-span-4 space-y-4">
+                    <h3 class="font-display font-extrabold text-xl text-white flex items-center gap-2">
+                        <i class="fa-solid fa-ranking-star text-amber-400"></i> <span>Global Reyting (Top-5)</span>
+                    </h3>
+
+                    <div class="glass-card p-4 rounded-2xl border border-slate-800 space-y-3">
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 border border-amber-500/30">
+                            <div class="flex items-center gap-3">
+                                <span class="font-black text-amber-400 text-sm">#1</span>
+                                <span class="font-bold text-white text-xs">Amina Malikova (🇺🇿)</span>
+                            </div>
+                            <span class="font-mono text-xs text-brand-teal font-black">1,450 XP</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="font-black text-slate-400 text-sm">#2</span>
+                                <span class="font-bold text-white text-xs">Liam Wilson (🇬🇧)</span>
+                            </div>
+                            <span class="font-mono text-xs text-brand-teal font-black">1,200 XP</span>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 rounded-xl bg-slate-900/80 border border-slate-800">
+                            <div class="flex items-center gap-3">
+                                <span class="font-black text-slate-400 text-sm">#3</span>
+                                <span class="font-bold text-white text-xs">Park Min-Soo (🇰🇷)</span>
+                            </div>
+                            <span class="font-mono text-xs text-brand-teal font-black">980 XP</span>
+                        </div>
+                    </div>
+                </div>
             </div>
+        </section>
+
+        <!-- 4. GLOBAL RADAR & LIVE ACTIVITY FEED -->
+        <section id="radarSection" class="hidden space-y-8 py-4">
+            <div class="text-center max-w-2xl mx-auto space-y-2">
+                <span class="px-3.5 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-400 text-xs font-bold uppercase"><i class="fa-solid fa-radar mr-1"></i> Live Global Radar</span>
+                <h2 class="font-display text-3xl font-black text-white">Dunyo Bo'ylab Xalqaro Faollik</h2>
+            </div>
+
+            <div class="grid md:grid-cols-12 gap-8">
+                <!-- ACTIVE REGIONS MAP SIMULATION -->
+                <div class="md:col-span-7 glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                    <h3 class="font-bold text-white text-base flex items-center gap-2">
+                        <i class="fa-solid fa-globe text-brand-teal"></i> <span>Asosiy Elchilik Markazlari</span>
+                    </h3>
+                    
+                    <div class="space-y-3">
+                        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-white text-sm">🇺🇿 Toshkent (Markaziy Osiyo)</div>
+                                <div class="text-xs text-slate-400 mt-0.5">4,850 Faol Ishtirokchi | 32,400 Daraxt</div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-brand-teal/20 text-brand-teal text-[11px] font-bold">FAOL</span>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-white text-sm">🇰🇷 Seul (Sharqiy Osiyo)</div>
+                                <div class="text-xs text-slate-400 mt-0.5">3,120 Faol Ishtirokchi | 18,200 Daraxt</div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-400 text-[11px] font-bold">FAOL</span>
+                        </div>
+                        <div class="p-4 rounded-2xl bg-slate-900/90 border border-slate-800 flex justify-between items-center">
+                            <div>
+                                <div class="font-bold text-white text-sm">🇬🇧 London (Yevropa Markazi)</div>
+                                <div class="text-xs text-slate-400 mt-0.5">2,400 Faol Ishtirokchi | 12,900 Daraxt</div>
+                            </div>
+                            <span class="px-3 py-1 rounded-full bg-brand-purple/20 text-purple-300 text-[11px] font-bold">FAOL</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- LIVE FEED -->
+                <div class="md:col-span-5 glass-card p-6 rounded-3xl border border-slate-800 space-y-4">
+                    <h3 class="font-bold text-white text-base flex items-center gap-2">
+                        <i class="fa-solid fa-rss text-brand-lime"></i> <span>Jonli Xabarlar Oqimi</span>
+                    </h3>
+
+                    <div class="space-y-3 font-mono text-xs" id="liveActivityFeed">
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
+                            <span class="text-brand-teal">● Real-time:</span> Toshkentdagi elchi yangi +100 XP Challenge bajarib yakunladi!
+                        </div>
+                        <div class="p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300">
+                            <span class="text-blue-400">● Real-time:</span> Londondan yangi Ambassador arizasi kelib tushdi.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 5. AMBASSADOR FORM -->
+        <section id="ambassadorSection" class="hidden max-w-xl mx-auto py-6">
+            <div class="glass-card-glow rounded-3xl p-8 border border-purple-500/40 space-y-6">
+                <div class="text-center space-y-2">
+                    <div class="w-14 h-14 rounded-2xl bg-brand-purple/20 text-purple-400 flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-user-astronaut"></i></div>
+                    <h2 class="font-display text-2xl font-black text-white">ESU Global Ambassador</h2>
+                    <p class="text-xs text-slate-400">O'z hududingiz va maktabingizda rasmiy ESU yetakchisiga aylaning!</p>
+                </div>
+
+                <form onsubmit="handleAmbassadorApplication(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">To'liq Ism-Sharif</label>
+                        <input type="text" id="ambNameInput" required placeholder="Masalan: Madina Qosimova" class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-brand-purple transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Yosh va Telefon Raqam</label>
+                        <input type="text" id="ambInfoInput" required placeholder="Masalan: 17 yosh, +998 90 123 45 67" class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-brand-purple transition-all">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-300 uppercase mb-1.5">Qaysi maktab/hudud yetakchisi bo'lmoqchisiz?</label>
+                        <textarea id="ambReasonInput" required rows="3" placeholder="Maqsad va rejalariz haqida qisqacha..." class="w-full px-4 py-3.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-brand-purple transition-all"></textarea>
+                    </div>
+
+                    <button type="submit" class="w-full py-4 rounded-xl bg-gradient-to-r from-brand-purple to-blue-500 text-white font-black text-sm shadow-xl hover:opacity-90 transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> <span>Arizani Yuborish</span>
+                    </button>
+                </form>
+            </div>
+        </section>
+
+        <!-- 6. SECRET ADMIN CONTROL PANEL -->
+        <section id="adminPanelSection" class="hidden space-y-8 py-4">
+            <div class="glass-card p-6 rounded-3xl border border-amber-500/40 space-y-6">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-xl font-bold"><i class="fa-solid fa-user-shield"></i></div>
+                        <div>
+                            <h3 class="font-display font-bold text-lg text-white">ESU Asosiy Ega Paneli</h3>
+                            <span class="text-xs text-brand-teal">● Maxfiy Boshqaruv (Admin)</span>
+                        </div>
+                    </div>
+                    <button onclick="switchTab('homeSection')" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-400 hover:text-white text-xs font-bold">Chiqish</button>
+                </div>
+
+                <!-- EDIT LIVE WEBSITE STATS -->
+                <div class="space-y-4">
+                    <h4 class="font-bold text-sm text-white flex items-center gap-2">
+                        <i class="fa-solid fa-sliders text-amber-400"></i> <span>Sayt Statistikasini Tahrirlash</span>
+                    </h4>
+
+                    <div class="grid md:grid-cols-3 gap-4">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Faol Ishtirokchilar</label>
+                            <input type="text" id="editCounterKids" value="14,250" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Mamlakatlar Soni</label>
+                            <input type="text" id="editCounterCountries" value="38" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Ekilgan Daraxtlar</label>
+                            <input type="text" id="editCounterTrees" value="89,400" class="w-full px-4 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm">
+                        </div>
+                    </div>
+
+                    <button onclick="saveAdminStats()" class="px-6 py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-lg transition-all">
+                        O'zgarishlarni Saytga Qo'llash
+                    </button>
+                </div>
+
+                <!-- AMBASSADOR APPLICATIONS REVIEW -->
+                <div class="space-y-4 pt-4 border-t border-slate-800">
+                    <h4 class="font-bold text-sm text-white flex items-center justify-between">
+                        <span>Kelib tushgan Elchilik Arizalari (<span id="adminAmbCount">0</span> ta)</span>
+                    </h4>
+                    <div id="adminAmbList" class="space-y-3">
+                        <div class="text-xs text-slate-500 text-center py-4">Hozircha arizalar kelib tushmadi.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- SECRET ADMIN AUTH MODAL -->
+    <div id="adminAuthModal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 bg-slate-950/85 backdrop-blur-md">
+        <div class="glass-card rounded-3xl max-w-sm w-full p-6 border border-amber-500/30 shadow-2xl relative space-y-4">
+            <button onclick="closeAdminAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white font-bold text-lg">✕</button>
+
+            <div class="text-center space-y-2">
+                <div class="w-12 h-12 rounded-xl bg-amber-500/20 text-amber-400 flex items-center justify-center text-2xl mx-auto"><i class="fa-solid fa-lock"></i></div>
+                <h3 class="font-display font-black text-xl text-white">Ega Kirish Tizimi</h3>
+                <p class="text-xs text-slate-400">Maxfiy kalit so'zni kiriting</p>
+            </div>
+
+            <form onsubmit="handleAdminAuth(event)" class="space-y-3">
+                <input type="password" id="adminPassInput" required placeholder="Parol..." class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none focus:border-amber-400">
+                <button type="submit" class="w-full py-3 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-lg transition-all">Tizimga Kirish</button>
+            </form>
         </div>
-
-        <!-- 2. RO'YXATDAN O'TISH -->
-        <div id="registerSection" class="page-section">
-            <div class="hero-badge">🚀 Platformaga Qo'shilish</div>
-            <h2>ESU A'zosiga Aylanish</h2>
-            
-            <div class="card-box">
-                <label>Ism va Familiyangiz:</label>
-                <input type="text" id="regName" placeholder="Masalan: Husan Bakhodirov">
-
-                <label>Mamlakatingiz va Shahringiz:</label>
-                <input type="text" id="regCountry" placeholder="Masalan: O'zbekiston, Toshkent">
-
-                <label>Nima uchun ushbu tashkilotga qo'shilmoqchisiz?</label>
-                <textarea id="regReason" rows="3" placeholder="Maqsadingiz haqida qisqacha yozing..."></textarea>
-
-                <button class="btn btn-primary" onclick="completeRegistration()">A'zo Bo'lish va Sertifikat Olish</button>
-            </div>
-            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
-        </div>
-
-        <!-- 3. ISHTIROKCHI DASHBOARD & SERTIFIKAT -->
-        <div id="dashboardSection" class="page-section">
-            <div class="card-box" style="background: linear-gradient(135deg, rgba(0,245,212,0.1), rgba(114,9,183,0.1));">
-                <h2 style="color: var(--accent-green); margin-bottom: 5px;" id="userWelcome">Xush kelibsiz! 👋</h2>
-                <p style="color: var(--text-muted); font-size: 14px;">Siz ESU platformasining rasmiy a'zosisiz.</p>
-            </div>
-
-            <!-- Sertifikat Oynasi -->
-            <div class="certificate-box">
-                <div style="font-size:30px;">🌱 ESU GLOBAL</div>
-                <h2>CERTIFICATE OF MEMBERSHIP</h2>
-                <p>Ushbu sertifikat egasi Earth Sprouts Union global tashkilotining faol a'zosi hisoblanadi:</p>
-                <h3 id="certName">Foydalanuvchi Ismi</h3>
-                <p><b>Mamlakat:</b> <span id="certCountry">O'zbekiston</span></p>
-                <p style="font-size:11px; color:#888; margin-top:15px;">ID: ESU-2026-<span id="certId">1001</span> | Rasmiy Global Ishtirokchi</p>
-            </div>
-
-            <button class="btn btn-secondary" style="margin-top: 20px;" onclick="switchPage('homeSection')">← Asosiy Sahifaga Qaytish</button>
-        </div>
-
-        <!-- 4. ELCHI (AMBASSADOR) ARIZA BERISH -->
-        <div id="ambassadorSection" class="page-section">
-            <div class="hero-badge">🎖️ ESU Global Ambassador</div>
-            <h2>Elchilikka Ariza Topshirish</h2>
-            <p>O'z shahringiz yoki maktabingizda ESU vakili bo'ling.</p>
-            
-            <div class="card-box">
-                <label>Ism va Familiyangiz:</label>
-                <input type="text" id="ambName" placeholder="Ismingiz">
-                
-                <label>Yosh va Hudud:</label>
-                <input type="text" id="ambInfo" placeholder="Masalan: 17 yosh, Qo'qon">
-                
-                <label>Nima uchun aynan siz Elchi bo'lishingiz kerak?</label>
-                <textarea id="ambReason" rows="3" placeholder="Tajribangiz va rejalaringiz..."></textarea>
-                
-                <button class="btn btn-primary" onclick="submitAmbassador()">Arizani Yuborish</button>
-            </div>
-            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
-        </div>
-
-        <!-- 5. ADMIN PANEL -->
-        <div id="adminPanelSection" class="page-section">
-            <div class="card-box" style="border-color: var(--accent-green);">
-                <h3 style="color: var(--accent-green);">🛠️ Asosiy Ega Paneli</h3>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Platformadagi barcha real statistikani boshqarish.</p>
-                
-                <label>Ekilgan Daraxtlar Soni:</label>
-                <input type="text" id="editTrees" value="0">
-                
-                <button class="btn btn-primary" onclick="saveAdminStats()" style="margin-bottom: 20px;">Daraxtlar Sonini Yangilash</button>
-                
-                <h3 style="font-size: 16px; margin-top: 10px; margin-bottom: 10px;">📥 Kelgan Elchilik Arizalari (<span id="ambCount">0</span> ta)</h3>
-                <div id="ambList" style="font-size: 13px; color: var(--text-muted);">Hozircha arizalar yo'q.</div>
-                
-                <button class="btn btn-danger" onclick="switchPage('homeSection')">Admin Dan Chiqish</button>
-            </div>
-        </div>
-
     </div>
 
-    <!-- Admin Modal -->
-    <div id="adminModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeAdminModal()">×</button>
-            <h3>Admin Kirishi</h3>
-            <input type="password" id="adminPassword" placeholder="Parol (husanmubina)">
-            <button class="btn btn-primary" onclick="checkAdmin()">Kirish</button>
+    <!-- FOOTER -->
+    <footer class="glass-card border-t border-slate-800/80 py-6 text-center text-xs text-slate-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>© 2026 Earth Sprouts Union (ESU) Global. Barcha huquqlar himoyalangan.</div>
+            <div class="flex items-center gap-4 text-slate-400">
+                <span><i class="fa-solid fa-shield-heart text-brand-teal mr-1"></i> Barqaror Ta'lim</span>
+                <span><i class="fa-solid fa-leaf text-brand-lime mr-1"></i> Yashil Dunyo</span>
+            </div>
         </div>
-    </div>
+    </footer>
 
+    <!-- JAVASCRIPT ENGINE -->
     <script>
-        let memberCount = 0;
-        let ambassadorCount = 0;
-        let ambassadorsList = [];
+        // GLOBAL STATE
+        let currentUser = {
+            name: "Sardor Alimov",
+            country: "O'zbekiston, Toshkent",
+            motivation: "Dunyoni yashil ekotizimga aylantirish ziyoratida!",
+            xp: 150,
+            rank: "#12",
+            completed: 2
+        };
 
-        function switchPage(sectionId) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            window.scrollTo(0, 0);
-        }
+        let pendingAmbassadors = [
+            { id: 1, name: "Madina Qosimova", info: "16 yosh, Toshkent", reason: "Maktabimda eko-klub tuzmoqchiman." }
+        ];
 
-        function openAdminModal() {
-            document.getElementById('adminModal').style.display = 'flex';
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('adminPassword').value = '';
-        }
-
-        function checkAdmin() {
-            const pass = document.getElementById('adminPassword').value;
-            if (pass === 'husanmubina') {
-                closeAdminModal();
-                switchPage('adminPanelSection');
-            } else {
-                alert('Parol noto\'g\'ri!');
-            }
-        }
-
-        function completeRegistration() {
-            const name = document.getElementById('regName').value;
-            const country = document.getElementById('regCountry').value;
-
-            if(!name || !country) {
-                alert('Iltimos, ismingiz va mamlakatingizni kiriting!');
-                return;
-            }
-
-            // Statistika va Sertifikatni yangilash
-            memberCount++;
-            document.getElementById('statMembers').innerText = memberCount;
-            document.getElementById('userWelcome').innerText = `Xush kelibsiz, ${name}! 👋`;
-            document.getElementById('certName').innerText = name;
-            document.getElementById('certCountry').innerText = country;
-            document.getElementById('certId').innerText = Math.floor(1000 + Math.random() * 9000);
-
-            alert('Tabriklaymiz! Siz ESU a\'zosiga aylandingiz va sizga rasmiy sertifikat berildi.');
-            
-            document.getElementById('regName').value = '';
-            document.getElementById('regCountry').value = '';
-            document.getElementById('regReason').value = '';
-
-            switchPage('dashboardSection');
-        }
-
-        function submitAmbassador() {
-            const name = document.getElementById('ambName').value;
-            const info = document.getElementById('ambInfo').value;
-            const reason = document.getElementById('ambReason').value;
-
-            if(!name || !info || !reason) {
-                alert('Iltimos, barcha maydonlarni to\'ldiring!');
-                return;
-            }
-
-            ambassadorCount++;
-            document.getElementById('statAmbassadors').innerText = ambassadorCount;
-            
-            ambassadorsList.push({name, info, reason});
-            updateAmbassadorList();
-
-            alert('Arizangiz muvaffaqiyatli qabul qilindi! Admin ko\'rib chiqadi.');
-
-            document.getElementById('ambName').value = '';
-            document.getElementById('ambInfo').value = '';
-            document.getElementById('ambReason').value = '';
-
-            switchPage('homeSection');
-        }
-
-        function updateAmbassadorList() {
-            document.getElementById('ambCount').innerText = ambassadorsList.length;
-            const listDiv = document.getElementById('ambList');
-            let html = '';
-            ambassadorsList.forEach((item, index) => {
-                html += `<div style="background:var(--bg-deep); padding:12px; margin-top:10px; border-radius:10px;">
-                    <b style="color:#fff;">${index+1}. ${item.name}</b> (${item.info})<br>
-                    <span style="color:var(--text-muted);">Sabab: ${item.reason}</span>
-                </div>`;
+        // TAB SWITCHING SYSTEM
+        function switchTab(tabId) {
+            const tabs = ['homeSection', 'registerSection', 'dashboardSection', 'radarSection', 'ambassadorSection', 'adminPanelSection'];
+            tabs.forEach(t => {
+                const el = document.getElementById(t);
+                if (el) el.classList.add('hidden');
             });
-            listDiv.innerHTML = html;
+
+            const activeEl = document.getElementById(tabId);
+            if (activeEl) activeEl.classList.remove('hidden');
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
+        // DIRECT ONBOARDING
+        function handleDirectOnboarding(e) {
+            e.preventDefault();
+            const name = document.getElementById('regNameInput').value;
+            const country = document.getElementById('regCountryInput').value;
+            const motivation = document.getElementById('regReasonInput').value || "ESU faol ishtirokchisi";
+
+            currentUser.name = name;
+            currentUser.country = country;
+            currentUser.motivation = `"${motivation}"`;
+
+            // Update Dashboard UI
+            document.getElementById('dashName').textContent = currentUser.name;
+            document.getElementById('dashCountry').innerHTML = `<i class="fa-solid fa-location-dot text-brand-teal mr-1"></i> ${currentUser.country}`;
+            document.getElementById('dashMotivation').textContent = currentUser.motivation;
+
+            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+            switchTab('dashboardSection');
+        }
+
+        // COMPLETE ECO-CHALLENGE
+        function completeChallenge(xpVal, challengeTitle) {
+            currentUser.xp += xpVal;
+            currentUser.completed += 1;
+            
+            document.getElementById('dashXp').textContent = currentUser.xp + " XP";
+            document.getElementById('dashCompleted').textContent = currentUser.completed + " ta";
+
+            // Add to live activity feed
+            const feed = document.getElementById('liveActivityFeed');
+            const newLog = document.createElement('div');
+            newLog.className = "p-3 rounded-xl bg-slate-900 border border-slate-800 text-slate-300";
+            newLog.innerHTML = `<span class="text-brand-lime">● Real-time:</span> ${currentUser.name} '${challengeTitle}' topshirig'ini bajarib +${xpVal} XP oldi!`;
+            feed.prepend(newLog);
+
+            confetti({ particleCount: 60, spread: 50, origin: { y: 0.6 } });
+            alert(`Tabriklaymiz! +${xpVal} XP muvaffaqiyatli qo'shildi.`);
+        }
+
+        // AMBASSADOR APPLICATION
+        function handleAmbassadorApplication(e) {
+            e.preventDefault();
+            const name = document.getElementById('ambNameInput').value;
+            const info = document.getElementById('ambInfoInput').value;
+            const reason = document.getElementById('ambReasonInput').value;
+
+            pendingAmbassadors.push({
+                id: Date.now(),
+                name, info, reason
+            });
+
+            renderAdminAmbassadors();
+            alert("Arizangiz muvaffaqiyatli yuborildi! Admin panelida ko'rib chiqiladi.");
+            e.target.reset();
+            switchTab('homeSection');
+        }
+
+        // SECRET ADMIN AUTH
+        function openAdminAuthModal() {
+            document.getElementById('adminAuthModal').classList.remove('hidden');
+        }
+        function closeAdminAuthModal() {
+            document.getElementById('adminAuthModal').classList.add('hidden');
+        }
+
+        function handleAdminAuth(e) {
+            e.preventDefault();
+            const pass = document.getElementById('adminPassInput').value;
+            if (pass === "husanmubina") {
+                closeAdminAuthModal();
+                renderAdminAmbassadors();
+                switchTab('adminPanelSection');
+            } else {
+                alert("Noto'g'ri maxfiy parol!");
+            }
+        }
+
+        // SAVE STATS FROM ADMIN
         function saveAdminStats() {
-            const trees = document.getElementById('editTrees').value;
-            document.getElementById('statTrees').innerText = trees;
-            alert('Daraxtlar soni yangilandi!');
+            const kids = document.getElementById('editCounterKids').value;
+            const countries = document.getElementById('editCounterCountries').value;
+            const trees = document.getElementById('editCounterTrees').value;
+
+            document.getElementById('counterKids').textContent = kids;
+            document.getElementById('counterCountries').textContent = countries;
+            document.getElementById('counterTrees').textContent = trees;
+
+            alert("Sayt ko'rsatkichlari muvaffaqiyatli yangilandi!");
+        }
+
+        // RENDER ADMIN AMBASSADORS
+        function renderAdminAmbassadors() {
+            const list = document.getElementById('adminAmbList');
+            document.getElementById('adminAmbCount').textContent = pendingAmbassadors.length;
+
+            if (pendingAmbassadors.length === 0) {
+                list.innerHTML = `<div class="text-xs text-slate-500 text-center py-4">Hozircha arizalar kelib tushmadi.</div>`;
+                return;
+            }
+
+            list.innerHTML = pendingAmbassadors.map(item => `
+                <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <div class="font-bold text-white text-sm">${item.name} <span class="text-xs font-normal text-slate-400">(${item.info})</span></div>
+                        <div class="text-xs text-slate-300 mt-1">"${item.reason}"</div>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <button onclick="approveAmbassador(${item.id})" class="px-3 py-1.5 rounded-lg bg-brand-teal/20 text-brand-teal hover:bg-brand-teal hover:text-slate-950 text-xs font-bold transition-all">Tasdiqlash</button>
+                        <button onclick="rejectAmbassador(${item.id})" class="px-3 py-1.5 rounded-lg bg-red-500/20 text-red-400 hover:bg-red-500 hover:text-white text-xs font-bold transition-all">Rad etish</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function approveAmbassador(id) {
+            pendingAmbassadors = pendingAmbassadors.filter(a => a.id !== id);
+            renderAdminAmbassadors();
+            alert("Ambassador arizasi tasdiqlandi!");
+        }
+
+        function rejectAmbassador(id) {
+            pendingAmbassadors = pendingAmbassadors.filter(a => a.id !== id);
+            renderAdminAmbassadors();
+        }
+
+        // MULTI-LANGUAGE DICTIONARY SIMULATION
+        function changeLanguage(lang) {
+            if (lang === 'en') {
+                document.getElementById('heroBadge').textContent = "International Youth Eco & Education Movement";
+                document.getElementById('heroDesc').textContent = "Earth Sprouts Union (ESU) is a modern global platform uniting youth worldwide around ecological responsibility and quality education.";
+            } else if (lang === 'ru') {
+                document.getElementById('heroBadge').textContent = "Международное Молодёжное Экологическое Движение";
+                document.getElementById('heroDesc').textContent = "Earth Sprouts Union (ESU) — это современная глобальная платформа, объединяющая молодежь по всему миру вокруг экологической ответственности.";
+            } else {
+                document.getElementById('heroBadge').textContent = "Xalqaro Ekologik va Ta'limiy Yoshlar Harakati";
+                document.getElementById('heroDesc').textContent = "Earth Sprouts Union (ESU) — Butun dunyo bo'ylab yoshlarni ekologik mas'uliyat, barqaror ta'lim hamda global loyihalar atrofida jipslashtiruvchi zamonaviy platforma.";
+            }
         }
     </script>
 </body>
 </html>
+```
+```
