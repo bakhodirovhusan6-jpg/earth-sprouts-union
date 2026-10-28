@@ -1,166 +1,268 @@
+
+     ```html
 <!DOCTYPE html>
-<html lang="uz">
+<html lang="uz" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earth Sprouts Union (ESU)</title>
-    <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0b132b; color: #f8fafc; padding-bottom: 50px; }
-        header { background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid #1e293b; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
-        .logo-area { display: flex; align-items: center; gap: 10px; }
-        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #059669, #84cc16); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .logo-text h1 { font-size: 18px; color: #fff; font-weight: 700; }
-        .logo-text span { font-size: 10px; color: #34d399; text-transform: uppercase; letter-spacing: 1px; }
-        
-        .hero { text-align: center; padding: 40px 20px; max-width: 800px; margin: 0 auto; }
-        .badge { display: inline-block; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 20px; }
-        .hero h2 { font-size: 28px; line-height: 1.3; color: #fff; margin-bottom: 15px; }
-        .hero p { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
-        
-        .btn { background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 24px; border-radius: 14px; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
-        
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 20px; max-width: 800px; margin: 0 auto 40px auto; }
-        .stat-card { background: rgba(30, 41, 59, 0.7); border: 1px solid #1e293b; padding: 20px; border-radius: 16px; text-align: center; backdrop-filter: blur(10px); }
-        .stat-card h3 { font-size: 24px; color: #34d399; margin-bottom: 5px; font-weight: 800; }
-        .stat-card p { font-size: 12px; color: #94a3b8; }
-
-        .section-title { text-align: center; margin-bottom: 25px; padding: 0 20px; }
-        .section-title h3 { font-size: 22px; color: #fff; margin-bottom: 8px; }
-        .section-title p { font-size: 13px; color: #94a3b8; }
-
-        .quests-container { padding: 0 20px; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
-        .quest-card { background: rgba(30, 41, 59, 0.7); border: 1px solid #1e293b; padding: 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
-        .quest-info h4 { font-size: 16px; color: #fff; margin-bottom: 5px; }
-        .quest-info p { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
-        .quest-btn { background: #1e293b; color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; }
-
-        .xp-box { text-align: center; margin-top: 25px; font-size: 14px; color: #cbd5e1; }
-        .xp-box span { color: #34d399; font-weight: bold; font-size: 16px; }
-
-        /* Modal */
-        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; padding: 20px; z-index: 1000; }
-        .modal-content { background: #0f172a; border: 1px solid #334155; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; position: relative; }
-        .modal-content h3 { font-size: 18px; color: #fff; margin-bottom: 5px; }
-        .modal-content p { font-size: 12px; color: #94a3b8; margin-bottom: 20px; }
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 5px; }
-        .form-group input { width: 100%; background: #020617; border: 1px solid #1e293b; padding: 10px; border-radius: 10px; color: #fff; font-size: 14px; }
-        .close-btn { position: absolute; top: 15px; right: 15px; color: #94a3b8; background: none; border: none; font-size: 18px; cursor: pointer; }
-    </style>
-</head>
-<body>
-
-    <header>
-        <div class="logo-area">
-            <div class="logo-icon">🌱</div>
-            <div class="logo-text">
-                <h1>Earth Sprouts</h1>
-                <span>Global Union</span>
-            </div>
-        </div>
-        <button class="btn" style="padding: 8px 16px; font-size: 12px;" onclick="openModal()">Elchi Bo'lish</button>
-    </header>
-
-    <div class="hero">
-        <div class="badge">🌍 Butun Dunyo Bolalari Birlashmoqda</div>
-        <h2>Yashil Sayyora va Kuchli Ta'lim Uchun Dunyo Bolalari Birlashmoqda!</h2>
-        <p>Earth Sprouts Union (ESU) — Birlashgan Millatlar Tashkilotidan ilhomlangan holda, butun dunyo bolalari va yoshlarini ekologiya hamda sifatli ta'lim yo'lida birlashtiruvchi rasmiy global tarmoq.</p>
-        <button class="btn" onclick="openModal()">Platformaga Qo'shilish</button>
-    </div>
-
-    <div class="stats-grid">
-        <div class="stat-card">
-            <h3>38</h3>
-            <p>Mamlakatlar</p>
-        </div>
-        <div class="stat-card">
-            <h3>14,250</h3>
-            <p>Faol Bolalar</p>
-        </div>
-        <div class="stat-card">
-            <h3>89,400</h3>
-            <p>Ekilgan Daraxtlar</p>
-        </div>
-        <div class="stat-card">
-            <h3>105,000</h3>
-            <p>Bajarilgan Topshiriqlar</p>
-        </div>
-    </div>
-
-    <div class="section-title">
-        <h3>Eko-Topshiriqlar va XP Ballar</h3>
-        <p>Topshiriqlarni bajaring va xalqaro darajaga ega bo'ling!</p>
-    </div>
-
-    <div class="quests-container">
-        <div class="quest-card">
-            <div class="quest-info">
-                <h4>🌱 1 Ta Daraxt Ekish</h4>
-                <p>Hovlingizda bitta nihol eking va suratini yuklang.</p>
-            </div>
-            <button class="quest-btn" onclick="completeQuest(100)">+100 XP</button>
-        </div>
-
-        <div class="quest-card">
-            <div class="quest-info">
-                <h4>📚 Eko-Kitob Ulashish</h4>
-                <p>O'qigan kitobingizni tengdoshingizga sovg'a qiling.</p>
-            </div>
-            <button class="quest-btn" onclick="completeQuest(50)">+50 XP</button>
-        </div>
-
-        <div class="quest-card">
-            <div class="quest-info">
-                <h4>♻️ Plastik Saralash</h4>
-                <p>Plastik idishlarni yig'ib, qayta ishlashga topshiring.</p>
-            </div>
-            <button class="quest-btn" onclick="completeQuest(75)">+75 XP</button>
-        </div>
-    </div>
-
-    <div class="xp-box">
-        Sizning Baligingiz: <span id="user-xp">0</span> XP
-    </div>
-
-    <!-- Modal -->
-    <div id="modal" class="modal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">✕</button>
-            <h3>ESU Elchisi Bo'ling</h3>
-            <p>O'z shahringizda klubimizni oching!</p>
-            <form onsubmit="submitForm(event)">
-                <div class="form-group">
-                    <label>Ism va Familiya</label>
-                    <input type="text" required placeholder="Husan">
-                </div>
-                <div class="form-group">
-                    <label>Mamlakat va Shahar</label>
-                    <input type="text" required placeholder="O'zbekiston, Toshkent">
-                </div>
-                <div class="form-group">
-                    <label>Yosh</label>
-                    <input type="number" required placeholder="17">
-                </div>
-                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Ariza Yuborish</button>
-            </form>
-        </div>
-    </div>
-
+    <title>Earth Sprouts Union (ESU) — Dunyo Bolalari Birlashmasi</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Canvas-confetti for celebratory effects -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- Google Fonts: Plus Jakarta Sans & Outfit -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- FontAwesome 6 Pro/Free Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
     <script>
-        let currentXP = 0;
-        function completeQuest(xp) {
-            currentXP += xp;
-            document.getElementById('user-xp').innerText = currentXP;
-            alert("Tabriklaymiz! Siz " + xp + " XP ball oldingiz!");
-        }
-        function openModal() { document.getElementById('modal').style.display = 'flex'; }
-        function closeModal() { document.getElementById('modal').style.display = 'none'; }
-        function submitForm(e) {
-            e.preventDefault();
-            alert("Arizangiz muvaffaqiyatli yuborildi!");
-            closeModal();
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            emerald: '#10B981',
+                            darkemerald: '#059669',
+                            lime: '#84CC16',
+                            teal: '#14B8A6',
+                            sky: '#0284C7',
+                            amber: '#F59E0B',
+                            dark: '#0B132B',
+                            cardBg: 'rgba(15, 23, 42, 0.75)',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        display: ['Outfit', 'sans-serif'],
+                    },
+                    animation: {
+                        'pulse-glow': 'pulseGlow 3s infinite alternate',
+                        'float': 'float 6s ease-in-out infinite',
+                        'spin-slow': 'spin 20s linear infinite',
+                    },
+                    keyframes: {
+                        pulseGlow: {
+                            '0%': { boxShadow: '0 0 15px rgba(16, 185, 129, 0.2)' },
+                            '100%': { boxShadow: '0 0 35px rgba(16, 185, 129, 0.6)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-12px)' },
+                        }
+                    }
+                }
+            }
         }
     </script>
-</body>
-</html>
+    <style>
+        /* Custom Ultra-Glassmorphism & Mesh Backgrounds */
+        body {
+            background-color: #080D1A;
+            color: #F1F5F9;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(16, 185, 129, 0.15) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(2, 132, 199, 0.15) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(132, 204, 22, 0.1) 0px, transparent 50%);
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .gradient-text-emerald {
+            background: linear-gradient(135deg, #34D399 0%, #10B981 40%, #84CC16 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Certificate Print Styling */
+        @media print {
+            body * { visibility: hidden; }
+            #printable-certificate, #printable-certificate * { visibility: visible; }
+            #printable-certificate { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #0B132B;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1E293B;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #10B981;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased overflow-x-hidden selection:bg-brand-emerald selection:text-slate-950">
+
+    <!-- NAVIGATION BAR -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-slate-800/80 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- LOGO -->
+            <a href="#" class="flex items-center gap-3 group">
+                <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-brand-emerald via-brand-teal to-brand-sky p-0.5 shadow-lg shadow-brand-emerald/20 group-hover:scale-105 transition-transform duration-300">
+                    <div class="w-full h-full bg-slate-950 rounded-[14px] flex items-center justify-center text-brand-emerald text-xl font-bold">
+                        <i class="fa-solid fa-seedling text-brand-emerald group-hover:rotate-12 transition-transform"></i>
+                    </div>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="font-display font-black text-2xl tracking-tight text-white block leading-none">ESU</span>
+                        <span class="bg-brand-emerald/20 text-brand-emerald text-[10px] font-extrabold px-2 py-0.5 rounded-full border border-brand-emerald/30">GLOBAL</span>
+                    </div>
+                    <span class="text-[11px] font-semibold text-slate-400 tracking-wider uppercase block mt-0.5">Earth Sprouts Union</span>
+                </div>
+            </a>
+
+            <!-- NAV LINKS (DESKTOP) -->
+            <nav class="hidden lg:flex items-center gap-7 font-medium text-slate-300 text-sm">
+                <a href="#about" class="hover:text-brand-emerald transition-colors flex items-center gap-1.5"><i class="fa-solid fa-circle-info text-xs text-brand-emerald"></i> Missiya</a>
+                <a href="#radar" class="hover:text-brand-emerald transition-colors flex items-center gap-1.5"><i class="fa-solid fa-globe text-xs text-brand-sky"></i> Elchilar Radari</a>
+                <a href="#quests" class="hover:text-brand-emerald transition-colors flex items-center gap-1.5"><i class="fa-solid fa-gamepad text-xs text-brand-lime"></i> Eko-Quests</a>
+                <a href="#calculator" class="hover:text-brand-emerald transition-colors flex items-center gap-1.5"><i class="fa-solid fa-calculator text-xs text-brand-amber"></i> Kalkulyator</a>
+                <a href="#certificate" class="hover:text-brand-emerald transition-colors flex items-center gap-1.5"><i class="fa-solid fa-certificate text-xs text-emerald-400"></i> Sertifikat</a>
+                <a href="#roadmap" class="hover:text-brand-emerald transition-colors flex items-center gap-1.5"><i class="fa-solid fa-chart-line text-xs text-sky-400"></i> Rivojlanish</a>
+            </nav>
+
+            <!-- ACTION BUTTONS -->
+            <div class="hidden sm:flex items-center gap-3">
+                <button onclick="openModal('kid')" class="px-5 py-2.5 rounded-full text-xs font-bold text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 transition-all">
+                    <i class="fa-solid fa-right-to-bracket mr-1.5 text-brand-emerald"></i> Kirish
+                </button>
+                <button onclick="openAdminModal()" class="px-4 py-2.5 rounded-full text-xs font-bold text-amber-400 bg-amber-500/10 hover:bg-amber-500/20 border border-amber-500/30 transition-all">
+                    <i class="fa-solid fa-user-shield mr-1.5"></i> Admin
+                </button>
+                <button onclick="openModal('ambassador')" class="px-6 py-2.5 rounded-full text-xs font-bold text-slate-950 bg-gradient-to-r from-brand-emerald via-brand-teal to-brand-lime hover:shadow-lg hover:shadow-brand-emerald/30 hover:scale-105 active:scale-95 transition-all">
+                    <i class="fa-solid fa-user-plus mr-1.5"></i> Elchilikka Ariza
+                </button>
+            </div>
+
+            <!-- MOBILE MENU BUTTON -->
+            <button id="mobile-menu-btn" class="lg:hidden text-slate-300 hover:text-white text-2xl p-2 focus:outline-none" aria-label="Menuni ochish">
+                <i class="fa-solid fa-bars-staggered"></i>
+            </button>
+        </div>
+
+        <!-- MOBILE MENU DROPDOWN -->
+        <div id="mobile-menu" class="hidden lg:hidden glass-panel border-b border-slate-800 px-6 py-6 space-y-4">
+            <a href="#about" class="block text-sm font-semibold text-slate-300 hover:text-brand-emerald">Missiya</a>
+            <a href="#radar" class="block text-sm font-semibold text-slate-300 hover:text-brand-emerald">Elchilar Radari</a>
+            <a href="#quests" class="block text-sm font-semibold text-slate-300 hover:text-brand-emerald">Eko-Quests (O'yin)</a>
+            <a href="#calculator" class="block text-sm font-semibold text-slate-300 hover:text-brand-emerald">Ekologik Kalkulyator</a>
+            <a href="#certificate" class="block text-sm font-semibold text-slate-300 hover:text-brand-emerald">Xalqaro Sertifikat</a>
+            <a href="#roadmap" class="block text-sm font-semibold text-slate-300 hover:text-brand-emerald">Rivojlanish Yo'li</a>
+            <div class="pt-4 border-t border-slate-800/80 flex flex-col gap-3">
+                <button onclick="openAdminModal()" class="w-full py-3 rounded-full text-xs font-bold text-amber-400 bg-amber-500/10 border border-amber-500/30">Admin Paneli</button>
+                <button onclick="openModal('ambassador')" class="w-full py-3 rounded-full text-xs font-bold text-slate-950 bg-gradient-to-r from-brand-emerald to-brand-lime">Elchilikka Ariza Topshirish</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- HERO SECTION -->
+    <section class="relative pt-36 pb-24 md:pt-48 md:pb-36 overflow-hidden">
+        <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-brand-emerald/15 rounded-full blur-[140px] pointer-events-none -z-10 animate-pulse-glow"></div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center max-w-4xl space-y-8">
+            <div class="inline-flex items-center gap-2.5 px-5 py-2 rounded-full glass-panel border border-brand-emerald/30 text-brand-emerald text-xs font-bold shadow-lg">
+                <span class="flex h-2.5 w-2.5 rounded-full bg-brand-lime animate-ping"></span>
+                <i class="fa-solid fa-earth-americas text-brand-sky"></i>
+                <span>Dunyoni O'zgartiradigan Yoshlar Birlashmasi — ESU Global</span>
+            </div>
+
+            <h1 class="font-display text-4xl sm:text-6xl md:text-7xl font-black tracking-tight text-white leading-[1.1]">
+                Kelajakni <span class="gradient-text-emerald">Yashil va Bilim</span> Bilan Birlashtiramiz!
+            </h1>
+
+            <p class="text-base sm:text-xl text-slate-300 font-normal leading-relaxed max-w-3xl mx-auto">
+                <strong>Earth Sprouts Union (ESU)</strong> — Butun dunyo bolalari va yosh elchilarini ekologik mas'uliyat hamda ta'lim atrofida jipslashtiruvchi global platforma.
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
+                <button onclick="openModal('ambassador')" class="w-full sm:w-auto px-8 py-4 rounded-full bg-gradient-to-r from-brand-emerald via-brand-teal to-brand-lime text-slate-950 font-extrabold text-base shadow-xl hover:scale-105 transition-all">
+                    <i class="fa-solid fa-globe"></i> Tashkilotga Qo'shilish
+                </button>
+                <a href="#radar" class="w-full sm:w-auto px-8 py-4 rounded-full glass-panel border border-slate-700 text-white font-bold text-base hover:bg-slate-800 transition-all">
+                    <i class="fa-solid fa-compass text-brand-sky"></i> Global Radarni Ko'rish
+                </a>
+            </div>
+
+            <!-- REAL-TIME COUNTERS -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 pt-12 max-w-5xl mx-auto">
+                <div class="glass-panel p-6 rounded-3xl border border-slate-800 text-left">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-emerald/20 text-brand-emerald flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-flag"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counter-countries">0</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase">A'zo Mamlakatlar</div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl border border-slate-800 text-left">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-sky/20 text-brand-sky flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-children"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counter-kids">0</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase">A'zo Bolalar</div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl border border-slate-800 text-left">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-lime/20 text-brand-lime flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-tree"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counter-trees">0</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase">Ekilgan Daraxtlar</div>
+                </div>
+
+                <div class="glass-panel p-6 rounded-3xl border border-slate-800 text-left">
+                    <div class="w-10 h-10 rounded-2xl bg-brand-amber/20 text-brand-amber flex items-center justify-center text-lg font-bold mb-3"><i class="fa-solid fa-recycle"></i></div>
+                    <div class="text-3xl sm:text-4xl font-display font-black text-white" id="counter-plastic">0</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase">Qayta Ishlangan (Kg)</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- GLOBAL RADAR -->
+    <section id="radar" class="py-24 bg-slate-950/60 relative border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                <span class="px-3.5 py-1.5 rounded-full bg-brand-sky/10 border border-brand-sky/30 text-brand-sky text-xs font-bold uppercase"><i class="fa-solid fa-radar mr-1"></i> Interactive Radar</span>
+                <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-white">Xalqaro Elchilar Radari</h2>
+            </div>
+            <div class="flex flex-wrap justify-center gap-2 sm:gap-3 mb-10" id="radar-tabs"></div>
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-slate-800 shadow-2xl" id="radar-display"></div>
+        </div>
+    </section>
+
+    <!-- CERTIFICATE GENERATOR -->
+    <section id="certificate" class="py-24 relative border-t border-slate-800/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-4">
+                <span class="px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-400 text-xs font-bold uppercase"><i class="fa-solid fa-award mr-1"></i> Certificate Generator</span>
+                <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-white">Xalqaro Raqamli Sertifikat</h2>
+            </div>
+
+            <div class="grid lg:grid-cols-12 gap-8 items-center">
+                <div class="lg:col-span-4 glass-panel p-6 rounded-3xl border border-slate-800 space-y-4">
+                    <h3 class="font-bold text-white text-base">Sertifikat Sozlamalari</h3>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1">To'liq Ism-Sharif</label>
+                        <input type="text" id="cert-name-input" value="Sardor Alimov" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none" oninput="updateCertificate()">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-400 uppercase mb-1">Mamlakat</label>
+                        <input type="text" id="cert-country-input" value="O'zbekiston" class="w-full px-4 py-3 rounded-xl bg-slate-900 border border-slate-700 text-white text-sm focus:outline-none" oninput="updateCertificate()">
+                    </div>
+                    <button onclick="printCertificate()" class="w-full py-3.5 rounded-xl bg-brand-emerald text-slate-950 font-bold text-sm hover:bg-brand-darkemerald hover:text-white transition-all flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-print"></i> Sertifikatni Chiqarish
+                    </button>
+                </div>
+
+                <div class="lg:col-span-8 flex justify-center">
+                    <div id="printable-certificate" class="w-full max-w-2xl aspect-[1.414/1] bg-slate-950 border-8 border-brand
+```
