@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Global Sprouts Union</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.min.js"></script>
 <style>
 :root{--bg:#f6faf3;--surface:#fff;--ink:#0d2b22;--muted:#58706a;--leaf:#1f7a4d;--leaf2:#dff3e4;--lime:#c6f34b;--sun:#ffb938;--line:#d9e6dc;--bad:#c0452f;--f:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif}
 @media(prefers-color-scheme:dark){:root{--bg:#0b1812;--surface:#12261d;--ink:#e6f2e3;--muted:#93ac9a;--leaf:#52c277;--leaf2:#1b3a2a;--line:#27433341;--bad:#ef7a64}}
@@ -58,12 +59,16 @@ label{font-size:14px;color:var(--muted)}
 .opt{display:block;width:100%;text-align:left;margin:6px 0;border-radius:10px}
 .opt.right{background:var(--leaf);color:#fff}.opt.wrong{border-color:var(--bad);color:var(--bad)}
 .err{color:var(--bad);font-size:14px;min-height:1.2em}
+.cert{position:fixed;inset:0;z-index:20;background:#fff;color:#0d2b22;display:grid;place-items:center;text-align:center;padding:20px;overflow:auto}.cb{border:6px double #1f7a4d;padding:40px 24px;max-width:640px;width:100%}.cert h1{font-size:34px}.cert h2{font-size:44px;color:#1f7a4d}@media print{.np,header,main,footer{display:none!important}}
 </style>
 </head>
 <body>
-<header><div class="logo" onclick="go(home)">🌱 Global <span>Sprouts</span> Union</div><nav id="nav"></nav></header>
+<header><div class="logo" onclick="go(home)">🌱 Global <span>Sprouts</span> Union</div><nav id="nav"></nav><select id="lg" aria-label="Language" onchange="setLang(this.value)" style="width:auto;margin:0;padding:6px 10px"><option value="uz">O‘zbekcha</option><option value="en">English</option><option value="ru">Русский</option></select></header>
 <main id="app"></main>
 <script>
+/* ===== SUPABASE: loyihangiz URL va anon kalitini shu yerga yozing (README/javobdagi qadamlar). Bo‘sh qolsa demo rejim ishlaydi. ===== */
+const SB_URL="",SB_KEY="";
+const CL=!!(SB_URL&&SB_KEY&&window.supabase);
 const OWNER_HASH="da9b20fcecf7132e1ee028c5ffb7e86c8830d5c8843edb40071a3f4e6b1add8c";
 const COUNTRIES=["O‘zbekiston","Qozog‘iston","Qirg‘iziston","Turkiya","Hindiston","Braziliya","Keniya","Germaniya","AQSh","Yaponiya","Boshqa"];
 const DEF=[
@@ -84,30 +89,27 @@ try{DB=JSON.parse(localStorage.getItem("gsu2")||"null")}catch(e){DB=null}
 if(!DB)DB=JSON.parse(JSON.stringify(SEED));
 if(!DB.tasks)DB.tasks=DEF.map(x=>({...x,on:true}));
 try{S=JSON.parse(localStorage.getItem("gsu2_s")||"null")}catch(e){S=null}
-const save=()=>{try{localStorage.setItem("gsu2",JSON.stringify(DB));localStorage.setItem("gsu2_s",JSON.stringify(S))}catch(e){}};
+const save=()=>{if(CL)return;try{localStorage.setItem("gsu2",JSON.stringify(DB));localStorage.setItem("gsu2_s",JSON.stringify(S))}catch(e){}};
+if(CL){S=null;DB={users:[],subs:[],apps:[],tasks:[]}}
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
 const task=id=>DB.tasks.find(t=>t.id==id)||{t:"(o‘chirilgan)",p:0,d:""};
 const live=t=>t.on&&(!t.end||t.end>=new Date().toISOString().slice(0,10));
 const user=id=>DB.users.find(u=>u.id==id)||{name:"?",country:"?",xp:0};
 const parts=()=>DB.users.filter(u=>u.role=="participant");
-const pts=uid=>DB.subs.filter(s=>s.uid==uid&&s.status=="approved").reduce((a,s)=>a+task(s.task).p,0)+(user(uid).xp||0);
+const pts=uid=>user(uid).pts??DB.subs.filter(s=>s.uid==uid&&s.status=="approved").reduce((a,s)=>a+task(s.task).p,0)+(user(uid).xp||0);
 const LV=[[0,"🌱","Urug‘"],[50,"🌿","Nihol"],[150,"🪴","Ko‘chat"],[300,"🌳","Daraxt"]];
 const level=p=>LV.filter(l=>p>=l[0]).pop();
 const ownerOk=()=>S&&S.role=="owner";
 
-function statsHTML(){const ps=parts();return `<div class="stats">
-<div class="stat"><b>${ps.length}</b><small>ishtirokchi</small></div>
-<div class="stat"><b>${new Set(ps.map(u=>u.country)).size}</b><small>davlat</small></div>
-<div class="stat"><b>${DB.subs.filter(s=>s.status=="approved").length}</b><small>bajarilgan vazifa</small></div>
-<div class="stat"><b>${ps.reduce((a,u)=>a+pts(u.id),0)}</b><small>jami ball</small></div>
-<div class="stat"><b>${DB.users.filter(u=>u.role=="ambassador").length}</b><small>elchi</small></div></div>`}
+function statsHTML(){const ps=parts(),v=CL?[ST.p,ST.c,ST.n,ST.t,ST.a]:[ps.length,new Set(ps.map(u=>u.country)).size,DB.subs.filter(s=>s.status=="approved").length,ps.reduce((a,u)=>a+pts(u.id),0),DB.users.filter(u=>u.role=="ambassador").length];
+ return `<div class="stats">${["ishtirokchi","davlat","bajarilgan vazifa","jami ball","elchi"].map((k,i)=>`<div class="stat"><b>${v[i]}</b><small>${k}</small></div>`).join("")}</div>`}
 function bars(items){if(!items.length)return '<p class="note">Hali ma’lumot yo‘q.</p>';const m=Math.max(1,...items.map(i=>i[1]));return items.map(i=>`<div class="row" style="margin:6px 0"><span style="min-width:110px">${esc(i[0])}</span><div class="bar"><i style="width:${i[1]/m*100}%"></i></div><b>${i[1]}</b></div>`).join("")}
-const byCountry=()=>{const m={};parts().forEach(u=>m[u.country]=(m[u.country]||0)+1);return Object.entries(m).sort((a,b)=>b[1]-a[1])};
+const byCountry=()=>{if(CL)return ST.by||[];const m={};parts().forEach(u=>m[u.country]=(m[u.country]||0)+1);return Object.entries(m).sort((a,b)=>b[1]-a[1])};
 const opts=()=>COUNTRIES.map(c=>`<option>${c}</option>`).join("");
 
 /* ---- Bosh sahifa: qo'shilish, elchi arizasi, kirish ---- */
-function home(){const n=parts().length,live_=DB.tasks.filter(live);
+function home(){const n=CL?ST.p:parts().length,live_=DB.tasks.filter(live);
  const forest=Array.from({length:60},(_,i)=>`<span class="${i<n?"on":""}">${i<n?"🌱":""}</span>`).join("");
  return `<section class="hero"><div class="wrap"><h1>Bir bola, bir ko‘chat. Butun dunyo bir o‘rmon.</h1>
 <p>Global Sprouts Union: dunyo bolalari ekologik challenjlarni bajaradi, ball yig‘adi va tasdiqlangan elchilar ularni tekshiradi.</p>
@@ -126,14 +128,19 @@ ${live_.map(t=>`<div class="card"><div class="row"><h3 style="margin:0">${esc(t.
 <div class="card"><h3>Ishtirokchi bo‘lish</h3><label for="jn">Ismingiz</label><input id="jn" maxlength="30">
 <label for="jc">Davlat</label><select id="jc">${opts()}</select>
 <label for="ja">Yoshingiz</label><input id="ja" type="number" min="5" max="17">
+<label for="jg">Jins</label><select id="jg"><option value="n">Aytmayman</option><option value="f">Qiz</option><option value="m">O‘g‘il</option></select>
+${CL?'<label for="jm">Ota-ona emaili</label><input id="jm" type="email"><label for="jw">Parol (8+ belgi)</label><input id="jw" type="password" autocomplete="new-password">':""}
 <label><input id="jp" type="checkbox" style="width:auto;margin-right:6px">Ota-onam yoki vasiyim ruxsat bergan</label>
 <div class="err" id="je"></div><button class="primary" onclick="join()">Boshlash</button></div>
 <div class="card" id="amb"><h3>Elchi bo‘lish</h3><label for="an">Ism</label><input id="an">
 <label for="ac">Davlat</label><select id="ac">${opts()}</select>
+
+<label for="ag">Jins</label><select id="ag"><option value="n">Aytmayman</option><option value="f">Qiz</option><option value="m">O‘g‘il</option></select>
 <label for="aw">Nega elchi bo‘lmoqchisiz?</label><textarea id="aw" rows="3"></textarea>
+${CL?'<label for="am">Email</label><input id="am" type="email"><label for="ap">Parol (8+ belgi)</label><input id="ap" type="password" autocomplete="new-password">':""}
 <label for="al">Havola (ixtiyoriy)</label><input id="al">
 <div class="err" id="ae"></div><button onclick="applyAmb()">Ariza yuborish</button></div>
-${DB.users.length?`<div class="card"><h3>Qaytib kirish</h3><label for="lu">Ismingiz</label>
+${CL?`<div class="card"><h3>Qaytib kirish</h3><label for="le">Email</label><input id="le" type="email"><label for="lp">Parol</label><input id="lp" type="password" autocomplete="current-password"><div class="err" id="lx"></div><button class="primary" onclick="login()">Kirish</button></div>`:DB.users.length?`<div class="card"><h3>Qaytib kirish</h3><label for="lu">Ismingiz</label>
 <select id="lu">${DB.users.map(u=>`<option value="${u.id}">${esc(u.name)} (${esc(u.country)})${u.role=="ambassador"?" elchi":""}</option>`).join("")}</select>
 <button class="primary" onclick="login()">Kirish</button></div>`:""}</div></div></section>
 <section class="sec"><div class="wrap"><h2>Davlatlar bo‘yicha</h2><div class="card">${bars(byCountry())}</div></div></section>
@@ -143,15 +150,15 @@ ${DB.users.length?`<div class="card"><h3>Qaytib kirish</h3><label for="lu">Ismin
 <div><h3>Minimal ma’lumot</h3><p class="note">Reytingda faqat ism va davlat ko‘rinadi.</p></div></div></div></section>
 <footer>© Global Sprouts Union · <a onclick="go(ownerLogin)">Egasi kirishi</a></footer>`}
 function join(){const n=$("#jn").value.trim(),a=+$("#ja").value;
- if(!n)return $("#je").textContent="Ismingizni yozing.";
- if(!(a>=5&&a<=17))return $("#je").textContent="Yosh 5 dan 17 gacha bo‘lishi kerak.";
- if(!$("#jp").checked)return $("#je").textContent="Ota-ona yoki vasiy ruxsati kerak.";
- const u={id:"u"+Date.now(),name:n,country:$("#jc").value,role:"participant",xp:0,age:a};
+ if(!n)return $("#je").textContent=tr("Ismingizni yozing.");
+ if(!(a>=5&&a<=17))return $("#je").textContent=tr("Yosh 5 dan 17 gacha bo‘lishi kerak.");
+ if(!$("#jp").checked)return $("#je").textContent=tr("Ota-ona yoki vasiy ruxsati kerak.");
+ const u={id:"u"+Date.now(),name:n,country:$("#jc").value,role:"participant",xp:0,age:a,g:$("#jg").value};
  DB.users.push(u);S={role:"participant",uid:u.id};save();go(participant)}
 function applyAmb(){const n=$("#an").value.trim(),w=$("#aw").value.trim();
- if(!n||w.length<20)return $("#ae").textContent="Ism va kamida 20 belgilik izoh yozing.";
- DB.apps.push({id:"p"+Date.now(),name:n,country:$("#ac").value,why:w,link:$("#al").value,status:"pending"});save();
- $("#ae").style.color="var(--leaf)";$("#ae").textContent="Ariza yuborildi. Egasi ko‘rib chiqadi."}
+ if(!n||w.length<20)return $("#ae").textContent=tr("Ism va kamida 20 belgilik izoh yozing.");
+ DB.apps.push({id:"p"+Date.now(),name:n,country:$("#ac").value,why:w,g:$("#ag").value,link:$("#al").value,status:"pending"});save();
+ $("#ae").style.color="var(--leaf)";$("#ae").textContent=tr("Ariza yuborildi. Egasi ko‘rib chiqadi.")}
 function login(){const u=user($("#lu").value);S={role:u.role,uid:u.id};save();go(u.role=="ambassador"?ambassador:participant)}
 function logout(){S=null;save();go(home)}
 
@@ -161,7 +168,7 @@ function participant(){const u=user(S.uid),p=pts(u.id),l=level(p),nx=LV.find(x=>
  const mine=DB.subs.filter(s=>s.uid==u.id).reverse();
  const today=new Date().toDateString(),qd=u.qday==today;
  return `<h2>Salom, ${esc(u.name)}!</h2>
-<div class="card"><div class="plant" aria-hidden="true">${l[1]}</div><div class="row"><b>${l[2]} · ${p} ball</b><span class="note">${esc(u.country)}</span></div>
+<div class="card"><div class="plant" aria-hidden="true">${l[1]}</div><div class="row"><b>${l[2]} · ${p} ball</b><span class="note">${esc(u.country)}</span>${p>=50?'<button onclick="cert()">Sertifikat</button>':""}</div>
 <div class="bar" style="margin-top:8px"><i style="width:${nx?(p-l[0])/(nx[0]-l[0])*100:100}%"></i></div>
 <div class="note">${nx?`Keyingi daraja: ${nx[2]} (${nx[0]-p} ball qoldi)`:"Eng yuqori daraja!"}</div></div>
 <div class="grid">
@@ -191,16 +198,16 @@ function review(id,st){const s=DB.subs.find(x=>x.id==id);s.status=st;s.by=S.uid;
 function ambassador(){const q=DB.subs.filter(s=>s.status=="pending");
  return `<h2>Elchi paneli</h2><div class="stats"><div class="stat"><b>${q.length}</b><small>kutmoqda</small></div><div class="stat"><b>${DB.subs.filter(s=>s.by==S.uid).length}</b><small>siz tekshirgan</small></div></div>
 ${q.length?q.map(s=>{const u=user(s.uid);return `<div class="card"><div class="row"><b>${esc(u.name)} · ${esc(u.country)}</b><span class="pts">${task(s.task).p} ball</span></div><div>${task(s.task).t}</div><p class="note">${esc(s.note)}</p>
-${s.file?(s.file.startsWith("data:video")?`<video class="media" controls src="${s.file}"></video>`:`<img class="media" alt="Yuborilgan surat" src="${s.file}">`):'<p class="note">(Demo: fayl yo‘q)</p>'}
+${s.file?((s.vid||s.file.startsWith("data:video"))?`<video class="media" controls src="${s.file}"></video>`:`<img class="media" alt="Yuborilgan surat" src="${s.file}">`):'<p class="note">(Demo: fayl yo‘q)</p>'}
 <div class="row" style="justify-content:flex-start"><button class="primary" onclick="review('${s.id}','approved')">Tasdiqlash</button><button class="danger" onclick="review('${s.id}','rejected')">Rad etish</button></div></div>`}).join(""):'<p class="note">Hammasi tekshirilgan.</p>'}`}
 
 /* ---- Egasi: parol bilan kirish ---- */
-function ownerLogin(){return `<h2>Egasi kirishi</h2><div class="card" style="max-width:380px"><label for="pw">Parol</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key=='Enter')ownerGo()">
+function ownerLogin(){return `<h2>Egasi kirishi</h2><div class="card" style="max-width:380px">${CL?'<label for="oe">Email</label><input id="oe" type="email">':""}<label for="pw">Parol</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key=='Enter')ownerGo()">
 <div class="err" id="pe"></div><button class="primary" onclick="ownerGo()">Kirish</button></div>`}
 async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
-async function ownerGo(){if(await sha("gsu:"+$("#pw").value)===OWNER_HASH){S={role:"owner"};save();go(admin)}else $("#pe").textContent="Parol noto‘g‘ri."}
+async function ownerGo(){if(await sha("gsu:"+$("#pw").value)===OWNER_HASH){S={role:"owner"};save();go(admin)}else $("#pe").textContent=tr("Parol noto‘g‘ri.")}
 function decide(id,st){const a=DB.apps.find(x=>x.id==id);a.status=st;
- if(st=="approved")DB.users.push({id:"a"+Date.now(),name:a.name,country:a.country,role:"ambassador",xp:0});save();render()}
+ if(st=="approved")DB.users.push({id:"a"+Date.now(),name:a.name,country:a.country,role:"ambassador",xp:0,g:a.g});save();render()}
 function admin(){if(!ownerOk())return ownerLogin();
  const pend=DB.apps.filter(a=>a.status=="pending"),tot=DB.subs.length,ok=DB.subs.filter(s=>s.status=="approved").length;
  return `<h2>Egasi paneli</h2>${statsHTML()}
@@ -208,10 +215,11 @@ function admin(){if(!ownerOk())return ownerLogin();
 <h3>Elchi arizalari (${pend.length})</h3>
 ${pend.length?pend.map(a=>`<div class="card"><b>${esc(a.name)} · ${esc(a.country)}</b><p>${esc(a.why)}</p>${a.link?`<p class="note">${esc(a.link)}</p>`:""}
 <button class="primary" onclick="decide('${a.id}','approved')">Qabul qilish</button> <button class="danger" onclick="decide('${a.id}','rejected')">Rad etish</button></div>`).join(""):'<p class="note">Yangi ariza yo‘q.</p>'}
+<h3>Jins bo‘yicha</h3><div class="card">${bars(["f","m","n"].map(g=>[gl(g),parts().filter(p=>(p.g||"n")==g).length]))}</div>
 <h3>Davlatlar</h3><div class="card">${bars(byCountry())}</div>
 <h3>Vazifalar bo‘yicha</h3><div class="card">${bars(DB.tasks.map(t=>[t.t,DB.subs.filter(s=>s.task==t.id&&s.status=="approved").length]))}</div>
 <h3>Elchilar</h3><div class="card scroll"><table><tr><th>Ism</th><th>Davlat</th><th>Tekshirgan</th></tr>${DB.users.filter(u=>u.role=="ambassador").map(a=>`<tr><td>${esc(a.name)}</td><td>${esc(a.country)}</td><td>${DB.subs.filter(s=>s.by==a.id).length}</td></tr>`).join("")}</table></div>
-<h3>Ishtirokchilar</h3><div class="card scroll"><table><tr><th>Ism</th><th>Davlat</th><th>Ball</th></tr>${parts().map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.country)}</td><td>${pts(p.id)}</td></tr>`).join("")}</table></div>`}
+<h3>Ishtirokchilar</h3><div class="card scroll"><table><tr><th>Ism</th><th>Davlat</th><th>Jins</th><th>Ball</th></tr>${parts().map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.country)}</td><td>${gl(p.g)}</td><td>${pts(p.id)}</td></tr>`).join("")}</table></div>`}
 
 
 /* ---- Challenj boshqaruvi (egasi) ---- */
@@ -234,6 +242,158 @@ function addChallenge(){const t=$("#ct").value.trim(),d=$("#cd").value.trim(),p=
 function toggleChallenge(id){const t=DB.tasks.find(x=>x.id==id);t.on=!t.on;save();render()}
 function delChallenge(id){if(confirm("Challenj o‘chirilsinmi?")){DB.tasks=DB.tasks.filter(x=>x.id!=id);save();render()}}
 
+
+/* ---- Tillar (uz / en / ru) ---- */
+const D={};`Bosh sahifa|Home|Главная
+Mening panelim|My panel|Моя панель
+Elchi paneli|Ambassador panel|Панель посла
+Egasi paneli|Owner panel|Панель владельца
+Chiqish|Log out|Выйти
+Bir bola, bir ko‘chat. Butun dunyo bir o‘rmon.|One child, one sprout. One forest for the whole world.|Один ребёнок, один росток. Один лес для всего мира.
+Global Sprouts Union: dunyo bolalari ekologik challenjlarni bajaradi, ball yig‘adi va tasdiqlangan elchilar ularni tekshiradi.|Global Sprouts Union: children around the world complete eco challenges, earn points, and verified ambassadors review their work.|Global Sprouts Union: дети всего мира выполняют экологические челленджи, получают баллы, а проверенные послы проверяют их работы.
+Qo‘shilish|Join|Присоединиться
+Elchi bo‘lish|Become an ambassador|Стать послом
+Hali birorta ko‘chat yo‘q. Birinchisi sizniki bo‘lsin.|No sprouts yet. Let the first one be yours.|Пока ни одного ростка. Пусть первый будет вашим.
+ishtirokchi|participants|участников
+davlat|countries|стран
+bajarilgan vazifa|tasks completed|выполнено заданий
+jami ball|total points|всего баллов
+elchi|ambassadors|послов
+Qanday ishlaydi|How it works|Как это работает
+Qo‘shiling|Join|Присоединяйтесь
+Ism, davlat va ota-ona ruxsati. Darhol o‘z panelingizga kirasiz.|Name, country and parent consent. You go straight to your panel.|Имя, страна и разрешение родителей. Вы сразу попадаете в свою панель.
+Challenj tanlang|Pick a challenge|Выберите челлендж
+Daraxt eking, suv tejang, mahallani tozalang.|Plant a tree, save water, clean your neighborhood.|Посадите дерево, экономьте воду, уберите двор.
+Surat yoki video yuboring|Send a photo or video|Отправьте фото или видео
+Qilgan ishingizni ko‘rsating.|Show what you did.|Покажите, что вы сделали.
+Elchi tekshiradi|An ambassador reviews|Посол проверяет
+Tasdiqlansa ball olasiz va ko‘chatingiz o‘sadi.|If approved, you earn points and your sprout grows.|Если одобрено, вы получаете баллы и ваш росток растёт.
+Faol challenjlar|Active challenges|Активные челленджи
+Yangi challenjlar tez orada.|New challenges coming soon.|Новые челленджи скоро.
+Bugun boshlang|Start today|Начните сегодня
+Ishtirokchi bo‘lish|Become a participant|Стать участником
+Ismingiz|Your name|Ваше имя
+Davlat|Country|Страна
+Yoshingiz|Your age|Ваш возраст
+Jins|Gender|Пол
+Aytmayman|Prefer not to say|Не хочу указывать
+Qiz|Girl|Девочка
+Ota-ona emaili|Parent’s email|Эл. почта родителя
+Email|Email|Эл. почта
+Parol (8+ belgi)|Password (8+ characters)|Пароль (8+ символов)
+Parol|Password|Пароль
+Ota-ona emaili va 8+ belgili parol kerak.|Parent’s email and a password of 8+ characters are required.|Нужны эл. почта родителя и пароль от 8 символов.
+Email va 8+ belgili parol kerak.|Email and a password of 8+ characters are required.|Нужны эл. почта и пароль от 8 символов.
+Emailingizni tasdiqlang, keyin kiring.|Confirm your email, then sign in.|Подтвердите почту, затем войдите.
+Email yoki parol noto‘g‘ri.|Incorrect email or password.|Неверная почта или пароль.
+O‘g‘il|Boy|Мальчик
+Ota-onam yoki vasiyim ruxsat bergan|My parent or guardian has given permission|Мои родители или опекун разрешили
+Boshlash|Start|Начать
+Ism|Name|Имя
+Nega elchi bo‘lmoqchisiz?|Why do you want to be an ambassador?|Почему вы хотите стать послом?
+Havola (ixtiyoriy)|Link (optional)|Ссылка (необязательно)
+Ariza yuborish|Submit application|Отправить заявку
+Qaytib kirish|Sign back in|Войти снова
+Kirish|Sign in|Войти
+Davlatlar bo‘yicha|By country|По странам
+Hali ma’lumot yo‘q.|No data yet.|Данных пока нет.
+Bolalar xavfsizligi birinchi|Child safety comes first|Безопасность детей прежде всего
+Ota-ona ruxsati|Parental consent|Разрешение родителей
+Ro‘yxatdan o‘tish uchun majburiy.|Required to sign up.|Обязательно для регистрации.
+Har bir material tekshiriladi|Every submission is reviewed|Каждая работа проверяется
+Surat va videolar elchi ko‘zidan o‘tmaguncha ball berilmaydi.|No points are given until an ambassador reviews the photo or video.|Баллы не начисляются, пока посол не проверит фото или видео.
+Minimal ma’lumot|Minimal data|Минимум данных
+Reytingda faqat ism va davlat ko‘rinadi.|Only name and country appear in the ranking.|В рейтинге видны только имя и страна.
+Egasi kirishi|Owner login|Вход для владельца
+Ismingizni yozing.|Enter your name.|Введите имя.
+Yosh 5 dan 17 gacha bo‘lishi kerak.|Age must be between 5 and 17.|Возраст должен быть от 5 до 17.
+Ota-ona yoki vasiy ruxsati kerak.|Parent or guardian permission is required.|Нужно разрешение родителей или опекуна.
+Ism va kamida 20 belgilik izoh yozing.|Enter a name and a note of at least 20 characters.|Введите имя и комментарий не короче 20 символов.
+Ariza yuborildi. Egasi ko‘rib chiqadi.|Application sent. The owner will review it.|Заявка отправлена. Владелец рассмотрит её.
+O‘zbekiston|Uzbekistan|Узбекистан
+Qozog‘iston|Kazakhstan|Казахстан
+Qirg‘iziston|Kyrgyzstan|Кыргызстан
+Turkiya|Türkiye|Турция
+Hindiston|India|Индия
+Braziliya|Brazil|Бразилия
+Keniya|Kenya|Кения
+Germaniya|Germany|Германия
+AQSh|USA|США
+Yaponiya|Japan|Япония
+Boshqa|Other|Другая
+Urug‘|Seed|Семя
+Nihol|Sprout|Росток
+Ko‘chat|Sapling|Саженец
+Daraxt|Tree|Дерево
+Eng yuqori daraja!|Top level!|Высший уровень!
+Kunlik eko-viktorina|Daily eco quiz|Ежедневная эко-викторина
+Bugungi viktorina bajarildi. Ertaga qaytib keling!|Today's quiz is done. Come back tomorrow!|Сегодняшняя викторина пройдена. Возвращайтесь завтра!
+Bugungi maslahat|Today's tip|Совет дня
+Vazifa yuborish|Submit a task|Отправить задание
+Vazifa|Task|Задание
+Surat yoki video|Photo or video|Фото или видео
+Izoh|Note|Комментарий
+Yuborish|Send|Отправить
+Elchi tekshirgach ball qo‘shiladi.|Points are added after an ambassador reviews it.|Баллы добавятся после проверки послом.
+Yuborganlarim|My submissions|Мои отправки
+Hali vazifa yo‘q. Birinchisini yuboring.|No tasks yet. Send your first one.|Пока нет заданий. Отправьте первое.
+Tasdiqlandi|Approved|Одобрено
+Kutilmoqda|Pending|Ожидает
+Rad etildi|Rejected|Отклонено
+Dunyo reytingi|World ranking|Мировой рейтинг
+Hozircha faol challenj yo‘q.|No active challenges yet.|Пока нет активных челленджей.
+Sertifikat|Certificate|Сертификат
+Ekologik challenjlardagi faolligi uchun|For activity in eco challenges|За активность в экологических челленджах
+Chop etish|Print|Печать
+Yopish|Close|Закрыть
+kutmoqda|waiting|ждут
+siz tekshirgan|reviewed by you|проверено вами
+Tasdiqlash|Approve|Одобрить
+Rad etish|Reject|Отклонить
+Hammasi tekshirilgan.|Everything is reviewed.|Всё проверено.
+Plastik butilka tabiatda taxminan qancha vaqtda chirimaydi?|How long does a plastic bottle take to decompose?|Сколько разлагается пластиковая бутылка?
+Daraxtlar havodan qaysi gazni yutadi?|Which gas do trees absorb from the air?|Какой газ деревья поглощают из воздуха?
+Qaysi biri qayta tiklanadigan energiya?|Which is renewable energy?|Что является возобновляемой энергией?
+1 yil|1 year|1 год
+10 yil|10 years|10 лет
+400 yildan ko‘p|Over 400 years|Более 400 лет
+Karbonat angidrid|Carbon dioxide|Углекислый газ
+Azot|Nitrogen|Азот
+Geliy|Helium|Гелий
+Ko‘mir|Coal|Уголь
+Quyosh|Solar|Солнце
+Neft|Oil|Нефть
+Tishni yuvayotganda kranni yoping: kuniga ~10 litr suv tejaladi.|Turn off the tap while brushing: saves about 10 liters a day.|Закрывайте кран, когда чистите зубы: это экономит около 10 литров в день.
+Eski kitobni tashlamang, do‘stingizga bering.|Don't throw away an old book, give it to a friend.|Не выбрасывайте старую книгу, отдайте другу.
+Bir kun ovqatni tugatib, hech narsani tashlamang.|For one day, finish your food and waste nothing.|Один день доедайте всё и ничего не выбрасывайте.
+Daraxt ekish|Plant a tree|Посадить дерево
+Plastiksiz hafta|Plastic-free week|Неделя без пластика
+Mahalla tozalash|Neighborhood clean-up|Уборка двора
+Suv tejash|Save water|Экономия воды
+Bitta ko‘chat eking va suratga oling.|Plant one sapling and take a photo.|Посадите один саженец и сфотографируйте.
+7 kun plastik o‘ramsiz yashang, video yuboring.|Live 7 days without plastic packaging and send a video.|Проживите 7 дней без пластиковой упаковки и отправьте видео.
+Do‘stlar bilan hovli yoki parkni yig‘ishtiring.|Clean a yard or park with friends.|Уберите двор или парк вместе с друзьями.
+Suvni tejash usulini ko‘rsating (30 soniya video).|Show a way to save water (30-second video).|Покажите способ экономии воды (видео 30 секунд).`.split("\n").forEach(l=>{const p=l.split("|");D[p[0]]=[p[1],p[2]]});
+const RX=[[/^Salom, (.*)!$/,"Hello, $1!","Привет, $1!"],
+[/^(.+) · (\d+) ball$/,"$1 · $2 pts","$1 · $2 б."],
+[/^(\d+) ball$/,"$1 pts","$1 б."],
+[/^(.+) \(\+(\d+)\)$/,"$1 (+$2)","$1 (+$2)"],
+[/^Keyingi daraja: (.+) \((\d+) ball qoldi\)$/,"Next level: $1 ($2 pts to go)","Следующий уровень: $1 (осталось $2 б.)"],
+[/^Savol (\d+)\/(\d+) · to‘g‘ri javob \+10 ball$/,"Question $1/$2 · correct answer +10 pts","Вопрос $1/$2 · верный ответ +10 б."],
+[/^Har bir ko‘chat bitta ishtirokchi: hozir (\d+) ta\.$/,"Each sprout is one participant: $1 so far.","Каждый росток — один участник: сейчас $1."],];
+let L="uz";try{L=localStorage.getItem("gsu2_l")||"uz"}catch(e){}
+function tr(x){if(L=="uz")return x;const i=L=="en"?0:1,d=D[x];if(d)return d[i];
+ for(const r of RX){const m=x.match(r[0]);if(m)return r[1+i].replace(/\$(\d)/g,(_,k)=>tr(m[k]))}return x}
+function applyLang(){document.documentElement.lang=L;const lg=$("#lg");if(lg)lg.value=L;if(L=="uz")return;
+ const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let n;const a=[];
+ while(n=w.nextNode()){if(/^(SCRIPT|STYLE)$/.test(n.parentNode.tagName))continue;const t=n.nodeValue.trim();if(t)a.push([n,t])}
+ a.forEach(([n,t])=>{const r=tr(t);if(r!==t)n.nodeValue=n.nodeValue.replace(t,r)})}
+function setLang(v){L=v;try{localStorage.setItem("gsu2_l",v)}catch(e){}render()}
+const gl=g=>({f:"Qiz",m:"O‘g‘il"}[g]||"Aytmayman");
+function cert(){const u=user(S.uid),p=pts(u.id),d=document.createElement("div");d.className="cert";d.id="cert";
+ d.innerHTML=`<div class="cb"><div style="font-size:56px">🌳</div><h1>Global Sprouts Union</h1><p>Sertifikat</p><h2>${esc(u.name)}</h2><p>Ekologik challenjlardagi faolligi uchun</p><p><b>${level(p)[2]} · ${p} ball</b></p><p>${esc(u.country)}</p><div class="np"><button class="primary" onclick="window.print()">Chop etish</button> <button onclick="document.getElementById('cert').remove()">Yopish</button></div></div>`;
+ document.body.appendChild(d);applyLang()}
+
 /* ---- Router ---- */
 let cur=home;
 function go(v){cur=v;render();scrollTo(0,0)}
@@ -246,11 +406,66 @@ function render(){
  if(ownerOk()){nav.push(["Egasi paneli",admin]);nav.push(["Challenjlar",challenges])}
  $("#nav").innerHTML=nav.map((n,i)=>`<button class="${n[1]==cur?"on":""}" onclick="go(window.__n[${i}])">${n[0]}</button>`).join("")+(S?'<button onclick="logout()">Chiqish</button>':"");
  window.__n=nav.map(n=>n[1]);
- $("#app").innerHTML=cur==home?home():`<div class="wrap pn">${cur()}</div>`;
+ $("#app").innerHTML=cur==home?home():`<div class="wrap pn">${cur()}</div>`;applyLang();
+}
+
+/* ---- Supabase rejimi: yuqoridagi funksiyalar serverga ulanadi ---- */
+let ST={p:0,c:0,a:0,n:0,t:0,by:[]},qs=0;
+if(CL){
+const sb=supabase.createClient(SB_URL,SB_KEY),E=(i,m)=>{$(i).textContent=tr(m)},up=u=>{DB.users.some(x=>x.id==u.id)?Object.assign(DB.users.find(x=>x.id==u.id),u):DB.users.push(u)};
+window.pull=async()=>{const{data:{session}}=await sb.auth.getSession();S=null;let me=null;
+ if(session){me=(await sb.from("profiles").select("*").eq("id",session.user.id).single()).data;if(me)S={role:me.role,uid:me.id}}
+ const[tk,st,lb]=await Promise.all([sb.from("tasks").select("*").order("created_at"),sb.rpc("site_stats"),sb.rpc("leaderboard")]);
+ DB.tasks=(tk.data||[]).map(t=>({id:t.id,t:t.title,d:t.descr,p:t.points,end:t.ends_on||"",on:t.active}));
+ ST=st.data||ST;DB.users=(lb.data||[]).map(u=>({id:u.id,name:u.name,country:u.country,role:"participant",pts:u.points}));DB.subs=[];DB.apps=[];
+ if(me){const iso=new Date().toISOString().slice(0,10);up({id:me.id,name:me.name,country:me.country,role:me.role,g:me.gender,qday:me.quiz_day==iso?new Date().toDateString():""});
+  let rows=[];
+  if(me.role=="ambassador"||me.role=="owner"){rows=(await sb.rpc("review_queue")).data||[];rows.forEach(r=>up({id:r.user_id,name:r.uname,country:r.ucountry,role:"participant"}))}
+  if(me.role!="ambassador")rows=((await sb.from("submissions").select("*").order("created_at")).data||[]).concat(rows.filter(r=>false));
+  const paths=rows.filter(x=>x.file_path).map(x=>x.file_path),mp={};
+  if(paths.length)((await sb.storage.from("media").createSignedUrls(paths,3600)).data||[]).forEach(x=>mp[x.path]=x.signedUrl);
+  DB.subs=rows.map(x=>({id:x.id,uid:x.user_id,task:x.task_id,note:x.note,file:mp[x.file_path]||"",vid:x.is_video,status:x.status,by:x.reviewed_by||""}));
+  if(me.role=="owner"){const pr=(await sb.from("profiles").select("*")).data||[],ap=(await sb.from("applications").select("*").order("created_at")).data||[],old=DB.users;
+   DB.users=pr.map(p=>({id:p.id,name:p.name,country:p.country,role:p.role,g:p.gender,pts:(old.find(u=>u.id==p.id)||{}).pts}));
+   DB.apps=ap.map(a=>({id:a.id,name:a.name,country:a.country,why:a.why,g:a.gender,link:a.link,status:a.status}))}}};
+const meta=(n,c,a,g)=>({data:{name:n,country:c,age:a,gender:g}});
+join=async()=>{const n=$("#jn").value.trim(),a=+$("#ja").value,em=$("#jm").value.trim(),pw=$("#jw").value;$("#je").style.color="";
+ if(!n)return E("#je","Ismingizni yozing.");if(!(a>=5&&a<=17))return E("#je","Yosh 5 dan 17 gacha bo‘lishi kerak.");
+ if(!$("#jp").checked)return E("#je","Ota-ona yoki vasiy ruxsati kerak.");if(!em||pw.length<8)return E("#je","Ota-ona emaili va 8+ belgili parol kerak.");
+ const r=await sb.auth.signUp({email:em,password:pw,options:meta(n,$("#jc").value,a,$("#jg").value)});
+ if(r.error)return $("#je").textContent=r.error.message;
+ if(!r.data.session){$("#je").style.color="var(--leaf)";return E("#je","Emailingizni tasdiqlang, keyin kiring.")}
+ await pull();go(participant)};
+applyAmb=async()=>{const n=$("#an").value.trim(),w=$("#aw").value.trim(),em=$("#am").value.trim(),pw=$("#ap").value;$("#ae").style.color="";
+ if(!n||w.length<20)return E("#ae","Ism va kamida 20 belgilik izoh yozing.");if(!em||pw.length<8)return E("#ae","Email va 8+ belgili parol kerak.");
+ const r=await sb.from("applications").insert({name:n,country:$("#ac").value,gender:$("#ag").value,why:w,link:$("#al").value,email:em});
+ if(r.error)return $("#ae").textContent=r.error.message;
+ await sb.auth.signUp({email:em,password:pw,options:meta(n,$("#ac").value,null,$("#ag").value)});
+ $("#ae").style.color="var(--leaf)";E("#ae","Ariza yuborildi. Egasi ko‘rib chiqadi.")};
+const sign=async(em,pw,er)=>{const r=await sb.auth.signInWithPassword({email:em,password:pw});if(r.error){E(er,"Email yoki parol noto‘g‘ri.");return false}await pull();return true};
+login=async()=>{if(await sign($("#le").value.trim(),$("#lp").value,"#lx"))go(S&&S.role=="ambassador"?ambassador:S&&S.role=="owner"?admin:participant)};
+ownerGo=async()=>{if(!(await sign($("#oe").value.trim(),$("#pw").value,"#pe")))return;if(S&&S.role=="owner")go(admin);else{await sb.auth.signOut();await pull();E("#pe","Email yoki parol noto‘g‘ri.")}};
+logout=async()=>{await sb.auth.signOut();await pull();go(home)};
+submitTask=async()=>{const t=$("#t").value;if(!t)return;const f=$("#f").files[0];let path=null;
+ if(f){if(f.size>20971520)return alert("Fayl 20 MB dan oshmasin");path=`${S.uid}/${Date.now()}-${f.name.replace(/[^\w.]/g,"_")}`;
+  const u=await sb.storage.from("media").upload(path,f);if(u.error)return alert(u.error.message)}
+ const r=await sb.from("submissions").insert({task_id:t,note:$("#n").value,file_path:path,is_video:!!f&&f.type.startsWith("video")});
+ if(r.error)return alert(r.error.message);await pull();render()};
+review=async(id,st)=>{await sb.rpc("review_submission",{sid:id,new_status:st});await pull();render()};
+decide=async(id,st)=>{await sb.rpc("decide_application",{aid:id,new_status:st});await pull();render()};
+answer=(i,b)=>{const q=QUIZ[qi],ok=i==q.a;b.classList.add(ok?"right":"wrong");document.querySelectorAll(".opt").forEach(x=>x.disabled=true);if(ok)qs++;
+ setTimeout(async()=>{if(qi<QUIZ.length-1)qi++;else{await sb.rpc("finish_quiz",{score:qs});qi=0;qs=0;await pull()}render()},900)};
+addChallenge=async()=>{const t=$("#ct").value.trim(),d=$("#cd").value.trim(),p=+$("#cp").value;
+ if(t.length<3||d.length<10)return $("#ch").textContent="Nom (3+) va tavsif (10+ belgi) yozing.";if(!(p>=5&&p<=500))return $("#ch").textContent="Ball 5 dan 500 gacha bo‘lsin.";
+ const r=await sb.from("tasks").insert({title:t,descr:d,points:p,ends_on:$("#ce").value||null});if(r.error)return $("#ch").textContent=r.error.message;await pull();render()};
+toggleChallenge=async id=>{await sb.from("tasks").update({active:!DB.tasks.find(x=>x.id==id).on}).eq("id",id);await pull();render()};
+delChallenge=async id=>{if(confirm("Challenj o‘chirilsinmi?")){await sb.from("tasks").delete().eq("id",id);await pull();render()}};
 }
 if(ownerOk()&&cur==home)cur=admin;
 if(S&&S.role=="participant")cur=participant;else if(S&&S.role=="ambassador")cur=ambassador;else if(ownerOk())cur=admin;
 render();
+if(CL)pull().then(()=>{cur=S?(S.role=="participant"?participant:S.role=="ambassador"?ambassador:admin):home;render()});
 </script>
 </body>
 </html>
+
