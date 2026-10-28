@@ -1,343 +1,256 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earth Sprouts Union (ESU) — Global Platform</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --bg-base: #030712;
-            --bg-card: rgba(15, 23, 42, 0.85);
-            --accent-green: #00f5d4;
-            --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Plus Jakarta Sans', sans-serif; }
-        body { background-color: var(--bg-base); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; overflow-x: hidden; background-image: radial-gradient(circle at 50% 0%, #1e1b4b 0%, #030712 70%); }
-        
-        header { width: 100%; max-width: 900px; display: flex; justify-content: space-between; align-items: center; padding: 20px 24px; margin-bottom: 25px; background: var(--bg-card); backdrop-filter: blur(16px); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.6); }
-        .logo-area { display: flex; align-items: center; gap: 14px; cursor: pointer; }
-        
-        /* Qimirlab turuvchi jonli daraxt iconi */
-        .logo-icon { width: 48px; height: 48px; background: linear-gradient(135deg, var(--accent-green), var(--accent-blue)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 24px; box-shadow: 0 0 25px rgba(0,245,212,0.4); animation: swayTree 3s ease-in-out infinite alternate; }
-        @keyframes swayTree { 0% { transform: rotate(-5deg); } 100% { transform: rotate(5deg); } }
-
-        .logo-text h1 { font-size: 20px; color: #fff; font-weight: 800; }
-        .logo-text span { font-size: 11px; color: var(--accent-green); letter-spacing: 2px; font-weight: 700; text-transform: uppercase; }
-        
-        .nav-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 14px; font-weight: 600; padding: 10px 18px; border-radius: 12px; cursor: pointer; transition: 0.3s; }
-        .nav-btn:hover { background: rgba(0,245,212,0.15); border-color: var(--accent-green); color: var(--accent-green); }
-
-        .container { width: 100%; max-width: 900px; }
-        .page-section { display: none; animation: fadeIn 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .page-section.active { display: block; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
-
-        /* Hero 4K Style */
-        .hero { text-align: center; padding: 30px 10px; }
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,245,212,0.1); color: var(--accent-green); padding: 8px 18px; border-radius: 30px; font-size: 13px; font-weight: 700; margin-bottom: 25px; border: 1px solid rgba(0,245,212,0.25); text-transform: uppercase; letter-spacing: 1px; }
-        .hero h2 { font-size: 38px; line-height: 1.25; margin-bottom: 20px; font-weight: 800; }
-        .hero h2 span { background: linear-gradient(90deg, #00f5d4, #3b82f6, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 16px; color: var(--text-muted); line-height: 1.8; margin-bottom: 35px; max-width: 750px; margin-left: auto; margin-right: auto; }
-
-        /* Pillars / Uniting Cards (Skrinshotdagi kabi) */
-        .pillars-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 35px; }
-        .pillar-card { background: var(--bg-card); backdrop-filter: blur(12px); padding: 22px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); text-align: left; transition: 0.3s; }
-        .pillar-card:hover { border-color: var(--accent-green); transform: translateY(-3px); }
-        .pillar-card h4 { font-size: 16px; color: var(--accent-green); margin-bottom: 8px; font-weight: 700; }
-        .pillar-card p { font-size: 13px; color: var(--text-muted); line-height: 1.5; }
-
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 35px; }
-        .stat-card { background: var(--bg-card); backdrop-filter: blur(12px); padding: 20px; border-radius: 18px; border: 1px solid rgba(255,255,255,0.08); text-align: center; }
-        .stat-card h3 { font-size: 30px; color: var(--accent-green); margin-bottom: 5px; font-weight: 800; }
-        .stat-card p { font-size: 12px; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-
-        .btn-group { display: flex; flex-direction: column; gap: 14px; max-width: 450px; margin: 0 auto; }
-        .btn { width: 100%; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
-        .btn-primary { background: linear-gradient(135deg, #00f5d4, #3b82f6); color: #030712; box-shadow: 0 4px 25px rgba(0,245,212,0.3); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 30px rgba(0,245,212,0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
-        .btn-danger { background: #ef476f; color: #fff; margin-top: 20px; }
-
-        .card-box { background: var(--bg-card); backdrop-filter: blur(16px); padding: 30px; border-radius: 22px; border: 1px solid rgba(255,255,255,0.1); margin-bottom: 24px; box-shadow: 0 15px 35px rgba(0,0,0,0.5); }
-        .card-box h3 { font-size: 22px; margin-bottom: 18px; color: #fff; font-weight: 700; }
-        .card-box label { font-size: 13px; color: var(--accent-green); font-weight: 700; display: block; margin-bottom: 6px; text-transform: uppercase; }
-        .card-box input, .card-box textarea { width: 100%; padding: 15px; margin-bottom: 18px; background: rgba(3,7,18,0.9); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
-        .card-box input:focus, .card-box textarea:focus { border-color: var(--accent-green); }
-
-        /* Certificate 4K Pro */
-        .certificate-preview { background: linear-gradient(135deg, #ffffff 0%, #f1f5f9 100%); color: #0f172a; padding: 35px; border-radius: 20px; border: 10px solid #00f5d4; text-align: center; margin-top: 20px; box-shadow: 0 20px 50px rgba(0,0,0,0.6); }
-        .certificate-preview h2 { font-size: 24px; color: #0f172a; font-weight: 800; letter-spacing: 2px; margin-bottom: 6px; }
-        .certificate-preview h3 { font-size: 22px; color: #8b5cf6; margin: 15px 0; border-bottom: 3px solid #00f5d4; display: inline-block; padding-bottom: 5px; font-weight: 800; }
-
-        /* Modal */
-        #adminModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(3,7,18,0.85); backdrop-filter: blur(12px); justify-content: center; align-items: center; padding: 20px; z-index: 1000; }
-        .modal-content { background: var(--bg-card); padding: 35px; border-radius: 22px; width: 100%; max-width: 400px; border: 1px solid rgba(0,245,212,0.3); position: relative; }
-        .modal-content h3 { margin-bottom: 15px; color: var(--accent-green); font-size: 20px; }
-        .close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; }
-
-        @media(max-width: 768px) {
-            .pillars-grid, .stats-grid { grid-template-columns: 1fr; gap: 12px; }
-            .hero h2 { font-size: 28px; }
-        }
-    </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Global Sprouts Union</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6faf3;--surface:#fff;--ink:#0d2b22;--muted:#58706a;--leaf:#1f7a4d;--leaf2:#dff3e4;--lime:#c6f34b;--sun:#ffb938;--line:#d9e6dc;--bad:#c0452f;--f:"Bricolage Grotesque","Trebuchet MS",system-ui,sans-serif}
+@media(prefers-color-scheme:dark){:root{--bg:#0b1812;--surface:#12261d;--ink:#e6f2e3;--muted:#93ac9a;--leaf:#52c277;--leaf2:#1b3a2a;--line:#27433341;--bad:#ef7a64}}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth;scroll-padding-top:70px}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.55 var(--f);padding-top:env(safe-area-inset-top,0)}
+h1,h2,h3{font-family:var(--f);line-height:1.05;margin:0 0 .5em;letter-spacing:-.02em}
+a{color:inherit}
+header{position:sticky;top:0;z-index:5;background:var(--bg);border-bottom:1px solid var(--line);display:flex;gap:8px;align-items:center;padding:10px 18px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:19px;margin-right:auto;cursor:pointer}.logo span{color:var(--leaf)}
+nav{display:flex;gap:6px;overflow-x:auto}
+button{font:inherit;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:8px 16px;border-radius:999px;cursor:pointer;white-space:nowrap}
+button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,a:focus-visible{outline:3px solid var(--sun);outline-offset:2px}
+button.on,.primary{background:var(--leaf);color:#fff;border-color:var(--leaf)}
+.danger{color:var(--bad);border-color:var(--bad)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 18px}.pn{padding-top:24px;padding-bottom:60px}
+.hero{background:#0d2b22;color:#eaf7ee;padding:56px 0 44px}
+.hero h1{font-size:clamp(40px,10vw,88px);font-weight:800;max-width:13ch}
+.hero p{max-width:54ch;color:#a9c9b6;font-size:19px}
+.cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}
+.btn{display:inline-block;padding:13px 24px;border-radius:999px;font-weight:700;text-decoration:none}
+.btn.lime{background:var(--lime);color:#0d2b22}.btn.ghost{border:1.5px solid #5f8a74;color:#eaf7ee}
+.forest{display:grid;grid-template-columns:repeat(auto-fill,minmax(32px,1fr));gap:6px;margin-top:38px;max-width:720px}
+.forest span{aspect-ratio:1;border-radius:50%;display:grid;place-items:center;background:#16392e;font-size:17px}
+.forest span.on{background:var(--lime)}
+.fc{color:#a9c9b6;font-size:14px;margin-top:10px}
+.band{background:var(--lime);color:#0d2b22}.band .stats{margin:0;padding:22px 0}
+.band .stat{background:none;border:0;padding:0}.band .stat b{color:#0d2b22;font-size:40px}.band .stat small{color:#1d4a37}
+.sec{padding:58px 0}.sec h2{font-size:clamp(28px,5vw,46px);font-weight:800}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:18px;counter-reset:s;list-style:none;padding:0}
+.steps li{counter-increment:s;border-top:3px solid var(--leaf);padding-top:12px}
+.steps li::before{content:counter(s);font:800 30px var(--f);color:var(--leaf);display:block}
+.steps b{display:block;font-size:18px}
+.sf{background:#0d2b22;color:#eaf7ee}.sf .note{color:#a9c9b6}
+footer{text-align:center;padding:26px;color:var(--muted);font-size:14px}footer a{cursor:pointer}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin:16px 0}
+.stat,.card{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:16px}.card{margin-bottom:12px}
+.stat b{display:block;font:800 30px var(--f);color:var(--leaf)}.stat small,.note{color:var(--muted);font-size:14px}
+.row{display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.pts{background:var(--sun);color:#3a2a00;font-weight:700;border-radius:999px;padding:2px 10px;font-size:14px}
+.tag{font-size:13px;border-radius:999px;padding:2px 10px;background:var(--leaf2)}
+.tag.pending{background:#fbe9b5;color:#5a4200}.tag.rejected{background:#f6d4cc;color:#7a2514}
+.bar{height:10px;background:var(--leaf2);border-radius:99px;overflow:hidden;min-width:90px;flex:1}.bar i{display:block;height:100%;background:var(--leaf)}
+input,select,textarea{font:inherit;width:100%;padding:11px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);margin:4px 0 10px}
+label{font-size:14px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:14px}
+.scroll{overflow-x:auto}table{border-collapse:collapse;width:100%;min-width:420px}th,td{text-align:left;padding:8px;border-bottom:1px solid var(--line)}
+.media{max-width:100%;border-radius:10px;max-height:220px}
+.plant{font-size:64px;text-align:center;line-height:1.1}
+.opt{display:block;width:100%;text-align:left;margin:6px 0;border-radius:10px}
+.opt.right{background:var(--leaf);color:#fff}.opt.wrong{border-color:var(--bad);color:var(--bad)}
+.err{color:var(--bad);font-size:14px;min-height:1.2em}
+</style>
 </head>
 <body>
+<header><div class="logo" onclick="go(home)">🌱 Global <span>Sprouts</span> Union</div><nav id="nav"></nav></header>
+<main id="app"></main>
+<script>
+const OWNER_HASH="da9b20fcecf7132e1ee028c5ffb7e86c8830d5c8843edb40071a3f4e6b1add8c";
+const COUNTRIES=["O‘zbekiston","Qozog‘iston","Qirg‘iziston","Turkiya","Hindiston","Braziliya","Keniya","Germaniya","AQSh","Yaponiya","Boshqa"];
+const DEF=[
+ {id:1,t:"Daraxt ekish",d:"Bitta ko‘chat eking va suratga oling.",p:50},
+ {id:2,t:"Plastiksiz hafta",d:"7 kun plastik o‘ramsiz yashang, video yuboring.",p:80},
+ {id:3,t:"Mahalla tozalash",d:"Do‘stlar bilan hovli yoki parkni yig‘ishtiring.",p:60},
+ {id:4,t:"Suv tejash",d:"Suvni tejash usulini ko‘rsating (30 soniya video).",p:30}
+];
+const QUIZ=[
+ {q:"Plastik butilka tabiatda taxminan qancha vaqtda chirimaydi?",o:["1 yil","10 yil","400 yildan ko‘p"],a:2},
+ {q:"Daraxtlar havodan qaysi gazni yutadi?",o:["Karbonat angidrid","Azot","Geliy"],a:0},
+ {q:"Qaysi biri qayta tiklanadigan energiya?",o:["Ko‘mir","Quyosh","Neft"],a:1}
+];
+const TIPS=["Tishni yuvayotganda kranni yoping: kuniga ~10 litr suv tejaladi.","Eski kitobni tashlamang, do‘stingizga bering.","Bir kun ovqatni tugatib, hech narsani tashlamang."];
+const SEED={users:[],subs:[],apps:[]};
+let DB,S;
+try{DB=JSON.parse(localStorage.getItem("gsu2")||"null")}catch(e){DB=null}
+if(!DB)DB=JSON.parse(JSON.stringify(SEED));
+if(!DB.tasks)DB.tasks=DEF.map(x=>({...x,on:true}));
+try{S=JSON.parse(localStorage.getItem("gsu2_s")||"null")}catch(e){S=null}
+const save=()=>{try{localStorage.setItem("gsu2",JSON.stringify(DB));localStorage.setItem("gsu2_s",JSON.stringify(S))}catch(e){}};
+const $=s=>document.querySelector(s);
+const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const task=id=>DB.tasks.find(t=>t.id==id)||{t:"(o‘chirilgan)",p:0,d:""};
+const live=t=>t.on&&(!t.end||t.end>=new Date().toISOString().slice(0,10));
+const user=id=>DB.users.find(u=>u.id==id)||{name:"?",country:"?",xp:0};
+const parts=()=>DB.users.filter(u=>u.role=="participant");
+const pts=uid=>DB.subs.filter(s=>s.uid==uid&&s.status=="approved").reduce((a,s)=>a+task(s.task).p,0)+(user(uid).xp||0);
+const LV=[[0,"🌱","Urug‘"],[50,"🌿","Nihol"],[150,"🪴","Ko‘chat"],[300,"🌳","Daraxt"]];
+const level=p=>LV.filter(l=>p>=l[0]).pop();
+const ownerOk=()=>S&&S.role=="owner";
 
-    <header>
-        <div class="logo-area" onclick="switchPage('homeSection')">
-            <div class="logo-icon">🌱</div>
-            <div class="logo-text">
-                <h1>ESU</h1>
-                <span>Global Platform</span>
-            </div>
-        </div>
-        <button class="nav-btn" onclick="openAdminModal()">Admin Panel</button>
-    </header>
+function statsHTML(){const ps=parts();return `<div class="stats">
+<div class="stat"><b>${ps.length}</b><small>ishtirokchi</small></div>
+<div class="stat"><b>${new Set(ps.map(u=>u.country)).size}</b><small>davlat</small></div>
+<div class="stat"><b>${DB.subs.filter(s=>s.status=="approved").length}</b><small>bajarilgan vazifa</small></div>
+<div class="stat"><b>${ps.reduce((a,u)=>a+pts(u.id),0)}</b><small>jami ball</small></div>
+<div class="stat"><b>${DB.users.filter(u=>u.role=="ambassador").length}</b><small>elchi</small></div></div>`}
+function bars(items){if(!items.length)return '<p class="note">Hali ma’lumot yo‘q.</p>';const m=Math.max(1,...items.map(i=>i[1]));return items.map(i=>`<div class="row" style="margin:6px 0"><span style="min-width:110px">${esc(i[0])}</span><div class="bar"><i style="width:${i[1]/m*100}%"></i></div><b>${i[1]}</b></div>`).join("")}
+const byCountry=()=>{const m={};parts().forEach(u=>m[u.country]=(m[u.country]||0)+1);return Object.entries(m).sort((a,b)=>b[1]-a[1])};
+const opts=()=>COUNTRIES.map(c=>`<option>${c}</option>`).join("");
 
-    <div class="container">
-        
-        <!-- 1. HERO HOME SECTION -->
-        <div id="homeSection" class="page-section active">
-            <div class="hero">
-                <div class="hero-badge">🌍 Uniting the world as ONE family</div>
-                <h2>Kelajakni <span>Yashil va Bilim</span> Bilan Birlashtiramiz!</h2>
-                <p>Earth Sprouts Union (ESU) — dunyo bo'ylab barcha millat va xalqlarni ekologik mas'uliyat, barqaror iqtisodiyot hamda ma'naviy hamjihatlik atrofida jipslashtiruvchi global platforma.</p>
+/* ---- Bosh sahifa: qo'shilish, elchi arizasi, kirish ---- */
+function home(){const n=parts().length,live_=DB.tasks.filter(live);
+ const forest=Array.from({length:60},(_,i)=>`<span class="${i<n?"on":""}">${i<n?"🌱":""}</span>`).join("");
+ return `<section class="hero"><div class="wrap"><h1>Bir bola, bir ko‘chat. Butun dunyo bir o‘rmon.</h1>
+<p>Global Sprouts Union: dunyo bolalari ekologik challenjlarni bajaradi, ball yig‘adi va tasdiqlangan elchilar ularni tekshiradi.</p>
+<div class="cta"><a class="btn lime" href="#join">Qo‘shilish</a><a class="btn ghost" href="#amb">Elchi bo‘lish</a></div>
+<div class="forest" role="img" aria-label="${n} ishtirokchi">${forest}</div>
+<div class="fc">${n?`Har bir ko‘chat bitta ishtirokchi: hozir ${n} ta.`:"Hali birorta ko‘chat yo‘q. Birinchisi sizniki bo‘lsin."}</div></div></section>
+<div class="band"><div class="wrap">${statsHTML()}</div></div>
+<section class="sec"><div class="wrap"><h2>Qanday ishlaydi</h2><ol class="steps">
+<li><b>Qo‘shiling</b><span class="note">Ism, davlat va ota-ona ruxsati. Darhol o‘z panelingizga kirasiz.</span></li>
+<li><b>Challenj tanlang</b><span class="note">Daraxt eking, suv tejang, mahallani tozalang.</span></li>
+<li><b>Surat yoki video yuboring</b><span class="note">Qilgan ishingizni ko‘rsating.</span></li>
+<li><b>Elchi tekshiradi</b><span class="note">Tasdiqlansa ball olasiz va ko‘chatingiz o‘sadi.</span></li></ol></div></section>
+<section class="sec" style="padding-top:0"><div class="wrap"><h2>Faol challenjlar</h2><div class="grid">
+${live_.map(t=>`<div class="card"><div class="row"><h3 style="margin:0">${esc(t.t)}</h3><span class="pts">${t.p} ball</span></div><p class="note">${esc(t.d)}</p></div>`).join("")||'<p class="note">Yangi challenjlar tez orada.</p>'}</div></div></section>
+<section class="sec" id="join" style="background:var(--leaf2)"><div class="wrap"><h2>Bugun boshlang</h2><div class="grid">
+<div class="card"><h3>Ishtirokchi bo‘lish</h3><label for="jn">Ismingiz</label><input id="jn" maxlength="30">
+<label for="jc">Davlat</label><select id="jc">${opts()}</select>
+<label for="ja">Yoshingiz</label><input id="ja" type="number" min="5" max="17">
+<label><input id="jp" type="checkbox" style="width:auto;margin-right:6px">Ota-onam yoki vasiyim ruxsat bergan</label>
+<div class="err" id="je"></div><button class="primary" onclick="join()">Boshlash</button></div>
+<div class="card" id="amb"><h3>Elchi bo‘lish</h3><label for="an">Ism</label><input id="an">
+<label for="ac">Davlat</label><select id="ac">${opts()}</select>
+<label for="aw">Nega elchi bo‘lmoqchisiz?</label><textarea id="aw" rows="3"></textarea>
+<label for="al">Havola (ixtiyoriy)</label><input id="al">
+<div class="err" id="ae"></div><button onclick="applyAmb()">Ariza yuborish</button></div>
+${DB.users.length?`<div class="card"><h3>Qaytib kirish</h3><label for="lu">Ismingiz</label>
+<select id="lu">${DB.users.map(u=>`<option value="${u.id}">${esc(u.name)} (${esc(u.country)})${u.role=="ambassador"?" elchi":""}</option>`).join("")}</select>
+<button class="primary" onclick="login()">Kirish</button></div>`:""}</div></div></section>
+<section class="sec"><div class="wrap"><h2>Davlatlar bo‘yicha</h2><div class="card">${bars(byCountry())}</div></div></section>
+<section class="sec sf"><div class="wrap"><h2>Bolalar xavfsizligi birinchi</h2><div class="grid">
+<div><h3>Ota-ona ruxsati</h3><p class="note">Ro‘yxatdan o‘tish uchun majburiy.</p></div>
+<div><h3>Har bir material tekshiriladi</h3><p class="note">Surat va videolar elchi ko‘zidan o‘tmaguncha ball berilmaydi.</p></div>
+<div><h3>Minimal ma’lumot</h3><p class="note">Reytingda faqat ism va davlat ko‘rinadi.</p></div></div></div></section>
+<footer>© Global Sprouts Union · <a onclick="go(ownerLogin)">Egasi kirishi</a></footer>`}
+function join(){const n=$("#jn").value.trim(),a=+$("#ja").value;
+ if(!n)return $("#je").textContent="Ismingizni yozing.";
+ if(!(a>=5&&a<=17))return $("#je").textContent="Yosh 5 dan 17 gacha bo‘lishi kerak.";
+ if(!$("#jp").checked)return $("#je").textContent="Ota-ona yoki vasiy ruxsati kerak.";
+ const u={id:"u"+Date.now(),name:n,country:$("#jc").value,role:"participant",xp:0,age:a};
+ DB.users.push(u);S={role:"participant",uid:u.id};save();go(participant)}
+function applyAmb(){const n=$("#an").value.trim(),w=$("#aw").value.trim();
+ if(!n||w.length<20)return $("#ae").textContent="Ism va kamida 20 belgilik izoh yozing.";
+ DB.apps.push({id:"p"+Date.now(),name:n,country:$("#ac").value,why:w,link:$("#al").value,status:"pending"});save();
+ $("#ae").style.color="var(--leaf)";$("#ae").textContent="Ariza yuborildi. Egasi ko‘rib chiqadi."}
+function login(){const u=user($("#lu").value);S={role:u.role,uid:u.id};save();go(u.role=="ambassador"?ambassador:participant)}
+function logout(){S=null;save();go(home)}
 
-                <!-- Skrinshotdagi kabi 3 ta asosiy yo'nalish -->
-                <div class="pillars-grid">
-                    <div class="pillar-card">
-                        <h4>🌿 Spiritual Union</h4>
-                        <p>2027–2050: Ma'naviy tushunish va umumiy insoniy qadriyatlar.</p>
-                    </div>
-                    <div class="pillar-card">
-                        <h4>📈 Economic Union</h4>
-                        <p>2027–2075: Umumiy farovonlik va barqaror resurslar.</p>
-                    </div>
-                    <div class="pillar-card">
-                        <h4>🏛️ Political Union</h4>
-                        <p>2027–2125: Demokratik hamkorlik va yagona kelajak.</p>
-                    </div>
-                </div>
+/* ---- Ishtirokchi paneli ---- */
+let qi=0,qdone=null;
+function participant(){const u=user(S.uid),p=pts(u.id),l=level(p),nx=LV.find(x=>x[0]>p);
+ const mine=DB.subs.filter(s=>s.uid==u.id).reverse();
+ const today=new Date().toDateString(),qd=u.qday==today;
+ return `<h2>Salom, ${esc(u.name)}!</h2>
+<div class="card"><div class="plant" aria-hidden="true">${l[1]}</div><div class="row"><b>${l[2]} · ${p} ball</b><span class="note">${esc(u.country)}</span></div>
+<div class="bar" style="margin-top:8px"><i style="width:${nx?(p-l[0])/(nx[0]-l[0])*100:100}%"></i></div>
+<div class="note">${nx?`Keyingi daraja: ${nx[2]} (${nx[0]-p} ball qoldi)`:"Eng yuqori daraja!"}</div></div>
+<div class="grid">
+<div class="card"><h3>Kunlik eko-viktorina</h3>${qd?'<p class="note">Bugungi viktorina bajarildi. Ertaga qaytib keling!</p>':quizHTML()}</div>
+<div class="card"><h3>Bugungi maslahat</h3><p>${TIPS[new Date().getDate()%TIPS.length]}</p></div></div>
+<h3>Faol challenjlar</h3>
+${DB.tasks.filter(live).map(t=>`<div class="card"><div class="row"><b>${esc(t.t)}</b><span class="pts">${t.p} ball</span></div><p class="note">${esc(t.d)}${t.end?` · muddat: ${t.end}`:""}</p></div>`).join("")||'<p class="note">Hozircha faol challenj yo‘q.</p>'}
+<h3>Vazifa yuborish</h3>
+<div class="card"><label for="t">Vazifa</label><select id="t">${DB.tasks.filter(live).map(t=>`<option value="${t.id}">${esc(t.t)} (+${t.p})</option>`).join("")}</select>
+<label for="f">Surat yoki video</label><input id="f" type="file" accept="image/*,video/*">
+<label for="n">Izoh</label><textarea id="n" rows="2"></textarea>
+<button class="primary" onclick="submitTask()">Yuborish</button> <span class="note">Elchi tekshirgach ball qo‘shiladi.</span></div>
+<h3>Yuborganlarim</h3>
+${mine.length?mine.map(s=>`<div class="card row"><div><b>${task(s.task).t}</b><div class="note">${esc(s.note)}</div></div><span class="tag ${s.status}">${{approved:"Tasdiqlandi",pending:"Kutilmoqda",rejected:"Rad etildi"}[s.status]}</span></div>`).join(""):'<p class="note">Hali vazifa yo‘q. Birinchisini yuboring.</p>'}
+<h3>Dunyo reytingi</h3><div class="card">${bars(parts().map(x=>[x.name,pts(x.id)]).sort((a,b)=>b[1]-a[1]).slice(0,8))}</div>`}
+function quizHTML(){const q=QUIZ[qi];return `<p><b>${q.q}</b></p>${q.o.map((o,i)=>`<button class="opt" onclick="answer(${i},this)">${o}</button>`).join("")}<div class="note" id="qm">Savol ${qi+1}/${QUIZ.length} · to‘g‘ri javob +10 ball</div>`}
+function answer(i,b){const q=QUIZ[qi],ok=i==q.a;b.classList.add(ok?"right":"wrong");
+ document.querySelectorAll(".opt").forEach(x=>x.disabled=true);
+ const u=user(S.uid);if(ok)u.xp=(u.xp||0)+10;
+ setTimeout(()=>{if(qi<QUIZ.length-1){qi++}else{qi=0;u.qday=new Date().toDateString()}save();render()},900)}
+function submitTask(){if(!$("#t").value)return;const f=$("#f").files[0];
+ const add=file=>{DB.subs.push({id:"s"+Date.now(),uid:S.uid,task:+$("#t").value,note:$("#n").value,file,status:"pending",by:""});save();render()};
+ if(f&&f.size<1.5e6){const r=new FileReader();r.onload=()=>add(r.result);r.readAsDataURL(f)}else add("")}
 
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <h3 id="statMembers">0</h3>
-                        <p>Faol Ishtirokchilar</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="statAmbassadors">0</h3>
-                        <p>Rasmiy Elchilar</p>
-                    </div>
-                    <div class="stat-card">
-                        <h3 id="statTrees">0</h3>
-                        <p>Ekilgan Daraxtlar</p>
-                    </div>
-                </div>
+/* ---- Elchi paneli ---- */
+function review(id,st){const s=DB.subs.find(x=>x.id==id);s.status=st;s.by=S.uid;save();render()}
+function ambassador(){const q=DB.subs.filter(s=>s.status=="pending");
+ return `<h2>Elchi paneli</h2><div class="stats"><div class="stat"><b>${q.length}</b><small>kutmoqda</small></div><div class="stat"><b>${DB.subs.filter(s=>s.by==S.uid).length}</b><small>siz tekshirgan</small></div></div>
+${q.length?q.map(s=>{const u=user(s.uid);return `<div class="card"><div class="row"><b>${esc(u.name)} · ${esc(u.country)}</b><span class="pts">${task(s.task).p} ball</span></div><div>${task(s.task).t}</div><p class="note">${esc(s.note)}</p>
+${s.file?(s.file.startsWith("data:video")?`<video class="media" controls src="${s.file}"></video>`:`<img class="media" alt="Yuborilgan surat" src="${s.file}">`):'<p class="note">(Demo: fayl yo‘q)</p>'}
+<div class="row" style="justify-content:flex-start"><button class="primary" onclick="review('${s.id}','approved')">Tasdiqlash</button><button class="danger" onclick="review('${s.id}','rejected')">Rad etish</button></div></div>`}).join(""):'<p class="note">Hammasi tekshirilgan.</p>'}`}
 
-                <div class="btn-group">
-                    <button class="btn btn-primary" onclick="switchPage('registerSection')">🚀 Platformaga Qo'shilish</button>
-                    <button class="btn btn-secondary" onclick="switchPage('ambassadorSection')">🎖️ Elchi (Ambassador) Ariza Berish</button>
-                </div>
-            </div>
-        </div>
+/* ---- Egasi: parol bilan kirish ---- */
+function ownerLogin(){return `<h2>Egasi kirishi</h2><div class="card" style="max-width:380px"><label for="pw">Parol</label><input id="pw" type="password" autocomplete="current-password" onkeydown="if(event.key=='Enter')ownerGo()">
+<div class="err" id="pe"></div><button class="primary" onclick="ownerGo()">Kirish</button></div>`}
+async function sha(s){const b=await crypto.subtle.digest("SHA-256",new TextEncoder().encode(s));return [...new Uint8Array(b)].map(x=>x.toString(16).padStart(2,"0")).join("")}
+async function ownerGo(){if(await sha("gsu:"+$("#pw").value)===OWNER_HASH){S={role:"owner"};save();go(admin)}else $("#pe").textContent="Parol noto‘g‘ri."}
+function decide(id,st){const a=DB.apps.find(x=>x.id==id);a.status=st;
+ if(st=="approved")DB.users.push({id:"a"+Date.now(),name:a.name,country:a.country,role:"ambassador",xp:0});save();render()}
+function admin(){if(!ownerOk())return ownerLogin();
+ const pend=DB.apps.filter(a=>a.status=="pending"),tot=DB.subs.length,ok=DB.subs.filter(s=>s.status=="approved").length;
+ return `<h2>Egasi paneli</h2>${statsHTML()}
+<div class="stats"><div class="stat"><b>${tot}</b><small>jami yuborilgan</small></div><div class="stat"><b>${DB.subs.filter(s=>s.status=="pending").length}</b><small>kutilmoqda</small></div><div class="stat"><b>${tot?Math.round(ok/tot*100):0}%</b><small>tasdiqlanish</small></div></div>
+<h3>Elchi arizalari (${pend.length})</h3>
+${pend.length?pend.map(a=>`<div class="card"><b>${esc(a.name)} · ${esc(a.country)}</b><p>${esc(a.why)}</p>${a.link?`<p class="note">${esc(a.link)}</p>`:""}
+<button class="primary" onclick="decide('${a.id}','approved')">Qabul qilish</button> <button class="danger" onclick="decide('${a.id}','rejected')">Rad etish</button></div>`).join(""):'<p class="note">Yangi ariza yo‘q.</p>'}
+<h3>Davlatlar</h3><div class="card">${bars(byCountry())}</div>
+<h3>Vazifalar bo‘yicha</h3><div class="card">${bars(DB.tasks.map(t=>[t.t,DB.subs.filter(s=>s.task==t.id&&s.status=="approved").length]))}</div>
+<h3>Elchilar</h3><div class="card scroll"><table><tr><th>Ism</th><th>Davlat</th><th>Tekshirgan</th></tr>${DB.users.filter(u=>u.role=="ambassador").map(a=>`<tr><td>${esc(a.name)}</td><td>${esc(a.country)}</td><td>${DB.subs.filter(s=>s.by==a.id).length}</td></tr>`).join("")}</table></div>
+<h3>Ishtirokchilar</h3><div class="card scroll"><table><tr><th>Ism</th><th>Davlat</th><th>Ball</th></tr>${parts().map(p=>`<tr><td>${esc(p.name)}</td><td>${esc(p.country)}</td><td>${pts(p.id)}</td></tr>`).join("")}</table></div>`}
 
-        <!-- 2. REGISTRATION SECTION -->
-        <div id="registerSection" class="page-section">
-            <div class="card-box">
-                <div class="hero-badge" style="margin-bottom: 15px;">Secure Global Entry</div>
-                <h3>Ishtirokchi Sifatida Qo'shilish</h3>
-                
-                <label>Ism va Familiyangiz:</label>
-                <input type="text" id="regName" placeholder="Masalan: Husan Bakhodirov">
 
-                <label>Mamlakat va Hudud:</label>
-                <input type="text" id="regCountry" placeholder="Masalan: O'zbekiston, Toshkent">
+/* ---- Challenj boshqaruvi (egasi) ---- */
+function challenges(){if(!ownerOk())return ownerLogin();
+ return `<h2>Challenjlar</h2>
+<div class="card"><h3>Yangi challenj</h3>
+<label for="ct">Nomi</label><input id="ct" maxlength="60">
+<label for="cd">Tavsif (bola nima qilishi kerak)</label><textarea id="cd" rows="3" maxlength="400"></textarea>
+<div class="grid"><div><label for="cp">Ball (5–500)</label><input id="cp" type="number" min="5" max="500" value="50"></div>
+<div><label for="ce">Oxirgi muddat (ixtiyoriy)</label><input id="ce" type="date"></div></div>
+<div class="err" id="ch"></div><button class="primary" onclick="addChallenge()">Challenj qo‘shish</button></div>
+<h3>Barcha challenjlar (${DB.tasks.length})</h3>
+${DB.tasks.length?DB.tasks.slice().reverse().map(t=>{const n=DB.subs.filter(s=>s.task==t.id).length;return `<div class="card"><div class="row"><b>${esc(t.t)}</b><span class="tag ${live(t)?"":"rejected"}">${live(t)?"Faol":"Yopiq"}</span></div>
+<p class="note">${esc(t.d)}</p><p class="note">${t.p} ball · ${n} ta yuborilgan${t.end?" · muddat: "+t.end:""}</p>
+<button onclick="toggleChallenge(${t.id})">${t.on?"Yopish":"Qayta ochish"}</button> ${n?"":`<button class="danger" onclick="delChallenge(${t.id})">O‘chirish</button>`}</div>`}).join(""):'<p class="note">Challenj yo‘q. Yuqorida birinchisini qo‘shing.</p>'}`}
+function addChallenge(){const t=$("#ct").value.trim(),d=$("#cd").value.trim(),p=+$("#cp").value;
+ if(t.length<3||d.length<10)return $("#ch").textContent="Nom (3+) va tavsif (10+ belgi) yozing.";
+ if(!(p>=5&&p<=500))return $("#ch").textContent="Ball 5 dan 500 gacha bo‘lsin.";
+ DB.tasks.push({id:Date.now(),t,d,p,end:$("#ce").value,on:true});save();render()}
+function toggleChallenge(id){const t=DB.tasks.find(x=>x.id==id);t.on=!t.on;save();render()}
+function delChallenge(id){if(confirm("Challenj o‘chirilsinmi?")){DB.tasks=DB.tasks.filter(x=>x.id!=id);save();render()}}
 
-                <label>Nima uchun ushbu tashkilotga qo'shilmoqchisiz?</label>
-                <textarea id="regReason" rows="3" placeholder="Maqsadingiz haqida qisqacha yozing..."></textarea>
-
-                <button class="btn btn-primary" onclick="completeRegistration()">A'zo Bo'lish va Sertifikat Olish</button>
-            </div>
-            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Ortga Qaytish</button>
-        </div>
-
-        <!-- 3. DASHBOARD & CERTIFICATE -->
-        <div id="dashboardSection" class="page-section">
-            <div class="card-box" style="border-color: var(--accent-green);">
-                <h2 style="color: var(--accent-green); margin-bottom: 6px;" id="userWelcome">Xush kelibsiz! 🎉</h2>
-                <p style="color: var(--text-muted); font-size: 14px;">Siz ESU global tashkilotining rasmiy ishtirokchisiz.</p>
-            </div>
-
-            <div class="certificate-preview">
-                <div style="font-size: 22px; font-weight: 800; color: #0f172a; letter-spacing: 3px;">EARTH SPROUTS UNION</div>
-                <h2>CERTIFICATE OF MEMBERSHIP</h2>
-                <p style="color: #475569; font-size: 13px;">This is proudly presented to</p>
-                <h3 id="certName">Foydalanuvchi</h3>
-                <p style="color: #334155; font-size: 14px;">For joining the global movement toward a unified human family from <span id="certCountry" style="font-weight: 700;">O'zbekiston</span>.</p>
-                <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; padding-top: 12px; border-top: 2px solid #e2e8f0; font-size: 11px; color: #64748b;">
-                    <span><b>ID:</b> ESU-2026-<span id="certId">101</span></span>
-                    <span><b>Status:</b> Official Global Member</span>
-                </div>
-            </div>
-
-            <button class="btn btn-secondary" style="margin-top: 20px;" onclick="switchPage('homeSection')">← Asosiy Sahifaga Qaytish</button>
-        </div>
-
-        <!-- 4. AMBASSADOR APPLICATION -->
-        <div id="ambassadorSection" class="page-section">
-            <div class="card-box">
-                <div class="hero-badge" style="margin-bottom: 15px;">Leadership Program</div>
-                <h3>ESU Global Ambassador Ariza Formasi</h3>
-                
-                <label>Ism va Familiyangiz:</label>
-                <input type="text" id="ambName" placeholder="Ismingizni kiriting">
-                
-                <label>Yosh va Hudud:</label>
-                <input type="text" id="ambInfo" placeholder="Masalan: 17 yosh, Qo'qon">
-                
-                <label>Nima uchun aynan siz Elchi bo'lishingiz kerak?</label>
-                <textarea id="ambReason" rows="3" placeholder="Liderlik rejalaringiz..."></textarea>
-                
-                <button class="btn btn-primary" onclick="submitAmbassador()">Arizani Yuborish</button>
-            </div>
-            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Ortga Qaytish</button>
-        </div>
-
-        <!-- 5. ADMIN PANEL -->
-        <div id="adminPanelSection" class="page-section">
-            <div class="card-box" style="border-color: var(--accent-green);">
-                <h3>🛠️ ESU Asosiy Ega Paneli</h3>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Sayt statistikalari va kelib tushgan elchilik arizalarini boshqarish markazi.</p>
-                
-                <label>Ekilgan Daraxtlar Soni:</label>
-                <input type="text" id="editTrees" value="0">
-                
-                <button class="btn btn-primary" onclick="saveAdminStats()" style="margin-bottom: 20px;">Daraxtlar Sonini Yangilash</button>
-                
-                <h3 style="font-size: 16px; margin-top: 15px; margin-bottom: 10px;">📥 Kelgan Elchilik Arizalari (<span id="ambCount">0</span> ta)</h3>
-                <div id="ambList" style="font-size: 13px; color: var(--text-muted); background: rgba(3,7,18,0.6); padding: 15px; border-radius: 12px; border: 1px solid rgba(255,255,255,0.06);">Hozircha arizalar mavjud emas.</div>
-                
-                <button class="btn btn-danger" onclick="switchPage('homeSection')">Admin Dan Chiqish</button>
-            </div>
-        </div>
-
-    </div>
-
-    <!-- Admin Modal Login -->
-    <div id="adminModal">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeAdminModal()">×</button>
-            <h3>Asosiy Ega Kirishi</h3>
-            <label style="font-size: 11px; color: var(--text-muted); display: block; margin-bottom: 6px;">Maxfiy parolni kiriting:</label>
-            <input type="password" id="adminPassword" placeholder="Parol...">
-            <button class="btn btn-primary" onclick="checkAdmin()">Kirish</button>
-        </div>
-    </div>
-
-    <script>
-        let memberCount = 0;
-        let ambassadorCount = 0;
-        let ambassadorsList = [];
-
-        function switchPage(sectionId) {
-            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function openAdminModal() {
-            document.getElementById('adminModal').style.display = 'flex';
-        }
-
-        function closeAdminModal() {
-            document.getElementById('adminModal').style.display = 'none';
-            document.getElementById('adminPassword').value = '';
-        }
-
-        function checkAdmin() {
-            const pass = document.getElementById('adminPassword').value;
-            if (pass === 'husanmubina') {
-                closeAdminModal();
-                switchPage('adminPanelSection');
-            } else {
-                alert('Parol noto\'g\'ri!');
-            }
-        }
-
-        function completeRegistration() {
-            const name = document.getElementById('regName').value;
-            const country = document.getElementById('regCountry').value;
-            const reason = document.getElementById('regReason').value;
-
-            if(!name || !country) {
-                alert('Iltimos, ismingiz va mamlakatingizni kiriting!');
-                return;
-            }
-
-            memberCount++;
-            document.getElementById('statMembers').innerText = memberCount;
-            document.getElementById('userWelcome').innerText = `Xush kelibsiz, ${name}! 🎉`;
-            document.getElementById('certName').innerText = name;
-            document.getElementById('certCountry').innerText = country;
-            document.getElementById('certId').innerText = Math.floor(1000 + Math.random() * 9000);
-
-            alert('Tabriklaymiz! Ro\'yxatdan muvaffaqiyatli o\'tdingiz va shaxsiy xalqaro sertifikatingiz yaratildi.');
-            
-            document.getElementById('regName').value = '';
-            document.getElementById('regCountry').value = '';
-            document.getElementById('regReason').value = '';
-
-            switchPage('dashboardSection');
-        }
-
-        function submitAmbassador() {
-            const name = document.getElementById('ambName').value;
-            const info = document.getElementById('ambInfo').value;
-            const reason = document.getElementById('ambReason').value;
-
-            if(!name || !info || !reason) {
-                alert('Iltimos, barcha maydonlarni to\'ldiring!');
-                return;
-            }
-
-            ambassadorCount++;
-            document.getElementById('statAmbassadors').innerText = ambassadorCount;
-            
-            ambassadorsList.push({name, info, reason});
-            updateAmbassadorList();
-
-            alert('Arizangiz muvaffaqiyatli yuborildi! Ega tomonidan ko\'rib chiqiladi.');
-
-            document.getElementById('ambName').value = '';
-            document.getElementById('ambInfo').value = '';
-            document.getElementById('ambReason').value = '';
-
-            switchPage('homeSection');
-        }
-
-        function updateAmbassadorList() {
-            document.getElementById('ambCount').innerText = ambassadorsList.length;
-            const listDiv = document.getElementById('ambList');
-            let html = '';
-            ambassadorsList.forEach((item, index) => {
-                html += `<div style="margin-bottom: 12px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,255,255,0.05);">
-                    <b style="color:#fff;">${index+1}. ${item.name}</b> (${item.info})<br>
-                    <span style="color:var(--text-muted); font-size: 12px;">Maqsad: ${item.reason}</span>
-                </div>`;
-            });
-            listDiv.innerHTML = html;
-        }
-
-        function saveAdminStats() {
-            const trees = document.getElementById('editTrees').value;
-            document.getElementById('statTrees').innerText = trees;
-            alert('Daraxtlar statistikasi muvaffaqiyatli yangilandi! ✨');
-        }
-    </script>
+/* ---- Router ---- */
+let cur=home;
+function go(v){cur=v;render();scrollTo(0,0)}
+function render(){
+ const guard=(cur==participant&&(!S||S.role!="participant"))||(cur==ambassador&&(!S||S.role!="ambassador"));
+ if(guard)cur=home;
+ const nav=[["Bosh sahifa",home]];
+ if(S&&S.role=="participant")nav.push(["Mening panelim",participant]);
+ if(S&&S.role=="ambassador")nav.push(["Elchi paneli",ambassador]);
+ if(ownerOk()){nav.push(["Egasi paneli",admin]);nav.push(["Challenjlar",challenges])}
+ $("#nav").innerHTML=nav.map((n,i)=>`<button class="${n[1]==cur?"on":""}" onclick="go(window.__n[${i}])">${n[0]}</button>`).join("")+(S?'<button onclick="logout()">Chiqish</button>':"");
+ window.__n=nav.map(n=>n[1]);
+ $("#app").innerHTML=cur==home?home():`<div class="wrap pn">${cur()}</div>`;
+}
+if(ownerOk()&&cur==home)cur=admin;
+if(S&&S.role=="participant")cur=participant;else if(S&&S.role=="ambassador")cur=ambassador;else if(ownerOk())cur=admin;
+render();
+</script>
 </body>
 </html>
