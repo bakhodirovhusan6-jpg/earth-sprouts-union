@@ -1,148 +1,262 @@
 
-
 <!DOCTYPE html>
 <html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Earth Sprouts Union (ESU)</title>
+    <title>Earth Sprouts Union (ESU) — Global Platform</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
-        body { background-color: #0b132b; color: #ffffff; min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; }
-        header { width: 100%; max-width: 600px; display: flex; justify-content: space-between; align-items: center; padding: 15px 0; margin-bottom: 20px; }
-        .logo-area { display: flex; align-items: center; gap: 10px; cursor: pointer; }
-        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #00b09b, #96c93d); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
-        .logo-text h1 { font-size: 18px; color: #fff; font-weight: 700; }
-        .logo-text span { font-size: 10px; color: #96c93d; letter-spacing: 1px; }
-        .menu-btn { background: #1c2541; border: 1px solid rgba(255,255,255,0.2); color: #fff; font-size: 20px; padding: 5px 12px; border-radius: 8px; cursor: pointer; }
+        :root {
+            --bg-deep: #050b14;
+            --bg-card: #0f1d36;
+            --accent-green: #00f5d4;
+            --accent-purple: #7209b7;
+            --text-main: #ffffff;
+            --text-muted: #8d99ae;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', 'Segoe UI', sans-serif; }
+        body { background-color: var(--bg-deep); color: var(--text-main); min-height: 100vh; display: flex; flex-direction: column; align-items: center; padding: 20px; overflow-x: hidden; }
         
-        .container { text-align: center; max-width: 600px; width: 100%; margin-top: 10px; }
-        .badge { display: inline-block; background: rgba(150, 201, 61, 0.15); color: #96c93d; padding: 6px 14px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(150, 201, 61, 0.3); }
-        h2 { font-size: 26px; line-height: 1.3; margin-bottom: 15px; color: #fff; }
-        h2 span { color: #96c93d; }
-        p { font-size: 14px; color: #a0aec0; line-height: 1.6; margin-bottom: 25px; }
+        header { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 20px 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
+        .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; }
+        .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, var(--accent-green), var(--accent-purple)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 0 20px rgba(0,245,212,0.3); }
+        .logo-text h1 { font-size: 20px; color: #fff; font-weight: 800; letter-spacing: 0.5px; }
+        .logo-text span { font-size: 11px; color: var(--accent-green); letter-spacing: 1.5px; font-weight: 600; }
+        
+        .header-right { display: flex; gap: 10px; align-items: center; }
+        .lang-select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 8px 12px; border-radius: 10px; cursor: pointer; outline: none; }
+        .menu-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 18px; padding: 8px 14px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
 
-        .btn-group { display: flex; flex-direction: column; gap: 12px; width: 100%; max-width: 400px; margin: 0 auto 30px auto; }
-        .btn { width: 100%; padding: 14px; border-radius: 30px; font-size: 15px; font-weight: 600; cursor: pointer; border: none; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px; }
-        .btn-primary { background: linear-gradient(135deg, #00b09b, #96c93d); color: #0b132b; }
-        .btn-secondary { background: rgba(255, 255, 255, 0.05); color: #fff; border: 1px solid rgba(255, 255, 255, 0.1); }
-        .btn-danger { background: #e63946; color: #fff; margin-top: 15px; }
+        .container { width: 100%; max-width: 800px; }
+        .page-section { display: none; animation: fadeIn 0.4s ease-in-out; }
+        .page-section.active { display: block; }
 
-        .form-card { background: #1c2541; padding: 20px; border-radius: 16px; text-align: left; border: 1px solid rgba(255,255,255,0.1); margin-top: 15px; }
-        .form-card input, .form-card textarea { width: 100%; padding: 12px; margin-top: 5px; margin-bottom: 15px; background: #0b132b; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; font-size: 14px; }
-        .form-card label { font-size: 13px; color: #96c93d; font-weight: 600; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Sections Toggle */
-        #registerSection, #ambassadorSection, #adminPanelSection { display: none; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,245,212,0.1); color: var(--accent-green); padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; margin-bottom: 25px; border: 1px solid rgba(0,245,212,0.2); }
+        .hero h2 { font-size: 32px; line-height: 1.25; margin-bottom: 20px; font-weight: 800; }
+        .hero h2 span { background: linear-gradient(90deg, #00f5d4, #7209b7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .hero p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 35px; }
 
-        /* Admin Panel Styles */
-        .admin-card { background: #0b132b; padding: 15px; border-radius: 10px; margin-bottom: 15px; border: 1px solid rgba(255,255,255,0.1); text-align: left; }
-        .admin-card input { width: 100%; padding: 10px; margin-top: 5px; margin-bottom: 10px; background: #1c2541; border: 1px solid rgba(255,255,255,0.2); border-radius: 6px; color: #fff; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 35px; }
+        .stat-card { background: var(--bg-card); padding: 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
+        .stat-card h3 { font-size: 24px; color: var(--accent-green); margin-bottom: 5px; font-weight: 700; }
+        .stat-card p { font-size: 12px; color: var(--text-muted); margin: 0; }
 
-        /* Login Modal */
-        #adminModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
-        .modal-content { background: #1c2541; padding: 25px; border-radius: 16px; width: 100%; max-width: 400px; position: relative; border: 1px solid rgba(255,255,255,0.1); text-align: left; }
-        .modal-content h3 { margin-bottom: 15px; color: #96c93d; }
-        .modal-content input { width: 100%; padding: 12px; margin-bottom: 15px; background: #0b132b; border: 1px solid rgba(255,255,255,0.2); border-radius: 8px; color: #fff; }
-        .close-btn { position: absolute; top: 15px; right: 15px; background: none; border: none; color: #fff; font-size: 22px; cursor: pointer; }
+        .btn-group { display: flex; flex-direction: column; gap: 15px; }
+        .btn { width: 100%; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; transition: 0.25s; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+        .btn-primary { background: linear-gradient(135deg, #00f5d4, #00b4d8); color: #050b14; box-shadow: 0 4px 20px rgba(0,245,212,0.25); }
+        .btn-primary:active { transform: scale(0.98); }
+        .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
+        .btn-danger { background: #ef476f; color: #fff; margin-top: 20px; }
+
+        /* Cards & Forms */
+        .card-box { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; }
+        .card-box h3 { font-size: 20px; margin-bottom: 15px; color: #fff; }
+        .card-box label { font-size: 13px; color: var(--accent-green); font-weight: 600; display: block; margin-bottom: 6px; }
+        .card-box input, .card-box textarea, .card-box select { width: 100%; padding: 14px; margin-bottom: 18px; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: 0.2s; }
+        .card-box input:focus, .card-box textarea:focus { border-color: var(--accent-green); }
+
+        /* Challenges List */
+        .challenge-item { background: var(--bg-deep); padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
+        .challenge-info h4 { font-size: 15px; color: #fff; margin-bottom: 4px; }
+        .challenge-info p { font-size: 12px; color: var(--text-muted); margin: 0; }
+        .xp-badge { background: rgba(0,245,212,0.15); color: var(--accent-green); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+
+        /* Modal */
+        #adminModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,11,20,0.85); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
+        .modal-content { background: var(--bg-card); padding: 30px; border-radius: 20px; width: 100%; max-width: 400px; border: 1px solid rgba(255,255,255,0.15); position: relative; }
+        .modal-content h3 { margin-bottom: 15px; color: var(--accent-green); font-size: 20px; }
+        .modal-content input { width: 100%; padding: 14px; margin-bottom: 20px; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.15); border-radius: 12px; color: #fff; font-size: 15px; outline: none; }
+        .close-btn { position: absolute; top: 18px; right: 20px; background: none; border: none; color: var(--text-muted); font-size: 22px; cursor: pointer; }
     </style>
 </head>
 <body>
 
     <header>
-        <div class="logo-area" onclick="showSection('homeSection')">
+        <div class="logo-area" onclick="switchPage('homeSection')">
             <div class="logo-icon">🌱</div>
             <div class="logo-text">
                 <h1>ESU</h1>
-                <span>EARTH SPROUTS UNION</span>
+                <span>GLOBAL UNION</span>
             </div>
         </div>
-        <button class="menu-btn" onclick="openAdminModal()">☰ Admin</button>
+        <div class="header-right">
+            <select class="lang-select" onchange="changeLanguage(this.value)">
+                <option value="uz">UZ</option>
+                <option value="en">EN</option>
+                <option value="ru">RU</option>
+            </select>
+            <button class="menu-btn" onclick="openAdminModal()">☰</button>
+        </div>
     </header>
 
     <div class="container">
         
-        <!-- 1. Asosiy Sahifa -->
-        <div id="homeSection">
-            <div class="badge">🌍 Dunyoni O'zgartiradigan Yoshlar Birlashmasi</div>
+        <!-- 1. ASOSIY SAHIFA -->
+        <div id="homeSection" class="page-section active">
+            <div class="hero-badge">🌍 Global Youth Climate & Education Movement</div>
             <h2>Kelajakni <span>Yashil va Bilim</span> Bilan Birlashtiramiz!</h2>
-            <p>Earth Sprouts Union (ESU) — Butun dunyo bolalari va yoshlarini ekologik mas'uliyat hamda ta'lim atrofida jipashtiruvchi global platforma.</p>
+            <p>Earth Sprouts Union (ESU) — dunyo bo'ylab yoshlarni ekologik tashabbuslar va sifatli ta'lim atrofida birlashtiruvchi xalqaro platforma.</p>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="statKids">14,250</h3>
+                    <p>Faol A'zolar</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="statCountries">38</h3>
+                    <p>Mamlakatlar</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="statTrees">89,400</h3>
+                    <p>Daraxtlar</p>
+                </div>
+            </div>
 
             <div class="btn-group">
-                <button class="btn btn-primary" onclick="showSection('registerSection')">🌐 To'g'ridan-to'g'ri Qo'shilish</button>
-                <button class="btn btn-secondary" onclick="showSection('ambassadorSection')">🎖️ Elchi (Ambassador) Ariza Berish</button>
+                <button class="btn btn-primary" onclick="switchPage('registerSection')">🚀 Platformaga Qo'shilish</button>
+                <button class="btn btn-secondary" onclick="switchPage('radarSection')">🧭 Global Radar & Xarita</button>
+                <button class="btn btn-secondary" onclick="switchPage('ambassadorSection')">🎖️ Elchi (Ambassador) Ariza Berish</button>
             </div>
         </div>
 
-        <!-- 2. To'g'ridan-to'g'ri Ro'yxatdan O'tish (Bolalar uchun) -->
-        <div id="registerSection">
-            <h2>🚀 ESU Oilasiga Qo'shilish</h2>
-            <p>Hech qanday kutilishlarsiz darhol safimizga qo'shiling!</p>
-            <div class="form-card">
+        <!-- 2. RO'YXATDAN O'TISH (Professional savollar bilan) -->
+        <div id="registerSection" class="page-section">
+            <div class="hero-badge">🚀 Tezkor Ro'yxatdan O'tish</div>
+            <h2>ESU Oilasiga Xush Kelibsiz</h2>
+            <p>Ma'lumotlaringizni kiriting va darhol platforma ichkarisiga kiring.</p>
+
+            <div class="card-box">
                 <label>Ism va Familiyangiz:</label>
-                <input type="text" id="regName" placeholder="Masalan: Anvar Bekzodov">
-                <label>Mamlakatingiz / Shahringiz:</label>
+                <input type="text" id="regName" placeholder="Masalan: Husan Bakhodirov">
+
+                <label>Mamlakatingiz va Shahringiz:</label>
                 <input type="text" id="regCountry" placeholder="Masalan: O'zbekiston, Toshkent">
-                <button class="btn btn-primary" onclick="submitDirectRegister()">Ro'yxatdan o'tish</button>
+
+                <label>Nima uchun bu tashkilotga qo'shilmoqchisiz?</label>
+                <textarea id="regWhy" rows="3" placeholder="Maqsadlaringiz haqida qisqacha yozing..."></textarea>
+
+                <button class="btn btn-primary" onclick="completeRegistration()">Ro'yxatni yakunlash va Kirish</button>
             </div>
-            <button class="btn btn-secondary" style="margin-top: 15px;" onclick="showSection('homeSection')">← Orqaga</button>
+            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
         </div>
 
-        <!-- 3. Elchi (Ambassador) Ariza Berish -->
-        <div id="ambassadorSection">
-            <h2>🎖️ ESU Global Elchisi Bo'lish</h2>
-            <p>Tashkilotimizni o'z hududingizda targ'ib qilish uchun ariza qoldiring.</p>
-            <div class="form-card">
+        <!-- 3. ISHTIROKCHI DASHBOARD (Ichki Kabinet & Challenges) -->
+        <div id="dashboardSection" class="page-section">
+            <div class="card-box" style="background: linear-gradient(135deg, rgba(0,245,212,0.1), rgba(114,9,183,0.1)); border-color: rgba(0,245,212,0.3);">
+                <h2 style="color: var(--accent-green); margin-bottom: 5px;" id="welcomeUserMsg">Salom, Ishtirokchi! 👋</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Sizning shaxsiy kabinetingiz va global reytingingiz.</p>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3 id="userXp">150 XP</h3>
+                    <p>To'plangan Ballar</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="userRank">#12</h3>
+                    <p>Dunyo Bo'yicha O'rin</p>
+                </div>
+                <div class="stat-card">
+                    <h3 id="userCompleted">3 ta</h3>
+                    <p>Bajarilgan Topshiriq</p>
+                </div>
+            </div>
+
+            <div class="card-box">
+                <h3>🎯 Faol Eko-Challenge'lar (Topshiriqlar)</h3>
+                <div class="challenge-item">
+                    <div class="challenge-info">
+                        <h4>🌱 1 hafta plastik ishlatmaslik</h4>
+                        <p>Kundalik hayotda plastmassadan voz keching</p>
+                    </div>
+                    <div class="xp-badge">+50 XP</div>
+                </div>
+                <div class="challenge-item">
+                    <div class="challenge-info">
+                        <h4>🌳 2 ta daraxt ekish va sug'orish</h4>
+                        <p>Hovlida yoki mahallada ko'chat o'tqazing</p>
+                    </div>
+                    <div class="xp-badge">+100 XP</div>
+                </div>
+                <button class="btn btn-primary" style="margin-top: 10px;" onclick="alert('Topshiriq bajarilgani tasdiqlandi! +50 XP qo\'shildi.')">Topshiriqni topshirish</button>
+            </div>
+
+            <button class="btn btn-secondary" onclick="switchPage('homeSection')">Asosiy Sahifaga Qaytish</button>
+        </div>
+
+        <!-- 4. GLOBAL RADAR & MAP -->
+        <div id="radarSection" class="page-section">
+            <div class="hero-badge">🧭 ESU Global Radar</div>
+            <h2>Dunyo Bo'ylab Faollik</h2>
+            <p>Hozirgi vaqtda qaysi davlatlar va shaharlarda ekologik harakatlar kuchayayotganini kuzating.</p>
+
+            <div class="card-box">
+                <h3>🌍 Top Faol Hududlar</h3>
+                <p style="color: var(--text-muted); margin-bottom: 8px;">1. Toshkent, O'zbekiston — 4,200 faol a'zo</p>
+                <p style="color: var(--text-muted); margin-bottom: 8px;">2. Seul, Janubiy Koreya — 3,150 faol a'zo</p>
+                <p style="color: var(--text-muted); margin-bottom: 8px;">3. Berlin, Germaniya — 2,400 faol a'zo</p>
+                <p style="color: var(--text-muted);">4. London, Buyuk Britaniya — 1,900 faol a'zo</p>
+            </div>
+            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
+        </div>
+
+        <!-- 5. ELCHI (AMBASSADOR) ARIZA BERISH -->
+        <div id="ambassadorSection" class="page-section">
+            <div class="hero-badge">🎖️ ESU Global Ambassador</div>
+            <h2>Hududingizda Lider Bo'ling</h2>
+            <p>Tashkilotimizni o'z maktabingiz yoki shahringizda rasman targ'ib qilish uchun ariza qoldiring.</p>
+            
+            <div class="card-box">
                 <label>Ism va Familiyangiz:</label>
                 <input type="text" id="ambName" placeholder="Ismingizni kiriting">
-                <label>Yoshigiz va Mamlakatingiz:</label>
-                <input type="text" id="ambAgeCountry" placeholder="Masalan: 17 yosh, Toshkent">
-                <label>Nima uchun Elchi bo'lmoqchisiz?</label>
-                <textarea id="ambReason" rows="3" placeholder="Maqsadingiz haqida yozing..."></textarea>
+                
+                <label>Yosh va Hudud:</label>
+                <input type="text" id="ambInfo" placeholder="Masalan: 17 yosh, Qo'qon">
+                
+                <label>Nima uchun aynan siz Elchi bo'lishingiz kerak?</label>
+                <textarea id="ambReason" rows="3" placeholder="Maqsadlaringiz haqida yozing..."></textarea>
+                
                 <button class="btn btn-primary" onclick="submitAmbassador()">Arizani Yuborish</button>
             </div>
-            <button class="btn btn-secondary" style="margin-top: 15px;" onclick="showSection('homeSection')">← Orqaga</button>
+            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
         </div>
 
-        <!-- 4. Admin Boshqaruv Paneli -->
-        <div id="adminPanelSection">
-            <h2>🛠️ ESU Admin Boshqaruv Paneli</h2>
-            
-            <div class="admin-card">
-                <p><b>Xush kelibsiz, Asosiy Ega!</b></p>
-                <p style="color: #a0aec0; font-size: 13px; margin-top: 5px;">Bu yerda sayt raqamlarini o'zingiz xohlagancha o'zgartirishingiz mumkin.</p>
-            </div>
-
-            <div class="admin-card">
-                <h3 style="color:#96c93d; margin-bottom:10px;">📊 Sayt Statistikasini Tahrirlash</h3>
-                <label>Faol Bolalar Soni:</label>
+        <!-- 6. ASOSIY EGA (ADMIN) MAXSUS PANELI (Faqat husanmubina paroli bilan) -->
+        <div id="adminPanelSection" class="page-section">
+            <div class="card-box" style="border-color: var(--accent-green);">
+                <h3 style="color: var(--accent-green);">🛠️ ESU Asosiy Ega Paneli</h3>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Xush kelibsiz, Ega! Sayt ko'rsatkichlarini boshqarish.</p>
+                
+                <label>Faol A'zolar Soni:</label>
                 <input type="text" id="editKids" value="14,250">
                 
                 <label>Mamlakatlar Soni:</label>
                 <input type="text" id="editCountries" value="38">
                 
-                <label>Ekilgan Daraxtlar Soni:</label>
+                <label>Daraxtlar Soni:</label>
                 <input type="text" id="editTrees" value="89,400">
                 
-                <button class="btn btn-primary" onclick="saveStats()">O'zgarishlarni Saqlash</button>
+                <button class="btn btn-primary" onclick="saveAdminStats()" style="margin-bottom: 20px;">O'zgarishlarni Saqlash</button>
+                
+                <h3 style="font-size: 16px; margin-top: 20px; margin-bottom: 10px;">📥 Kelgan Elchi Arizalari (<span id="ambCount">0</span> ta)</h3>
+                <div id="ambList" style="font-size: 13px; color: var(--text-muted);">Hozircha arizalar kelib tushmagan.</div>
+                
+                <button class="btn btn-danger" onclick="switchPage('homeSection')">Admin Dan Chiqish</button>
             </div>
-
-            <div class="admin-card">
-                <h3 style="color:#96c93d;">📥 Kelgan Elchi Arizalari (<span id="ambCount">0</span> ta)</h3>
-                <div id="ambList" style="font-size: 13px; color: #a0aec0; margin-top: 8px;">Hozircha arizalar yo'q.</div>
-            </div>
-
-            <button class="btn btn-danger" onclick="logoutAdmin()">Admin Dan Chiqish</button>
         </div>
 
     </div>
 
-    <!-- Login Modal -->
+    <!-- Admin Parol Kiritish Modal Oynasi -->
     <div id="adminModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeAdminModal()">×</button>
-            <h3>Admin sifatida kirish</h3>
-            <input type="password" id="adminPassword" placeholder="Parol: admin123">
+            <h3>Asosiy Ega Kirishi</h3>
+            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px;">Maxfiy kalit so'zni kiriting:</label>
+            <input type="password" id="adminPassword" placeholder="Parol...">
             <button class="btn btn-primary" onclick="checkAdmin()">Kirish</button>
         </div>
     </div>
@@ -150,13 +264,10 @@
     <script>
         let ambassadors = [];
 
-        function showSection(sectionId) {
-            document.getElementById('homeSection').style.display = 'none';
-            document.getElementById('registerSection').style.display = 'none';
-            document.getElementById('ambassadorSection').style.display = 'none';
-            document.getElementById('adminPanelSection').style.display = 'none';
-
-            document.getElementById(sectionId).style.display = 'block';
+        function switchPage(sectionId) {
+            document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            window.scrollTo(0, 0);
         }
 
         function openAdminModal() {
@@ -165,72 +276,79 @@
 
         function closeAdminModal() {
             document.getElementById('adminModal').style.display = 'none';
+            document.getElementById('adminPassword').value = '';
         }
 
         function checkAdmin() {
             const pass = document.getElementById('adminPassword').value;
-            if (pass === 'admin123') {
+            if (pass === 'husanmubina') {
                 closeAdminModal();
-                showSection('adminPanelSection');
+                switchPage('adminPanelSection');
             } else {
-                alert('Parol noto\'g\'ri! (Parol: admin123)');
+                alert('Parol noto\'g\'ri!');
             }
         }
 
-        function logoutAdmin() {
-            showSection('homeSection');
-            document.getElementById('adminPassword').value = '';
-        }
-
-        function submitDirectRegister() {
+        function completeRegistration() {
             const name = document.getElementById('regName').value;
-            const country = document.getElementById('regCountry').value;
-            if(!name || !country) {
-                alert('Iltimos, barcha maydonlarni to\'ldiring!');
+            if(!name) {
+                alert('Iltimos, ismingizni kiriting!');
                 return;
             }
-            alert('Tabriklayman, ' + name + '! ESU platformasiga muvaffaqiyatli qo\'shildingiz! 🎉');
-            document.getElementById('regName').value = '';
-            document.getElementById('regCountry').value = '';
-            showSection('homeSection');
+            document.getElementById('welcomeUserMsg').innerText = `Xush Kelibsiz, ${name}! 👋`;
+            alert('Muvaffaqiyatli ro\'yxatdan o\'tdingiz! Endi shaxsiy kabinetingizdasiz.');
+            switchPage('dashboardSection');
         }
 
         function submitAmbassador() {
             const name = document.getElementById('ambName').value;
-            const info = document.getElementById('ambAgeCountry').value;
+            const info = document.getElementById('ambInfo').value;
             const reason = document.getElementById('ambReason').value;
+
             if(!name || !info || !reason) {
-                alert('Iltimos, ariza formalarini to\'liq to\'ldiring!');
+                alert('Iltimos, barcha maydonlarni to\'ldiring!');
                 return;
             }
+
             ambassadors.push({name, info, reason});
             updateAmbassadorList();
-            alert('Arizangiz qabul qilindi! Tez orada admin ko\'rib chiqadi.');
-            document.getElementById('ambName').value = '';
-            document.getElementById('ambAgeCountry').value = '';
-            document.getElementById('ambReason').value = '';
-            showSection('homeSection');
+            alert('Arizangiz muvaffaqiyatli yuborildi!');
+            switchPage('homeSection');
         }
 
         function updateAmbassadorList() {
             document.getElementById('ambCount').innerText = ambassadors.length;
             const listDiv = document.getElementById('ambList');
-            if(ambassadors.length === 0) {
-                listDiv.innerHTML = "Hozircha arizalar yo'q.";
-                return;
-            }
+            if(ambassadors.length === 0) return;
             let html = '';
             ambassadors.forEach((item, index) => {
-                html += `<div style="background:#1c2541; padding:10px; margin-top:8px; border-radius:6px; border:1px solid rgba(255,255,255,0.1);">
+                html += `<div style="background:var(--bg-deep); padding:12px; margin-top:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.05);">
                     <b style="color:#fff;">${index+1}. ${item.name}</b> (${item.info})<br>
-                    <span style="color:#a0aec0;">Sabab: ${item.reason}</span>
+                    <span style="color:var(--text-muted);">Sabab: ${item.reason}</span>
                 </div>`;
             });
             listDiv.innerHTML = html;
         }
 
-        function saveStats() {
-            alert('Statistika muvaffaqiyatli saqlandi va yangilandi! ✨');
+        function saveAdminStats() {
+            const kids = document.getElementById('editKids').value;
+            const countries = document.getElementById('editCountries').value;
+            const trees = document.getElementById('editTrees').value;
+            
+            document.getElementById('statKids').innerText = kids;
+            document.getElementById('statCountries').innerText = countries;
+            document.getElementById('statTrees').innerText = trees;
+            alert('Statistika muvaffaqiyatli saqlandi! ✨');
+        }
+
+        function changeLanguage(lang) {
+            if(lang === 'en') {
+                alert('English language pack selected!');
+            } else if(lang === 'ru') {
+                alert('Выбран русский язык!');
+            } else {
+                alert('O\'zbek tili faollashdi!');
+            }
         }
     </script>
 </body>
