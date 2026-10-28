@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth Sprouts Union (ESU)</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: #0b132b; color: #f8fafc; padding-bottom: 50px; }
+        header { background: rgba(15, 23, 42, 0.9); border-bottom: 1px solid #1e293b; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; backdrop-filter: blur(10px); }
+        .logo-area { display: flex; align-items: center; gap: 10px; }
+        .logo-icon { width: 40px; height: 40px; background: linear-gradient(135deg, #059669, #84cc16); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 20px; }
+        .logo-text h1 { font-size: 18px; color: #fff; font-weight: 700; }
+        .logo-text span { font-size: 10px; color: #34d399; text-transform: uppercase; letter-spacing: 1px; }
+        
+        .hero { text-align: center; padding: 40px 20px; max-width: 800px; margin: 0 auto; }
+        .badge { display: inline-block; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #34d399; padding: 6px 16px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-bottom: 20px; }
+        .hero h2 { font-size: 28px; line-height: 1.3; color: #fff; margin-bottom: 15px; }
+        .hero p { font-size: 14px; color: #94a3b8; line-height: 1.6; margin-bottom: 30px; }
+        
+        .btn { background: linear-gradient(135deg, #10b981, #059669); color: white; border: none; padding: 12px 24px; border-radius: 14px; font-weight: bold; font-size: 14px; cursor: pointer; box-shadow: 0 4px 15px rgba(16, 185, 129, 0.3); }
+        
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; padding: 0 20px; max-width: 800px; margin: 0 auto 40px auto; }
+        .stat-card { background: rgba(30, 41, 59, 0.7); border: 1px solid #1e293b; padding: 20px; border-radius: 16px; text-align: center; backdrop-filter: blur(10px); }
+        .stat-card h3 { font-size: 24px; color: #34d399; margin-bottom: 5px; font-weight: 800; }
+        .stat-card p { font-size: 12px; color: #94a3b8; }
+
+        .section-title { text-align: center; margin-bottom: 25px; padding: 0 20px; }
+        .section-title h3 { font-size: 22px; color: #fff; margin-bottom: 8px; }
+        .section-title p { font-size: 13px; color: #94a3b8; }
+
+        .quests-container { padding: 0 20px; max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .quest-card { background: rgba(30, 41, 59, 0.7); border: 1px solid #1e293b; padding: 20px; border-radius: 16px; display: flex; justify-content: space-between; align-items: center; }
+        .quest-info h4 { font-size: 16px; color: #fff; margin-bottom: 5px; }
+        .quest-info p { font-size: 12px; color: #94a3b8; margin-bottom: 10px; }
+        .quest-btn { background: #1e293b; color: #34d399; border: 1px solid rgba(16, 185, 129, 0.3); padding: 8px 14px; border-radius: 10px; font-size: 12px; font-weight: bold; cursor: pointer; }
+
+        .xp-box { text-align: center; margin-top: 25px; font-size: 14px; color: #cbd5e1; }
+        .xp-box span { color: #34d399; font-weight: bold; font-size: 16px; }
+
+        /* Modal */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); justify-content: center; align-items: center; padding: 20px; z-index: 1000; }
+        .modal-content { background: #0f172a; border: 1px solid #334155; padding: 25px; border-radius: 20px; width: 100%; max-width: 400px; position: relative; }
+        .modal-content h3 { font-size: 18px; color: #fff; margin-bottom: 5px; }
+        .modal-content p { font-size: 12px; color: #94a3b8; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-size: 12px; color: #cbd5e1; margin-bottom: 5px; }
+        .form-group input { width: 100%; background: #020617; border: 1px solid #1e293b; padding: 10px; border-radius: 10px; color: #fff; font-size: 14px; }
+        .close-btn { position: absolute; top: 15px; right: 15px; color: #94a3b8; background: none; border: none; font-size: 18px; cursor: pointer; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon">🌱</div>
+            <div class="logo-text">
+                <h1>Earth Sprouts</h1>
+                <span>Global Union</span>
+            </div>
+        </div>
+        <button class="btn" style="padding: 8px 16px; font-size: 12px;" onclick="openModal()">Elchi Bo'lish</button>
+    </header>
+
+    <div class="hero">
+        <div class="badge">🌍 Butun Dunyo Bolalari Birlashmoqda</div>
+        <h2>Yashil Sayyora va Kuchli Ta'lim Uchun Dunyo Bolalari Birlashmoqda!</h2>
+        <p>Earth Sprouts Union (ESU) — Birlashgan Millatlar Tashkilotidan ilhomlangan holda, butun dunyo bolalari va yoshlarini ekologiya hamda sifatli ta'lim yo'lida birlashtiruvchi rasmiy global tarmoq.</p>
+        <button class="btn" onclick="openModal()">Platformaga Qo'shilish</button>
+    </div>
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <h3>38</h3>
+            <p>Mamlakatlar</p>
+        </div>
+        <div class="stat-card">
+            <h3>14,250</h3>
+            <p>Faol Bolalar</p>
+        </div>
+        <div class="stat-card">
+            <h3>89,400</h3>
+            <p>Ekilgan Daraxtlar</p>
+        </div>
+        <div class="stat-card">
+            <h3>105,000</h3>
+            <p>Bajarilgan Topshiriqlar</p>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <h3>Eko-Topshiriqlar va XP Ballar</h3>
+        <p>Topshiriqlarni bajaring va xalqaro darajaga ega bo'ling!</p>
+    </div>
+
+    <div class="quests-container">
+        <div class="quest-card">
+            <div class="quest-info">
+                <h4>🌱 1 Ta Daraxt Ekish</h4>
+                <p>Hovlingizda bitta nihol eking va suratini yuklang.</p>
+            </div>
+            <button class="quest-btn" onclick="completeQuest(100)">+100 XP</button>
+        </div>
+
+        <div class="quest-card">
+            <div class="quest-info">
+                <h4>📚 Eko-Kitob Ulashish</h4>
+                <p>O'qigan kitobingizni tengdoshingizga sovg'a qiling.</p>
+            </div>
+            <button class="quest-btn" onclick="completeQuest(50)">+50 XP</button>
+        </div>
+
+        <div class="quest-card">
+            <div class="quest-info">
+                <h4>♻️ Plastik Saralash</h4>
+                <p>Plastik idishlarni yig'ib, qayta ishlashga topshiring.</p>
+            </div>
+            <button class="quest-btn" onclick="completeQuest(75)">+75 XP</button>
+        </div>
+    </div>
+
+    <div class="xp-box">
+        Sizning Baligingiz: <span id="user-xp">0</span> XP
+    </div>
+
+    <!-- Modal -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="close-btn" onclick="closeModal()">✕</button>
+            <h3>ESU Elchisi Bo'ling</h3>
+            <p>O'z shahringizda klubimizni oching!</p>
+            <form onsubmit="submitForm(event)">
+                <div class="form-group">
+                    <label>Ism va Familiya</label>
+                    <input type="text" required placeholder="Husan">
+                </div>
+                <div class="form-group">
+                    <label>Mamlakat va Shahar</label>
+                    <input type="text" required placeholder="O'zbekiston, Toshkent">
+                </div>
+                <div class="form-group">
+                    <label>Yosh</label>
+                    <input type="number" required placeholder="17">
+                </div>
+                <button type="submit" class="btn" style="width: 100%; margin-top: 10px;">Ariza Yuborish</button>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        let currentXP = 0;
+        function completeQuest(xp) {
+            currentXP += xp;
+            document.getElementById('user-xp').innerText = currentXP;
+            alert("Tabriklaymiz! Siz " + xp + " XP ball oldingiz!");
+        }
+        function openModal() { document.getElementById('modal').style.display = 'flex'; }
+        function closeModal() { document.getElementById('modal').style.display = 'none'; }
+        function submitForm(e) {
+            e.preventDefault();
+            alert("Arizangiz muvaffaqiyatli yuborildi!");
+            closeModal();
+        }
+    </script>
+</body>
+</html>
