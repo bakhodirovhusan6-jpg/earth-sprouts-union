@@ -20,12 +20,11 @@
         header { width: 100%; max-width: 800px; display: flex; justify-content: space-between; align-items: center; padding: 20px 10px; margin-bottom: 20px; border-bottom: 1px solid rgba(255,255,255,0.08); }
         .logo-area { display: flex; align-items: center; gap: 12px; cursor: pointer; }
         .logo-icon { width: 45px; height: 45px; background: linear-gradient(135deg, var(--accent-green), var(--accent-purple)); border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 22px; box-shadow: 0 0 20px rgba(0,245,212,0.3); }
-        .logo-text h1 { font-size: 20px; color: #fff; font-weight: 800; letter-spacing: 0.5px; }
+        .logo-text h1 { font-size: 20px; color: #fff; font-weight: 800; }
         .logo-text span { font-size: 11px; color: var(--accent-green); letter-spacing: 1.5px; font-weight: 600; }
         
         .header-right { display: flex; gap: 10px; align-items: center; }
-        .lang-select { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; padding: 8px 12px; border-radius: 10px; cursor: pointer; outline: none; }
-        .menu-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 18px; padding: 8px 14px; border-radius: 10px; cursor: pointer; transition: 0.2s; }
+        .menu-btn { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.15); color: #fff; font-size: 16px; padding: 8px 14px; border-radius: 10px; cursor: pointer; }
 
         .container { width: 100%; max-width: 800px; }
         .page-section { display: none; animation: fadeIn 0.4s ease-in-out; }
@@ -33,36 +32,31 @@
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
-        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,245,212,0.1); color: var(--accent-green); padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; margin-bottom: 25px; border: 1px solid rgba(0,245,212,0.2); }
-        .hero h2 { font-size: 32px; line-height: 1.25; margin-bottom: 20px; font-weight: 800; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 8px; background: rgba(0,245,212,0.1); color: var(--accent-green); padding: 8px 16px; border-radius: 30px; font-size: 13px; font-weight: 600; margin-bottom: 20px; border: 1px solid rgba(0,245,212,0.2); }
+        .hero h2 { font-size: 32px; line-height: 1.25; margin-bottom: 15px; font-weight: 800; }
         .hero h2 span { background: linear-gradient(90deg, #00f5d4, #7209b7); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .hero p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 35px; }
+        .hero p { font-size: 15px; color: var(--text-muted); line-height: 1.7; margin-bottom: 30px; }
 
-        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 35px; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-bottom: 30px; }
         .stat-card { background: var(--bg-card); padding: 18px; border-radius: 16px; border: 1px solid rgba(255,255,255,0.05); text-align: center; }
-        .stat-card h3 { font-size: 24px; color: var(--accent-green); margin-bottom: 5px; font-weight: 700; }
+        .stat-card h3 { font-size: 26px; color: var(--accent-green); margin-bottom: 5px; font-weight: 700; }
         .stat-card p { font-size: 12px; color: var(--text-muted); margin: 0; }
 
-        .btn-group { display: flex; flex-direction: column; gap: 15px; }
-        .btn { width: 100%; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; transition: 0.25s; display: flex; align-items: center; justify-content: center; gap: 10px; text-decoration: none; }
+        .btn-group { display: flex; flex-direction: column; gap: 12px; }
+        .btn { width: 100%; padding: 16px; border-radius: 14px; font-size: 16px; font-weight: 700; cursor: pointer; border: none; transition: 0.25s; display: flex; align-items: center; justify-content: center; gap: 10px; }
         .btn-primary { background: linear-gradient(135deg, #00f5d4, #00b4d8); color: #050b14; box-shadow: 0 4px 20px rgba(0,245,212,0.25); }
-        .btn-primary:active { transform: scale(0.98); }
         .btn-secondary { background: rgba(255,255,255,0.05); color: #fff; border: 1px solid rgba(255,255,255,0.12); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.1); }
         .btn-danger { background: #ef476f; color: #fff; margin-top: 20px; }
 
-        /* Cards & Forms */
         .card-box { background: var(--bg-card); padding: 25px; border-radius: 20px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 20px; }
-        .card-box h3 { font-size: 20px; margin-bottom: 15px; color: #fff; }
         .card-box label { font-size: 13px; color: var(--accent-green); font-weight: 600; display: block; margin-bottom: 6px; }
-        .card-box input, .card-box textarea, .card-box select { width: 100%; padding: 14px; margin-bottom: 18px; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 14px; outline: none; transition: 0.2s; }
-        .card-box input:focus, .card-box textarea:focus { border-color: var(--accent-green); }
+        .card-box input, .card-box textarea { width: 100%; padding: 14px; margin-bottom: 18px; background: var(--bg-deep); border: 1px solid rgba(255,255,255,0.12); border-radius: 12px; color: #fff; font-size: 14px; outline: none; }
 
-        /* Challenges List */
-        .challenge-item { background: var(--bg-deep); padding: 15px; border-radius: 12px; margin-bottom: 12px; border: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; align-items: center; }
-        .challenge-info h4 { font-size: 15px; color: #fff; margin-bottom: 4px; }
-        .challenge-info p { font-size: 12px; color: var(--text-muted); margin: 0; }
-        .xp-badge { background: rgba(0,245,212,0.15); color: var(--accent-green); padding: 6px 12px; border-radius: 20px; font-size: 12px; font-weight: 700; }
+        /* Certificate Styles */
+        .certificate-box { background: #fff; color: #111; padding: 30px; border-radius: 16px; border: 8px solid #00f5d4; text-align: center; margin-top: 15px; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .certificate-box h2 { font-size: 24px; color: #0f1d36; margin-bottom: 10px; font-weight: 800; text-transform: uppercase; }
+        .certificate-box h3 { font-size: 22px; color: #7209b7; margin: 15px 0; border-bottom: 2px solid #00f5d4; display: inline-block; padding-bottom: 5px; }
+        .certificate-box p { color: #555; font-size: 14px; margin-bottom: 10px; }
 
         /* Modal */
         #adminModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(5,11,20,0.85); backdrop-filter: blur(8px); justify-content: center; align-items: center; padding: 20px; z-index: 100; }
@@ -83,12 +77,7 @@
             </div>
         </div>
         <div class="header-right">
-            <select class="lang-select" onchange="changeLanguage(this.value)">
-                <option value="uz">UZ</option>
-                <option value="en">EN</option>
-                <option value="ru">RU</option>
-            </select>
-            <button class="menu-btn" onclick="openAdminModal()">☰</button>
+            <button class="menu-btn" onclick="openAdminModal()">☰ Admin</button>
         </div>
     </header>
 
@@ -96,38 +85,36 @@
         
         <!-- 1. ASOSIY SAHIFA -->
         <div id="homeSection" class="page-section active">
-            <div class="hero-badge">🌍 Global Youth Climate & Education Movement</div>
+            <div class="hero-badge">🌍 Global Youth Movement</div>
             <h2>Kelajakni <span>Yashil va Bilim</span> Bilan Birlashtiramiz!</h2>
-            <p>Earth Sprouts Union (ESU) — dunyo bo'ylab yoshlarni ekologik tashabbuslar va sifatli ta'lim atrofida birlashtiruvchi xalqaro platforma.</p>
+            <p>Earth Sprouts Union (ESU) — dunyo bo'ylab yoshlarni ekologik tashabbuslar va sifatli ta'lim atrofida birlashtiruvchi rasmiy platforma.</p>
 
             <div class="stats-grid">
                 <div class="stat-card">
-                    <h3 id="statKids">14,250</h3>
-                    <p>Faol A'zolar</p>
+                    <h3 id="statMembers">0</h3>
+                    <p>Faol Ishtirokchilar</p>
                 </div>
                 <div class="stat-card">
-                    <h3 id="statCountries">38</h3>
-                    <p>Mamlakatlar</p>
+                    <h3 id="statAmbassadors">0</h3>
+                    <p>Rasmiy Elchilar</p>
                 </div>
                 <div class="stat-card">
-                    <h3 id="statTrees">89,400</h3>
-                    <p>Daraxtlar</p>
+                    <h3 id="statTrees">0</h3>
+                    <p>Ekilgan Daraxtlar</p>
                 </div>
             </div>
 
             <div class="btn-group">
-                <button class="btn btn-primary" onclick="switchPage('registerSection')">🚀 Platformaga Qo'shilish</button>
-                <button class="btn btn-secondary" onclick="switchPage('radarSection')">🧭 Global Radar & Xarita</button>
+                <button class="btn btn-primary" onclick="switchPage('registerSection')">🌐 To'g'ridan-to'g'ri Qo'shilish</button>
                 <button class="btn btn-secondary" onclick="switchPage('ambassadorSection')">🎖️ Elchi (Ambassador) Ariza Berish</button>
             </div>
         </div>
 
-        <!-- 2. RO'YXATDAN O'TISH (Professional savollar bilan) -->
+        <!-- 2. RO'YXATDAN O'TISH -->
         <div id="registerSection" class="page-section">
-            <div class="hero-badge">🚀 Tezkor Ro'yxatdan O'tish</div>
-            <h2>ESU Oilasiga Xush Kelibsiz</h2>
-            <p>Ma'lumotlaringizni kiriting va darhol platforma ichkarisiga kiring.</p>
-
+            <div class="hero-badge">🚀 Platformaga Qo'shilish</div>
+            <h2>ESU A'zosiga Aylanish</h2>
+            
             <div class="card-box">
                 <label>Ism va Familiyangiz:</label>
                 <input type="text" id="regName" placeholder="Masalan: Husan Bakhodirov">
@@ -135,114 +122,68 @@
                 <label>Mamlakatingiz va Shahringiz:</label>
                 <input type="text" id="regCountry" placeholder="Masalan: O'zbekiston, Toshkent">
 
-                <label>Nima uchun bu tashkilotga qo'shilmoqchisiz?</label>
-                <textarea id="regWhy" rows="3" placeholder="Maqsadlaringiz haqida qisqacha yozing..."></textarea>
+                <label>Nima uchun ushbu tashkilotga qo'shilmoqchisiz?</label>
+                <textarea id="regReason" rows="3" placeholder="Maqsadingiz haqida qisqacha yozing..."></textarea>
 
-                <button class="btn btn-primary" onclick="completeRegistration()">Ro'yxatni yakunlash va Kirish</button>
+                <button class="btn btn-primary" onclick="completeRegistration()">A'zo Bo'lish va Sertifikat Olish</button>
             </div>
             <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
         </div>
 
-        <!-- 3. ISHTIROKCHI DASHBOARD (Ichki Kabinet & Challenges) -->
+        <!-- 3. ISHTIROKCHI DASHBOARD & SERTIFIKAT -->
         <div id="dashboardSection" class="page-section">
-            <div class="card-box" style="background: linear-gradient(135deg, rgba(0,245,212,0.1), rgba(114,9,183,0.1)); border-color: rgba(0,245,212,0.3);">
-                <h2 style="color: var(--accent-green); margin-bottom: 5px;" id="welcomeUserMsg">Salom, Ishtirokchi! 👋</h2>
-                <p style="color: var(--text-muted); font-size: 14px;">Sizning shaxsiy kabinetingiz va global reytingingiz.</p>
+            <div class="card-box" style="background: linear-gradient(135deg, rgba(0,245,212,0.1), rgba(114,9,183,0.1));">
+                <h2 style="color: var(--accent-green); margin-bottom: 5px;" id="userWelcome">Xush kelibsiz! 👋</h2>
+                <p style="color: var(--text-muted); font-size: 14px;">Siz ESU platformasining rasmiy a'zosisiz.</p>
             </div>
 
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <h3 id="userXp">150 XP</h3>
-                    <p>To'plangan Ballar</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="userRank">#12</h3>
-                    <p>Dunyo Bo'yicha O'rin</p>
-                </div>
-                <div class="stat-card">
-                    <h3 id="userCompleted">3 ta</h3>
-                    <p>Bajarilgan Topshiriq</p>
-                </div>
+            <!-- Sertifikat Oynasi -->
+            <div class="certificate-box">
+                <div style="font-size:30px;">🌱 ESU GLOBAL</div>
+                <h2>CERTIFICATE OF MEMBERSHIP</h2>
+                <p>Ushbu sertifikat egasi Earth Sprouts Union global tashkilotining faol a'zosi hisoblanadi:</p>
+                <h3 id="certName">Foydalanuvchi Ismi</h3>
+                <p><b>Mamlakat:</b> <span id="certCountry">O'zbekiston</span></p>
+                <p style="font-size:11px; color:#888; margin-top:15px;">ID: ESU-2026-<span id="certId">1001</span> | Rasmiy Global Ishtirokchi</p>
             </div>
 
-            <div class="card-box">
-                <h3>🎯 Faol Eko-Challenge'lar (Topshiriqlar)</h3>
-                <div class="challenge-item">
-                    <div class="challenge-info">
-                        <h4>🌱 1 hafta plastik ishlatmaslik</h4>
-                        <p>Kundalik hayotda plastmassadan voz keching</p>
-                    </div>
-                    <div class="xp-badge">+50 XP</div>
-                </div>
-                <div class="challenge-item">
-                    <div class="challenge-info">
-                        <h4>🌳 2 ta daraxt ekish va sug'orish</h4>
-                        <p>Hovlida yoki mahallada ko'chat o'tqazing</p>
-                    </div>
-                    <div class="xp-badge">+100 XP</div>
-                </div>
-                <button class="btn btn-primary" style="margin-top: 10px;" onclick="alert('Topshiriq bajarilgani tasdiqlandi! +50 XP qo\'shildi.')">Topshiriqni topshirish</button>
-            </div>
-
-            <button class="btn btn-secondary" onclick="switchPage('homeSection')">Asosiy Sahifaga Qaytish</button>
+            <button class="btn btn-secondary" style="margin-top: 20px;" onclick="switchPage('homeSection')">← Asosiy Sahifaga Qaytish</button>
         </div>
 
-        <!-- 4. GLOBAL RADAR & MAP -->
-        <div id="radarSection" class="page-section">
-            <div class="hero-badge">🧭 ESU Global Radar</div>
-            <h2>Dunyo Bo'ylab Faollik</h2>
-            <p>Hozirgi vaqtda qaysi davlatlar va shaharlarda ekologik harakatlar kuchayayotganini kuzating.</p>
-
-            <div class="card-box">
-                <h3>🌍 Top Faol Hududlar</h3>
-                <p style="color: var(--text-muted); margin-bottom: 8px;">1. Toshkent, O'zbekiston — 4,200 faol a'zo</p>
-                <p style="color: var(--text-muted); margin-bottom: 8px;">2. Seul, Janubiy Koreya — 3,150 faol a'zo</p>
-                <p style="color: var(--text-muted); margin-bottom: 8px;">3. Berlin, Germaniya — 2,400 faol a'zo</p>
-                <p style="color: var(--text-muted);">4. London, Buyuk Britaniya — 1,900 faol a'zo</p>
-            </div>
-            <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
-        </div>
-
-        <!-- 5. ELCHI (AMBASSADOR) ARIZA BERISH -->
+        <!-- 4. ELCHI (AMBASSADOR) ARIZA BERISH -->
         <div id="ambassadorSection" class="page-section">
             <div class="hero-badge">🎖️ ESU Global Ambassador</div>
-            <h2>Hududingizda Lider Bo'ling</h2>
-            <p>Tashkilotimizni o'z maktabingiz yoki shahringizda rasman targ'ib qilish uchun ariza qoldiring.</p>
+            <h2>Elchilikka Ariza Topshirish</h2>
+            <p>O'z shahringiz yoki maktabingizda ESU vakili bo'ling.</p>
             
             <div class="card-box">
                 <label>Ism va Familiyangiz:</label>
-                <input type="text" id="ambName" placeholder="Ismingizni kiriting">
+                <input type="text" id="ambName" placeholder="Ismingiz">
                 
                 <label>Yosh va Hudud:</label>
                 <input type="text" id="ambInfo" placeholder="Masalan: 17 yosh, Qo'qon">
                 
                 <label>Nima uchun aynan siz Elchi bo'lishingiz kerak?</label>
-                <textarea id="ambReason" rows="3" placeholder="Maqsadlaringiz haqida yozing..."></textarea>
+                <textarea id="ambReason" rows="3" placeholder="Tajribangiz va rejalaringiz..."></textarea>
                 
                 <button class="btn btn-primary" onclick="submitAmbassador()">Arizani Yuborish</button>
             </div>
             <button class="btn btn-secondary" onclick="switchPage('homeSection')">← Orqaga</button>
         </div>
 
-        <!-- 6. ASOSIY EGA (ADMIN) MAXSUS PANELI (Faqat husanmubina paroli bilan) -->
+        <!-- 5. ADMIN PANEL -->
         <div id="adminPanelSection" class="page-section">
             <div class="card-box" style="border-color: var(--accent-green);">
-                <h3 style="color: var(--accent-green);">🛠️ ESU Asosiy Ega Paneli</h3>
-                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Xush kelibsiz, Ega! Sayt ko'rsatkichlarini boshqarish.</p>
+                <h3 style="color: var(--accent-green);">🛠️ Asosiy Ega Paneli</h3>
+                <p style="color: var(--text-muted); font-size: 13px; margin-bottom: 20px;">Platformadagi barcha real statistikani boshqarish.</p>
                 
-                <label>Faol A'zolar Soni:</label>
-                <input type="text" id="editKids" value="14,250">
+                <label>Ekilgan Daraxtlar Soni:</label>
+                <input type="text" id="editTrees" value="0">
                 
-                <label>Mamlakatlar Soni:</label>
-                <input type="text" id="editCountries" value="38">
+                <button class="btn btn-primary" onclick="saveAdminStats()" style="margin-bottom: 20px;">Daraxtlar Sonini Yangilash</button>
                 
-                <label>Daraxtlar Soni:</label>
-                <input type="text" id="editTrees" value="89,400">
-                
-                <button class="btn btn-primary" onclick="saveAdminStats()" style="margin-bottom: 20px;">O'zgarishlarni Saqlash</button>
-                
-                <h3 style="font-size: 16px; margin-top: 20px; margin-bottom: 10px;">📥 Kelgan Elchi Arizalari (<span id="ambCount">0</span> ta)</h3>
-                <div id="ambList" style="font-size: 13px; color: var(--text-muted);">Hozircha arizalar kelib tushmagan.</div>
+                <h3 style="font-size: 16px; margin-top: 10px; margin-bottom: 10px;">📥 Kelgan Elchilik Arizalari (<span id="ambCount">0</span> ta)</h3>
+                <div id="ambList" style="font-size: 13px; color: var(--text-muted);">Hozircha arizalar yo'q.</div>
                 
                 <button class="btn btn-danger" onclick="switchPage('homeSection')">Admin Dan Chiqish</button>
             </div>
@@ -250,19 +191,20 @@
 
     </div>
 
-    <!-- Admin Parol Kiritish Modal Oynasi -->
+    <!-- Admin Modal -->
     <div id="adminModal">
         <div class="modal-content">
             <button class="close-btn" onclick="closeAdminModal()">×</button>
-            <h3>Asosiy Ega Kirishi</h3>
-            <label style="font-size: 12px; color: var(--text-muted); display: block; margin-bottom: 5px;">Maxfiy kalit so'zni kiriting:</label>
-            <input type="password" id="adminPassword" placeholder="Parol...">
+            <h3>Admin Kirishi</h3>
+            <input type="password" id="adminPassword" placeholder="Parol (husanmubina)">
             <button class="btn btn-primary" onclick="checkAdmin()">Kirish</button>
         </div>
     </div>
 
     <script>
-        let ambassadors = [];
+        let memberCount = 0;
+        let ambassadorCount = 0;
+        let ambassadorsList = [];
 
         function switchPage(sectionId) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
@@ -291,12 +233,27 @@
 
         function completeRegistration() {
             const name = document.getElementById('regName').value;
-            if(!name) {
-                alert('Iltimos, ismingizni kiriting!');
+            const country = document.getElementById('regCountry').value;
+
+            if(!name || !country) {
+                alert('Iltimos, ismingiz va mamlakatingizni kiriting!');
                 return;
             }
-            document.getElementById('welcomeUserMsg').innerText = `Xush Kelibsiz, ${name}! 👋`;
-            alert('Muvaffaqiyatli ro\'yxatdan o\'tdingiz! Endi shaxsiy kabinetingizdasiz.');
+
+            // Statistika va Sertifikatni yangilash
+            memberCount++;
+            document.getElementById('statMembers').innerText = memberCount;
+            document.getElementById('userWelcome').innerText = `Xush kelibsiz, ${name}! 👋`;
+            document.getElementById('certName').innerText = name;
+            document.getElementById('certCountry').innerText = country;
+            document.getElementById('certId').innerText = Math.floor(1000 + Math.random() * 9000);
+
+            alert('Tabriklaymiz! Siz ESU a\'zosiga aylandingiz va sizga rasmiy sertifikat berildi.');
+            
+            document.getElementById('regName').value = '';
+            document.getElementById('regCountry').value = '';
+            document.getElementById('regReason').value = '';
+
             switchPage('dashboardSection');
         }
 
@@ -310,19 +267,27 @@
                 return;
             }
 
-            ambassadors.push({name, info, reason});
+            ambassadorCount++;
+            document.getElementById('statAmbassadors').innerText = ambassadorCount;
+            
+            ambassadorsList.push({name, info, reason});
             updateAmbassadorList();
-            alert('Arizangiz muvaffaqiyatli yuborildi!');
+
+            alert('Arizangiz muvaffaqiyatli qabul qilindi! Admin ko\'rib chiqadi.');
+
+            document.getElementById('ambName').value = '';
+            document.getElementById('ambInfo').value = '';
+            document.getElementById('ambReason').value = '';
+
             switchPage('homeSection');
         }
 
         function updateAmbassadorList() {
-            document.getElementById('ambCount').innerText = ambassadors.length;
+            document.getElementById('ambCount').innerText = ambassadorsList.length;
             const listDiv = document.getElementById('ambList');
-            if(ambassadors.length === 0) return;
             let html = '';
-            ambassadors.forEach((item, index) => {
-                html += `<div style="background:var(--bg-deep); padding:12px; margin-top:10px; border-radius:10px; border:1px solid rgba(255,255,255,0.05);">
+            ambassadorsList.forEach((item, index) => {
+                html += `<div style="background:var(--bg-deep); padding:12px; margin-top:10px; border-radius:10px;">
                     <b style="color:#fff;">${index+1}. ${item.name}</b> (${item.info})<br>
                     <span style="color:var(--text-muted);">Sabab: ${item.reason}</span>
                 </div>`;
@@ -331,26 +296,10 @@
         }
 
         function saveAdminStats() {
-            const kids = document.getElementById('editKids').value;
-            const countries = document.getElementById('editCountries').value;
             const trees = document.getElementById('editTrees').value;
-            
-            document.getElementById('statKids').innerText = kids;
-            document.getElementById('statCountries').innerText = countries;
             document.getElementById('statTrees').innerText = trees;
-            alert('Statistika muvaffaqiyatli saqlandi! ✨');
-        }
-
-        function changeLanguage(lang) {
-            if(lang === 'en') {
-                alert('English language pack selected!');
-            } else if(lang === 'ru') {
-                alert('Выбран русский язык!');
-            } else {
-                alert('O\'zbek tili faollashdi!');
-            }
+            alert('Daraxtlar soni yangilandi!');
         }
     </script>
 </body>
 </html>
-
